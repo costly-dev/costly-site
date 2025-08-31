@@ -52,9 +52,11 @@ export default function CostlyApp() {
       <main>
         <Hero onScrollToAbout={() => scrollToSection("about")} />
         <About />
-        <Roadmap />
-      </main
-
+        <Roadmap 
+          onNavigate={scrollToSection}
+          activeSection={activeSection}
+        />
+      </main> {/* ← Fixed: was missing the closing > */}
 
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
     </div>
