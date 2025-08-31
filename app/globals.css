@@ -3,11 +3,17 @@
 @tailwind utilities;
 
 /* Added custom styles for Costly app */
+html {
+  background-color: #000000;
+  background: #000000;
+}
+
 @layer base {
   body {
     font-family: "Inter", system-ui, -apple-system, sans-serif;
     background: #000000;
-    color: #ffffff;
+    color: #ffffff; /* Changed from #000000 to white for text visibility */
+    min-height: 100vh;
   }
 }
 

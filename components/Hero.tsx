@@ -45,7 +45,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
               </div>
 
               {/*for some reason this text box makes it so all button and text shifts left*/}
-              <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl absolute left-0 px-4 py-4" style={{top: '605px'}}>
+              <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl absolute left-0 px-4 py-4" style={{top: '635px'}}>
                 <p
                   className="text-2xl font-bold text-white uppercase tracking-wider leading-tight "
                   style={{ fontFamily: "Patrick Hand SC, cursive" }}
