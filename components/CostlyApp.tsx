@@ -56,7 +56,7 @@ export default function CostlyApp() {
           onNavigate={scrollToSection}
           activeSection={activeSection}
         />
-      </main> {/* ← Fixed: was missing the closing > */}
+      </main>
 
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
     </div>
