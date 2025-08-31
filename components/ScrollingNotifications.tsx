@@ -30,7 +30,14 @@ export default function ScrollingNotifications() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTranslateX((prev) => prev - 1)
+      setTranslateX((prev) => {
+        // Reset when first set scrolls completely off screen
+        // Each notification is ~300px wide, 5 notifications = ~1500px
+        if (prev <= -1500) {
+          return 0
+        }
+        return prev - 1
+      })
     }, 50)
 
     return () => clearInterval(interval)
@@ -42,7 +49,7 @@ export default function ScrollingNotifications() {
         className="flex gap-3 transition-transform duration-75 ease-linear"
         style={{ transform: `translateX(${translateX}px)` }}
       >
-        {[...Array(3)].map((_, setIndex) =>
+        {[...Array(6)].map((_, setIndex) =>
           notifications.map((notification, index) => (
             <div
               key={`${setIndex}-${index}`}
