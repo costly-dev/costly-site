@@ -22,7 +22,7 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection }: H
 
   return (
     <header
-      className={`${isSticky ? "fixed top-2.5" : "absolute top-2.5"} left-4 right-4 z-50 bg-black/30 backdrop-blur-md border border-white/20 rounded-2xl transition-all duration-300`}
+      className={`fixed top-2.5 left-4 right-4 z-50 bg-black/30 backdrop-blur-md border border-white/20 rounded-2xl transition-all duration-300 ${isSticky ? "" : ""}`}
     >
       <div className="px-6 py-4"> {/* REMOVED max-w-7xl mx-auto */}
         <div className="relative flex items-center justify-between">

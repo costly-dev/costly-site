@@ -56,7 +56,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                   
                   It's not about punishment—it's about making the invisible cost of distraction visible. 
                   
-                  Opened TikTok? It just cost you $. 
+                  Opened TikTok? It just cost you $.
                   
                   Still worth it?
                 </p>

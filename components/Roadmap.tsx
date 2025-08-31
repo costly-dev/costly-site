@@ -8,7 +8,7 @@ interface RoadmapProps {
 export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
   const phases = [
     {
-      title: "MVP",
+      title: "MVP (Current Phase)",
       features: ["Set apps to be blocked", "Penalty Customization", "Send money into vault", "Referral Awards"],
     },
     {
@@ -56,7 +56,7 @@ export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
             </div>
 
             <div className="mt-8 w-full h-2 bg-gray-700 rounded-full">
-              <div className="w-1/5 h-full bg-yellow-400 rounded-full"></div>
+              <div className="w-[8%] h-full bg-yellow-400 rounded-full"></div>
             </div>
           </div>
         </div>
@@ -71,11 +71,11 @@ export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
               <Button 
                 variant="primary"
                 onClick={() => onNavigate("home")}
-                className="text-white hover:text-yellow-400 transition-colors"
+                className="text-black hover:text-yellow-400 transition-colors"
               >
                 Touch Me.
               </Button>
-              <Button variant="secondary">Contact</Button>
+              <Button variant="secondary" onClick={() => window.location.href = 'mailto:jerry.x0930@gmail.com'}>Contact</Button>
             </div>
           </div>
         </div>
