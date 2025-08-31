@@ -52,7 +52,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                 >
                   We built Costly because willpower alone isn't enough anymore. 
                   
-                  Costly is that defense. It's simple: pick your poison apps, set your price, and every time you give in to temptation, you pay. Literally. No exceptions, no take-backs, no "just this once." 
+                  Pick your poison apps, set your price, and every time you give in to temptation, you pay. Literally. No exceptions, no take-backs, no "just this once." 
                   
                   It's not about punishment—it's about making the invisible cost of distraction visible. 
                   
