@@ -1,7 +1,6 @@
 "use client"
 import { supabase } from "@/lib/supabase"
 import type React from "react"
-
 import { useState } from "react"
 
 interface WaitlistModalProps {
@@ -13,24 +12,27 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError(null)
 
     const { data, error } = await supabase
-  .from('waitlist')
-  .insert([{ email }])
+      .from('waitlist')
+      .insert([{ email }])
 
-  if (error) {
-    console.error('Error:', error)
-    // Handle error (email already exists, etc)
-  } else {
-    setIsSubmitted(true)
-  }
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    if (error) {
+      console.error('Error:', error)
+      if (error.code === '23505') {
+        setError("This email is already on the waitlist!")
+      } else {
+        setError("Something went wrong. Please try again.")
+      }
+      setIsSubmitting(false)
+      return
+    }
 
     setIsSubmitted(true)
     setIsSubmitting(false)
@@ -39,6 +41,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
       onClose()
       setIsSubmitted(false)
       setEmail("")
+      setError(null)
     }, 2000)
   }
 
@@ -69,6 +72,10 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                 required
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
               />
+
+              {error && (
+                <p className="text-red-400 text-sm">{error}</p>
+              )}
 
               <button
                 type="submit"
