@@ -1,5 +1,5 @@
 "use client"
-
+import { supabase } from "@/lib/supabase"
 import type React from "react"
 
 import { useState } from "react"
@@ -18,11 +18,16 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // TODO: Integrate with Supabase
-    // Example Supabase integration:
-    // const { data, error } = await supabase
-    //   .from('waitlist')
-    //   .insert([{ email, created_at: new Date() }])
+    const { data, error } = await supabase
+  .from('waitlist')
+  .insert([{ email }])
+
+  if (error) {
+    console.error('Error:', error)
+    // Handle error (email already exists, etc)
+  } else {
+    setIsSubmitted(true)
+  }
 
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
