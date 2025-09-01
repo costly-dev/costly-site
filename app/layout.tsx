@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
+import PhoneZoomContainer from "./PhoneZoomContainer.tsx" 
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -40,7 +41,9 @@ html {
         `}</style>
       </head>
       <body>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <PhoneZoomContainer>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </PhoneZoomContainer>
         <Analytics />
       </body>
     </html>
