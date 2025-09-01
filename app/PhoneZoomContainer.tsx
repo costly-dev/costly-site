@@ -11,31 +11,47 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
     
     const checkAspectRatio = () => {
       const aspectRatio = window.innerWidth / window.innerHeight;
-      // Detect portrait phone aspect ratios and screen width less than 768px
       const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
       setIsPhoneAspect(isPhone);
       
-      // Apply styles directly to the root element
-      const root = document.getElementById('zoom-wrapper');
-      if (root) {
-        if (isPhone) {
-          root.style.transform = 'scale(0.5)';
-          root.style.transformOrigin = 'top left';
-          root.style.width = '200%';
-          root.style.height = '200%';
-        } else {
-          root.style.transform = 'scale(1)';
-          root.style.transformOrigin = 'top left';
-          root.style.width = '100%';
-          root.style.height = 'auto';
-        }
+      // Apply zoom to the HTML element for consistent scaling
+      if (isPhone) {
+        document.documentElement.style.zoom = '0.5';
+      } else {
+        document.documentElement.style.zoom = '1';
       }
     };
 
-    // Initial check
     checkAspectRatio();
+    window.addEventListener('resize', checkAspectRatio);
+    window.addEventListener('orientationchange', checkAspectRatio);
 
-    // Listen for resize events
+    return () => {
+      window.removeEventListener('resize', checkAspectRatio);
+      window.removeEventListener('orientationchange', checkAspectRatio);
+      document.documentElement.style.zoom = '1';
+    };
+  }, []);
+
+  // Simply return children without any wrapper
+  return <>{children}</>;
+};
+
+// Alternative: CSS Transform approach without extra height
+export const PhoneZoomTransform = ({ children }: { children: React.ReactNode }) => {
+  const [isPhoneAspect, setIsPhoneAspect] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    
+    const checkAspectRatio = () => {
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
+      setIsPhoneAspect(isPhone);
+    };
+
+    checkAspectRatio();
     window.addEventListener('resize', checkAspectRatio);
     window.addEventListener('orientationchange', checkAspectRatio);
 
@@ -45,29 +61,31 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  // Alternative approach: Use CSS classes that we inject
+  // Inject styles for proper scaling
   useEffect(() => {
     if (!isMounted) return;
 
     const style = document.createElement('style');
     style.id = 'phone-zoom-styles';
     style.innerHTML = `
-      .phone-zoom-active {
-        transform: scale(0.5) !important;
-        transform-origin: top left !important;
-        width: 200% !important;
-        min-height: 200vh !important;
-      }
-      
-      .phone-zoom-inactive {
-        transform: scale(1) !important;
-        transform-origin: top left !important;
-        width: 100% !important;
-        min-height: 100vh !important;
-      }
-      
-      #zoom-wrapper {
+      .phone-zoom-wrapper {
+        transform-origin: top left;
         transition: transform 0.3s ease;
+      }
+      
+      .phone-zoom-wrapper.zoomed-out {
+        transform: scale(0.5);
+        width: 200%;
+      }
+      
+      .phone-zoom-wrapper.normal {
+        transform: scale(1);
+        width: 100%;
+      }
+      
+      /* Prevent body from having extra height */
+      body {
+        overflow-x: hidden;
       }
     `;
     
@@ -83,55 +101,42 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
     };
   }, [isMounted]);
 
-  // Don't render anything on server side
   if (!isMounted) {
-    return <div id="zoom-wrapper">{children}</div>;
+    return <>{children}</>;
   }
 
   return (
-    <div 
-      id="zoom-wrapper"
-      className={isPhoneAspect ? 'phone-zoom-active' : 'phone-zoom-inactive'}
-    >
+    <div className={`phone-zoom-wrapper ${isPhoneAspect ? 'zoomed-out' : 'normal'}`}>
       {children}
     </div>
   );
 };
 
-// Alternative: Global zoom approach (affects entire document)
-export const PhoneZoomGlobal = ({ children }: { children: React.ReactNode }) => {
+// Alternative: Body-only zoom (most reliable, no layout issues)
+export const PhoneZoomBody = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
-    const applyGlobalZoom = () => {
+    const applyBodyZoom = () => {
       const aspectRatio = window.innerWidth / window.innerHeight;
       const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
       
-      // Create or update viewport meta tag
-      let viewport = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
-      if (!viewport) {
-        viewport = document.createElement('meta');
-        viewport.name = 'viewport';
-        document.head.appendChild(viewport);
-      }
-      
       if (isPhone) {
-        // Method 1: CSS Zoom on body
+        // Apply zoom only to body, not html
         document.body.style.zoom = '0.5';
-        
-        // Method 2: Also set viewport for actual mobile devices
-        viewport.content = 'width=device-width, initial-scale=0.5, maximum-scale=0.5';
+        // Ensure no extra spacing
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
       } else {
         document.body.style.zoom = '1';
-        viewport.content = 'width=device-width, initial-scale=1, maximum-scale=5';
       }
     };
 
-    applyGlobalZoom();
-    window.addEventListener('resize', applyGlobalZoom);
-    window.addEventListener('orientationchange', applyGlobalZoom);
+    applyBodyZoom();
+    window.addEventListener('resize', applyBodyZoom);
+    window.addEventListener('orientationchange', applyBodyZoom);
 
     return () => {
-      window.removeEventListener('resize', applyGlobalZoom);
-      window.removeEventListener('orientationchange', applyGlobalZoom);
+      window.removeEventListener('resize', applyBodyZoom);
+      window.removeEventListener('orientationchange', applyBodyZoom);
       document.body.style.zoom = '1';
     };
   }, []);
@@ -139,4 +144,5 @@ export const PhoneZoomGlobal = ({ children }: { children: React.ReactNode }) => 
   return <>{children}</>;
 };
 
+// Export the simplest approach by default
 export default PhoneZoomContainer;
