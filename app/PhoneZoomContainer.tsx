@@ -2,24 +2,40 @@
 
 import React, { useEffect, useState } from 'react';
 
-const PhoneZoomContainer = ({ children }) => {
+const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
   const [isPhoneAspect, setIsPhoneAspect] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    
     const checkAspectRatio = () => {
       const aspectRatio = window.innerWidth / window.innerHeight;
-      // Detect portrait phone aspect ratios (typically 9:16 to 3:4)
-      // and screen width less than 768px
+      // Detect portrait phone aspect ratios and screen width less than 768px
       const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
       setIsPhoneAspect(isPhone);
-      setDimensions({ width: window.innerWidth, height: window.innerHeight });
+      
+      // Apply styles directly to the root element
+      const root = document.getElementById('zoom-wrapper');
+      if (root) {
+        if (isPhone) {
+          root.style.transform = 'scale(0.5)';
+          root.style.transformOrigin = 'top left';
+          root.style.width = '200%';
+          root.style.height = '200%';
+        } else {
+          root.style.transform = 'scale(1)';
+          root.style.transformOrigin = 'top left';
+          root.style.width = '100%';
+          root.style.height = 'auto';
+        }
+      }
     };
 
-    // Check on mount
+    // Initial check
     checkAspectRatio();
 
-    // Check on resize
+    // Listen for resize events
     window.addEventListener('resize', checkAspectRatio);
     window.addEventListener('orientationchange', checkAspectRatio);
 
@@ -29,73 +45,68 @@ const PhoneZoomContainer = ({ children }) => {
     };
   }, []);
 
-  // Apply zoom using CSS transform without breaking layout
+  // Alternative approach: Use CSS classes that we inject
   useEffect(() => {
-    if (isPhoneAspect) {
-      // Apply zoom to the body instead of html to preserve fixed positioning
-      document.body.style.zoom = '0.5';
-      // Ensure fixed/sticky elements work properly
-      document.body.style.position = 'relative';
-    } else {
-      document.body.style.zoom = '1';
-      document.body.style.position = '';
+    if (!isMounted) return;
+
+    const style = document.createElement('style');
+    style.id = 'phone-zoom-styles';
+    style.innerHTML = `
+      .phone-zoom-active {
+        transform: scale(0.5) !important;
+        transform-origin: top left !important;
+        width: 200% !important;
+        min-height: 200vh !important;
+      }
+      
+      .phone-zoom-inactive {
+        transform: scale(1) !important;
+        transform-origin: top left !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+      }
+      
+      #zoom-wrapper {
+        transition: transform 0.3s ease;
+      }
+    `;
+    
+    if (!document.getElementById('phone-zoom-styles')) {
+      document.head.appendChild(style);
     }
 
     return () => {
-      document.body.style.zoom = '1';
-      document.body.style.position = '';
+      const existingStyle = document.getElementById('phone-zoom-styles');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
     };
-  }, [isPhoneAspect]);
+  }, [isMounted]);
 
-  // Return children without any wrapper that could break layout
-  return <>{children}</>;
-};
-
-// Alternative: Scale-based approach that preserves scrolling
-const PhoneZoomScaleContainer = ({ children }) => {
-  const [isPhoneAspect, setIsPhoneAspect] = useState(false);
-
-  useEffect(() => {
-    const checkAspectRatio = () => {
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
-      setIsPhoneAspect(isPhone);
-    };
-
-    checkAspectRatio();
-    window.addEventListener('resize', checkAspectRatio);
-    window.addEventListener('orientationchange', checkAspectRatio);
-
-    return () => {
-      window.removeEventListener('resize', checkAspectRatio);
-      window.removeEventListener('orientationchange', checkAspectRatio);
-    };
-  }, []);
-
-  const wrapperStyle = {
-    transform: isPhoneAspect ? 'scale(0.5)' : 'scale(1)',
-    transformOrigin: 'top center',
-    width: isPhoneAspect ? '200%' : '100%',
-    marginLeft: isPhoneAspect ? '-50%' : '0',
-    transition: 'transform 0.3s ease',
-  };
+  // Don't render anything on server side
+  if (!isMounted) {
+    return <div id="zoom-wrapper">{children}</div>;
+  }
 
   return (
-    <div style={wrapperStyle}>
+    <div 
+      id="zoom-wrapper"
+      className={isPhoneAspect ? 'phone-zoom-active' : 'phone-zoom-inactive'}
+    >
       {children}
     </div>
   );
 };
 
-// Alternative: Viewport meta tag approach (most reliable for mobile)
-const PhoneZoomViewport = ({ children }) => {
+// Alternative: Global zoom approach (affects entire document)
+export const PhoneZoomGlobal = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
-    const checkAndSetViewport = () => {
+    const applyGlobalZoom = () => {
       const aspectRatio = window.innerWidth / window.innerHeight;
       const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
       
-      let viewport = document.querySelector('meta[name=viewport]');
-      
+      // Create or update viewport meta tag
+      let viewport = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
       if (!viewport) {
         viewport = document.createElement('meta');
         viewport.name = 'viewport';
@@ -103,33 +114,29 @@ const PhoneZoomViewport = ({ children }) => {
       }
       
       if (isPhone) {
-        viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=yes');
+        // Method 1: CSS Zoom on body
+        document.body.style.zoom = '0.5';
+        
+        // Method 2: Also set viewport for actual mobile devices
+        viewport.content = 'width=device-width, initial-scale=0.5, maximum-scale=0.5';
       } else {
-        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+        document.body.style.zoom = '1';
+        viewport.content = 'width=device-width, initial-scale=1, maximum-scale=5';
       }
     };
 
-    checkAndSetViewport();
-    window.addEventListener('resize', checkAndSetViewport);
-    window.addEventListener('orientationchange', checkAndSetViewport);
+    applyGlobalZoom();
+    window.addEventListener('resize', applyGlobalZoom);
+    window.addEventListener('orientationchange', applyGlobalZoom);
 
     return () => {
-      window.removeEventListener('resize', checkAndSetViewport);
-      window.removeEventListener('orientationchange', checkAndSetViewport);
-      // Reset viewport on unmount
-      const viewport = document.querySelector('meta[name=viewport]');
-      if (viewport) {
-        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
-      }
+      window.removeEventListener('resize', applyGlobalZoom);
+      window.removeEventListener('orientationchange', applyGlobalZoom);
+      document.body.style.zoom = '1';
     };
   }, []);
 
   return <>{children}</>;
 };
 
-// Export the main component - this one won't break your layout
 export default PhoneZoomContainer;
-
-// Alternative exports - choose based on your needs:
-// export default PhoneZoomScaleContainer;  // For scale-based zoom
-// export default PhoneZoomViewport;        // For viewport-based zoom
