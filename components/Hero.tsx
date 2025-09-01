@@ -15,9 +15,9 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
 
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center justify-items-center lg:justify-items-start">
 
-          <div className="space-y-8 self-start mt-40 ml-20 relative h-[750px] lg:h-[900px] ">
+          <div className="space-y-8 self-start mt-20 sm:mt-40 ml-4 sm:ml-20 relative h-auto lg:h-auto">
               <h1
-                className="text-6xl lg:text-7xl font-bold leading-tight mt-20"
+                className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mt-10 sm:mt-20"
                 style={{ fontFamily: "Londrina Shadow, cursive" }}
               >
                 <span className="text-yellow-400 stroke-text">Financial</span>{" "}
@@ -26,7 +26,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                 <span className="text-white stroke-text">FOR</span>{" "}
                 <span className="text-purple-400 stroke-text">Distractions</span>
               </h1>
-              <p className="text-1xl font-italic text-white uppercase tracking-wider leading-tight"
+              <p className="text-base sm:text-1xl font-italic text-white uppercase tracking-wider leading-tight"
                 style={{ fontFamily: "Patrick Hand SC, cursive" }}>
                 In a world engineered to steal your attention, where billion-dollar companies hire neuroscientists to make apps more addictive, you need a stronger defense than "I'll try harder tomorrow."  
               </p>
@@ -44,10 +44,10 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                 </Button>
               </div>
 
-              {/*for some reason this text box makes it so all button and text shifts left*/}
-              <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl absolute left-0 px-4 py-4" style={{top: '635px'}}>
+              {/* Changed from absolute positioning to relative */}
+              <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-4 mt-8 sm:mt-12">
                 <p
-                  className="text-2xl font-bold text-white uppercase tracking-wider leading-tight "
+                  className="text-lg sm:text-2xl font-bold text-white uppercase tracking-wider leading-tight"
                   style={{ fontFamily: "Patrick Hand SC, cursive" }}
                 >
                   We built Costly because willpower alone isn't enough anymore. 
@@ -61,13 +61,11 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                   Still worth it?
                 </p>
               </div>
-
-
             </div>
 
-          <div className="flex justify-center lg:justify-start pt-60 -mt-10 pl-0">
+          <div className="flex justify-center lg:justify-start pt-20 sm:pt-60 -mt-10 pl-0">
             <div className="relative">
-              <div className="relative w-96 h-[750px] lg:w-[500px] lg:h-[950px] z-999">
+              <div className="relative w-72 h-[550px] sm:w-96 sm:h-[750px] lg:w-[500px] lg:h-[950px] z-999">
                 {/* Phone bezel background */}
                 <img
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/phonebezel-xzHDgMofVDJxKqTXK7pwViO5w1T8UZ.png"

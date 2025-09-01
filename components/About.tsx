@@ -24,7 +24,7 @@ export default function About() {
                 style={{ fontFamily: "Patrick Hand SC, cursive" }}
               >
                 At its core, Costly charges you when you slip up, helping you build tolerance to your impulses, urges
-                and distractions. (Full Product Report Documentation on Github)
+                and distractions. Helping you stay locked in: delete the app, delete your deposit and loose the chance to earn your money back.
               </h3>
             </div>
           </div>
