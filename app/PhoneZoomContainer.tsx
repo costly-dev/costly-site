@@ -14,11 +14,64 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
       const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
       setIsPhoneAspect(isPhone);
       
-      // Apply zoom to the HTML element for consistent scaling
+      // Apply zoom to both HTML and body
       if (isPhone) {
         document.documentElement.style.zoom = '0.5';
+        document.body.style.zoom = '0.5';
+        
+        // Add a class to body so we can adjust spacing in CSS
+        document.body.classList.add('phone-zoomed');
+        
+        // Inject CSS to fix spacing issues when zoomed
+        const styleId = 'phone-zoom-spacing-fix';
+        if (!document.getElementById(styleId)) {
+          const style = document.createElement('style');
+          style.id = styleId;
+          style.innerHTML = `
+            /* When zoomed out on phone, reduce large margins and paddings */
+            body.phone-zoomed .mt-40 {
+              margin-top: 5rem !important; /* Reduced from 10rem */
+            }
+            
+            body.phone-zoomed .mt-20 {
+              margin-top: 2.5rem !important; /* Reduced from 5rem */
+            }
+            
+            body.phone-zoomed .ml-20 {
+              margin-left: 2.5rem !important; /* Reduced from 5rem */
+            }
+            
+            body.phone-zoomed .pt-60 {
+              padding-top: 7.5rem !important; /* Reduced from 15rem */
+            }
+            
+            /* Adjust the hero section spacing */
+            body.phone-zoomed #home {
+              padding-top: 3rem !important;
+            }
+            
+            /* Fix any absolute positioned elements */
+            body.phone-zoomed [style*="top: 635px"] {
+              top: 400px !important;
+            }
+            
+            /* Ensure header stays properly positioned */
+            body.phone-zoomed header {
+              zoom: 2; /* Counter-zoom the header to keep it normal size */
+              transform-origin: top left;
+            }
+            
+            /* Or if you want header to zoom with everything */
+            body.phone-zoomed .min-h-screen {
+              padding-top: 2rem !important;
+            }
+          `;
+          document.head.appendChild(style);
+        }
       } else {
         document.documentElement.style.zoom = '1';
+        document.body.style.zoom = '1';
+        document.body.classList.remove('phone-zoomed');
       }
     };
 
@@ -30,119 +83,89 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
       window.removeEventListener('resize', checkAspectRatio);
       window.removeEventListener('orientationchange', checkAspectRatio);
       document.documentElement.style.zoom = '1';
+      document.body.style.zoom = '1';
+      document.body.classList.remove('phone-zoomed');
+      
+      // Clean up the style tag
+      const style = document.getElementById('phone-zoom-spacing-fix');
+      if (style) {
+        style.remove();
+      }
     };
   }, []);
 
-  // Simply return children without any wrapper
   return <>{children}</>;
 };
 
-// Alternative: CSS Transform approach without extra height
-export const PhoneZoomTransform = ({ children }: { children: React.ReactNode }) => {
-  const [isPhoneAspect, setIsPhoneAspect] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
+// Alternative: Smart responsive spacing based on zoom
+export const PhoneZoomAutoAdjust = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
-    setIsMounted(true);
-    
-    const checkAspectRatio = () => {
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
-      setIsPhoneAspect(isPhone);
-    };
-
-    checkAspectRatio();
-    window.addEventListener('resize', checkAspectRatio);
-    window.addEventListener('orientationchange', checkAspectRatio);
-
-    return () => {
-      window.removeEventListener('resize', checkAspectRatio);
-      window.removeEventListener('orientationchange', checkAspectRatio);
-    };
-  }, []);
-
-  // Inject styles for proper scaling
-  useEffect(() => {
-    if (!isMounted) return;
-
-    const style = document.createElement('style');
-    style.id = 'phone-zoom-styles';
-    style.innerHTML = `
-      .phone-zoom-wrapper {
-        transform-origin: top left;
-        transition: transform 0.3s ease;
-      }
-      
-      .phone-zoom-wrapper.zoomed-out {
-        transform: scale(0.5);
-        width: 200%;
-      }
-      
-      .phone-zoom-wrapper.normal {
-        transform: scale(1);
-        width: 100%;
-      }
-      
-      /* Prevent body from having extra height */
-      body {
-        overflow-x: hidden;
-      }
-    `;
-    
-    if (!document.getElementById('phone-zoom-styles')) {
-      document.head.appendChild(style);
-    }
-
-    return () => {
-      const existingStyle = document.getElementById('phone-zoom-styles');
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    };
-  }, [isMounted]);
-
-  if (!isMounted) {
-    return <>{children}</>;
-  }
-
-  return (
-    <div className={`phone-zoom-wrapper ${isPhoneAspect ? 'zoomed-out' : 'normal'}`}>
-      {children}
-    </div>
-  );
-};
-
-// Alternative: Body-only zoom (most reliable, no layout issues)
-export const PhoneZoomBody = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    const applyBodyZoom = () => {
+    const applySmartZoom = () => {
       const aspectRatio = window.innerWidth / window.innerHeight;
       const isPhone = aspectRatio < 0.75 && window.innerWidth <= 768;
       
       if (isPhone) {
-        // Apply zoom only to body, not html
-        document.body.style.zoom = '0.5';
-        // Ensure no extra spacing
-        document.body.style.margin = '0';
-        document.body.style.padding = '0';
+        // Apply zoom
+        document.documentElement.style.setProperty('zoom', '0.5');
+        
+        // Use CSS custom properties for dynamic spacing
+        document.documentElement.style.setProperty('--zoom-factor', '0.5');
+        document.documentElement.style.setProperty('--spacing-multiplier', '0.5');
+        
+        // Inject responsive spacing CSS
+        const styleId = 'phone-zoom-auto-adjust';
+        if (!document.getElementById(styleId)) {
+          const style = document.createElement('style');
+          style.id = styleId;
+          style.innerHTML = `
+            :root {
+              --zoom-factor: 1;
+              --spacing-multiplier: 1;
+            }
+            
+            /* Auto-adjust all spacing when zoomed */
+            [style*="zoom: 0.5"] * {
+              /* Margins and paddings are automatically adjusted by zoom */
+              /* But we can fine-tune specific elements */
+            }
+            
+            /* Specific adjustments for your hero */
+            [style*="zoom: 0.5"] #home {
+              margin-top: calc(-5rem * var(--spacing-multiplier)) !important;
+            }
+            
+            /* Keep fixed headers in place */
+            [style*="zoom: 0.5"] .fixed,
+            [style*="zoom: 0.5"] .sticky {
+              zoom: 2;
+            }
+          `;
+          document.head.appendChild(style);
+        }
       } else {
-        document.body.style.zoom = '1';
+        document.documentElement.style.setProperty('zoom', '1');
+        document.documentElement.style.setProperty('--zoom-factor', '1');
+        document.documentElement.style.setProperty('--spacing-multiplier', '1');
       }
     };
 
-    applyBodyZoom();
-    window.addEventListener('resize', applyBodyZoom);
-    window.addEventListener('orientationchange', applyBodyZoom);
+    applySmartZoom();
+    window.addEventListener('resize', applySmartZoom);
+    window.addEventListener('orientationchange', applySmartZoom);
 
     return () => {
-      window.removeEventListener('resize', applyBodyZoom);
-      window.removeEventListener('orientationchange', applyBodyZoom);
-      document.body.style.zoom = '1';
+      window.removeEventListener('resize', applySmartZoom);
+      window.removeEventListener('orientationchange', applySmartZoom);
+      document.documentElement.style.zoom = '1';
+      
+      const style = document.getElementById('phone-zoom-auto-adjust');
+      if (style) {
+        style.remove();
+      }
     };
   }, []);
 
   return <>{children}</>;
 };
 
-// Export the simplest approach by default
 export default PhoneZoomContainer;
