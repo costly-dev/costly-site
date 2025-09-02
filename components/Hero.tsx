@@ -14,16 +14,17 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
     
 
       <div className="w-full lg:w flex items-center justify-center min-h-screen pl-8 lg:pl-16">
+      
 
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center justify-items-center lg:justify-items-start">
 
-        <div className="phone-spacer"></div>
-        
-          <div className="space-y-8 self-start mt-20 sm:mt-40 ml-4 sm:ml-20 relative h-auto lg:h-auto">
+          <div className="phone-spacer"></div>
+          <div className="portrait:top-20 space-y-8 self-start mt-20 sm:mt-40 ml-4 sm:ml-20 relative h-auto lg:h-auto">
               <h1
                 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mt-10 sm:mt-20"
                 style={{ fontFamily: "Londrina Shadow, cursive" }}
               >
+                
                 <span className="text-yellow-400 stroke-text">Financial</span>{" "}
                 <span className="text-white stroke-text">Deterrent</span>
                 <br />
@@ -47,7 +48,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                   ↑ Click 
                 </Button>
               </div>
-              <div className="h-10 sm:h-12"></div>
+              <div className="h-10 sm:h-20"></div>
               {/* Changed from absolute positioning to relative */}
               <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-4 sm:mt-12">
               
