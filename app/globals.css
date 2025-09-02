@@ -133,6 +133,15 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+@media (max-width: 768px) {
+  html, body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    background: #000000 !important;
+  }
+}
+
 /* app/globals.css */
 .phone-spacer {
   display: none;
