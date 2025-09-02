@@ -49,9 +49,9 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
               </Button>
             </div>
             
-            <div className="h-10"></div>
+            <div className="relative h-10"></div>
             
-            <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-3">
+            <div className="relative bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-3 md:bp-20">
               <p
                 className="text-lg md:text-xl lg:text-2xl font-bold text-white uppercase tracking-wider leading-tight"
                 style={{ fontFamily: "Patrick Hand SC, cursive" }}
@@ -69,8 +69,11 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
             </div>
           </div>
 
+
+          <div className="relative h-10 lg:hidden"></div>
+
           {/* Phone image - different positioning per breakpoint */}
-          <div className="flex justify-center">
+          <div className=" flex justify-center">
             <div className="relative">
               <div className="relative w-72 h-[550px] lg:w-[500px] lg:h-[950px]">
                 <img
