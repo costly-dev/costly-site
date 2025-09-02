@@ -44,7 +44,7 @@ export default function ScrollingNotifications() {
   }, [])
 
   return (
-    <div className="absolute top-[94px] left-0 right-0 z-1 overflow-hidden">
+    <div className="absolute top-[94px] left-0 right-0 z-1 overflow-hidden bm-20">
       <div
         className="flex gap-3 transition-transform duration-75 ease-linear"
         style={{ transform: `translateX(${translateX}px)` }}

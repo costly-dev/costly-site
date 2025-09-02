@@ -28,42 +28,40 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
           const style = document.createElement('style');
           style.id = styleId;
           style.innerHTML = `
-            /* When zoomed out on phone, reduce large margins and paddings */
-            body.phone-zoomed .mt-40 {
-              margin-top: 5rem !important; /* Reduced from 10rem */
+            /* Only target hero section margins, not notifications */
+            body.phone-zoomed #home .mt-40 {
+              margin-top: 10rem !important; /* Reduced from 10rem */
             }
             
-            body.phone-zoomed .mt-20 {
+            body.phone-zoomed #home .mt-20 {
               margin-top: 2.5rem !important; /* Reduced from 5rem */
             }
             
-            body.phone-zoomed .ml-20 {
+            body.phone-zoomed #home .ml-20 {
               margin-left: 2.5rem !important; /* Reduced from 5rem */
             }
             
-            body.phone-zoomed .pt-60 {
+            body.phone-zoomed #home .pt-60 {
               padding-top: 7.5rem !important; /* Reduced from 15rem */
             }
             
-            /* Adjust the hero section spacing */
+            /* Adjust only the hero section spacing */
             body.phone-zoomed #home {
               padding-top: 3rem !important;
             }
             
-            /* Fix any absolute positioned elements */
-            body.phone-zoomed [style*="top: 635px"] {
+            /* Fix hero's absolute positioned elements only */
+            body.phone-zoomed #home [style*="top: 635px"] {
               top: 400px !important;
             }
             
-            /* Ensure header stays properly positioned */
-            body.phone-zoomed header {
-              zoom: 2; /* Counter-zoom the header to keep it normal size */
-              transform-origin: top left;
-            }
-            
-            /* Or if you want header to zoom with everything */
-            body.phone-zoomed .min-h-screen {
-              padding-top: 2rem !important;
+            /* Don't touch notifications, toasts, or modals */
+            body.phone-zoomed [role="alert"],
+            body.phone-zoomed .notification,
+            body.phone-zoomed .toast {
+              zoom: 2 !important; /* Counter-zoom to keep normal size */
+              position: fixed !important;
+              transform-origin: top center;
             }
           `;
           document.head.appendChild(style);
@@ -124,7 +122,7 @@ export const PhoneZoomAutoAdjust = ({ children }: { children: React.ReactNode })
             }
             
             /* Auto-adjust all spacing when zoomed */
-            [style*="zoom: 0.5"] * {
+            [style*="zoom: 0"] * {
               /* Margins and paddings are automatically adjusted by zoom */
               /* But we can fine-tune specific elements */
             }

@@ -15,6 +15,8 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
 
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center justify-items-center lg:justify-items-start">
 
+        <div className="phone-spacer"></div>
+        
           <div className="space-y-8 self-start mt-20 sm:mt-40 ml-4 sm:ml-20 relative h-auto lg:h-auto">
               <h1
                 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mt-10 sm:mt-20"
