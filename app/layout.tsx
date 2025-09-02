@@ -41,9 +41,9 @@ html {
         `}</style>
       </head>
       <body>
-        <PhoneZoomContainer>
+
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        </PhoneZoomContainer>
+        
         <Analytics />
       </body>
     </html>

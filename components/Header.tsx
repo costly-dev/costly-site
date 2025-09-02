@@ -20,7 +20,7 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection }: H
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  return (
+  return(
     <header
       className={`fixed top-2.5 left-4 right-4 z-50 bg-black/30 backdrop-blur-md border border-white/20 rounded-2xl transition-all duration-300 ${isSticky ? "" : ""}`}
     >
