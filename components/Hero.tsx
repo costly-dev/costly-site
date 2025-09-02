@@ -14,12 +14,12 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
       
       <div className="w-full flex items-center justify-center min-h-screen">
         
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 items-center w-full max-w-7xl">
+        <div className="flex flex-col md:grid md:grid-cols-2 items-center w-full max-w-7xl">
 
           <div className="phone-spacer"></div>
           
           {/* Text content - different positioning per breakpoint */}
-          <div className="relative space-y-4 mt-32 md:mt-64 lg:mt-32 ml-0 md:ml-8 lg:ml-16">
+          <div className="relative space-y-4">
             <h1
               className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
               style={{ fontFamily: "Londrina Shadow, cursive" }}
@@ -49,7 +49,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
               </Button>
             </div>
             
-            <div className="h-10 md:h-20"></div>
+            <div className="h-10"></div>
             
             <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-3">
               <p
@@ -70,9 +70,9 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
           </div>
 
           {/* Phone image - different positioning per breakpoint */}
-          <div className="flex justify-center mt-16 md:mt-52 lg:-mt-38">
+          <div className="flex justify-center">
             <div className="relative">
-              <div className="relative w-72 h-[550px] md:w-80 md:h-[650px] lg:w-[500px] lg:h-[950px]">
+              <div className="relative w-72 h-[550px] lg:w-[500px] lg:h-[950px]">
                 <img
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/phonebezel-xzHDgMofVDJxKqTXK7pwViO5w1T8UZ.png"
                   alt="Phone Bezel"
@@ -82,7 +82,7 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                   <img
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-30%20at%203.13.48%E2%80%AFAM-NMocdKDsHk4ig3nUYlSNFE3AaNFGL8.png"
                     alt="Costly App Start Screen"
-                    className="w-[100%] h-[100%] object-contain rounded-[5rem]"
+                    className="w-[100%] h-[100%] object-contain rounded-[5rem] z-9997"
                   />
                 </div>
               </div>
