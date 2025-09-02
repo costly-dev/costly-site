@@ -39,7 +39,7 @@ export default function SocialIcons() {
   ]
 
   return (
-    <div className="flex gap-5 flex-wrap">
+    <div className="flex gap-5 flex-wrap portrait:gap-2">
         {socialLinks.map((social) => (
         <a    // ← ADD THIS
             key={social.name}

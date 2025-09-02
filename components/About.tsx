@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <section id="about" className="py-16 px-6">
+    <section id="about" className="py-16 px-6 -mb-10">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
@@ -8,7 +8,7 @@ export default function About() {
               
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-10">
               <img
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2376-NRCcWK7PH1hN77mhnwslkG6j4mOcCk.png"
                 alt="Costly app demonstration showing blocked app notification"
