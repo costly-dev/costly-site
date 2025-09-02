@@ -47,10 +47,10 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                   ↑ Click 
                 </Button>
               </div>
-
+              <div className="h-10 sm:h-12"></div>
               {/* Changed from absolute positioning to relative */}
-              <PhoneZoomContainer>
-              <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-4 mt-8 sm:mt-12">
+              <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-4 sm:mt-12">
+              
                 <p
                   className="text-lg sm:text-2xl font-bold text-white uppercase tracking-wider leading-tight"
                   style={{ fontFamily: "Patrick Hand SC, cursive" }}
@@ -66,7 +66,6 @@ export default function Hero({ onScrollToAbout }: HeroProps) {
                   Still worth it?
                 </p>
               </div>
-              </PhoneZoomContainer>
             </div>
 
           <div className="flex justify-center lg:justify-start pt-20 sm:pt-60 -mt-10 pl-0">

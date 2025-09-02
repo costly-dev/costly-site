@@ -53,7 +53,7 @@ export default function ScrollingNotifications() {
           notifications.map((notification, index) => (
             <div
               key={`${setIndex}-${index}`}
-              className="flex-shrink-0 bg-gray-900/80 backdrop-blur-md border border-gray-700/30 rounded-2xl px-3 py-3 min-w-auto max-w-[320px] shadow-sm"
+              className="flex-shrink-0 bg-gray-900/80 backdrop-blur-md border border-gray-700/30 rounded-2xl px-3 py-3 min-w-[320px] max-w-[320px] shadow-sm"
             >
               <div className="flex items-start gap-2">
                 <div className="w-8 h-8 rounded-lg flex-shrink-0 mt-1.5">

@@ -133,7 +133,7 @@ html {
     @apply bg-background text-foreground;
   }
 }
-
+/* app/globals.css */
 .phone-spacer {
   display: none;
 }
@@ -141,5 +141,5 @@ html {
 body.phone-zoomed .phone-spacer {
   display: block;
   width: 100%;
-  height: 6rem; /* Adjust as needed */
+  height: 6rem;
 }

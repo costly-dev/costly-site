@@ -28,26 +28,43 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
           const style = document.createElement('style');
           style.id = styleId;
           style.innerHTML = `
+            /* Spacer that only appears on phone */
+            .phone-spacer {
+              display: none;
+              width: 100%;
+            }
+            
+            body.phone-zoomed .phone-spacer {
+              display: block;
+              height: 8rem; /* Adjust this value as needed */
+            }
+            
+            /* Push hero content down more on phone */
+            body.phone-zoomed #home {
+              padding-top: 8rem !important;
+              box-sizing: border-box;
+            }
+            
+            /* Target the first child of hero to push it down */
+            body.phone-zoomed #home > div:first-child {
+              margin-top: 4rem !important;
+            }
+            
             /* Only target hero section margins, not notifications */
             body.phone-zoomed #home .mt-40 {
-              margin-top: 10rem !important; /* Reduced from 10rem */
+              margin-top: 5rem !important;
             }
             
             body.phone-zoomed #home .mt-20 {
-              margin-top: 2.5rem !important; /* Reduced from 5rem */
+              margin-top: 2.5rem !important;
             }
             
             body.phone-zoomed #home .ml-20 {
-              margin-left: 2.5rem !important; /* Reduced from 5rem */
+              margin-left: 2.5rem !important;
             }
             
             body.phone-zoomed #home .pt-60 {
-              padding-top: 7.5rem !important; /* Reduced from 15rem */
-            }
-            
-            /* Adjust only the hero section spacing */
-            body.phone-zoomed #home {
-              padding-top: 3rem !important;
+              padding-top: 7.5rem !important;
             }
             
             /* Fix hero's absolute positioned elements only */
@@ -55,11 +72,22 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
               top: 400px !important;
             }
             
-            /* Don't touch notifications, toasts, or modals */
+            /* Don't shrink scrolling notifications */
+            body.phone-zoomed .scrolling-notifications {
+              zoom: 2 !important; /* Counter-zoom to keep normal size */
+              transform-origin: top left;
+            }
+            
+            /* Adjust position since counter-zoom affects positioning */
+            body.phone-zoomed .scrolling-notifications {
+              top: 47px !important; /* Half of 94px since we're counter-zooming */
+            }
+            
+            /* Don't touch other notifications, toasts, or modals */
             body.phone-zoomed [role="alert"],
             body.phone-zoomed .notification,
             body.phone-zoomed .toast {
-              zoom: 2 !important; /* Counter-zoom to keep normal size */
+              zoom: 2 !important;
               position: fixed !important;
               transform-origin: top center;
             }
@@ -122,7 +150,7 @@ export const PhoneZoomAutoAdjust = ({ children }: { children: React.ReactNode })
             }
             
             /* Auto-adjust all spacing when zoomed */
-            [style*="zoom: 0"] * {
+            [style*="zoom: 0.5"] * {
               /* Margins and paddings are automatically adjusted by zoom */
               /* But we can fine-tune specific elements */
             }
