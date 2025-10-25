@@ -67,12 +67,9 @@ export default function Contact({ onWaitlistClick }: ContactProps) {
           <div className="space-y-3 text-white/70">
             <p className="text-sm">
               Questions? Reach out to us at{" "}
-              <a 
-                href="mailto:hello@costly.app" 
-                className="text-silver-300 hover:text-white transition-colors underline"
-              >
-                hello@costly.app
-              </a>
+              <span className="text-silver-300">
+                TBA@email.com
+              </span>
             </p>
             
             <div className="flex justify-center space-x-4 text-xs">
