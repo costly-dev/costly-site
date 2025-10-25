@@ -58,15 +58,15 @@ export default function Hero({ onScrollToAbout, onWaitlistClick }: HeroProps) {
             
           </div>
 
-          {/* Placeholder for app preview */}
+          {/* App preview */}
           <div className="flex justify-center order-1 lg:order-2">
             <div className="relative">
-              <div className="relative w-64 h-[480px] sm:w-72 sm:h-[550px] lg:w-[320px] lg:h-[580px] xl:w-[360px] xl:h-[650px] liquid-glass liquid-glass-interactive rounded-2xl flex items-center justify-center">
-                <div className="text-center text-white/60">
-                  <div className="text-4xl mb-4">•</div>
-                  <p className="text-lg">App Preview</p>
-                  <p className="text-sm">Coming Soon</p>
-                </div>
+              <div className="relative w-64 h-[480px] sm:w-72 sm:h-[550px] lg:w-[320px] lg:h-[580px] xl:w-[360px] xl:h-[650px] liquid-glass liquid-glass-interactive rounded-2xl overflow-hidden">
+                <img 
+                  src="/GraphicsNotif.png" 
+                  alt="Costly App Preview - iPhone notification showing penalty system"
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               </div>
             </div>
           </div>

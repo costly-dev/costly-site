@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     siteName: "Costly",
     images: [
       {
-        url: "/GraphicsNotif.png",
+        url: "/icon.png",
         width: 1200,
         height: 630,
         alt: "Costly App - Focus That Counts - Behavioral Accountability App for iPhone and Mac",
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Costly - Focus That Counts",
     description: "Behavioral accountability app for iPhone and Mac. Connect your focus to real stakes with native app blocking and penalty system.",
-    images: ["/GraphicsNotif.png"],
+    images: ["/icon.png"],
     creator: "@costlyapp",
     site: "@costlyapp",
   },
