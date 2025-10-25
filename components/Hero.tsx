@@ -47,7 +47,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick }: HeroProps) {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button onClick={onScrollToAbout} variant="primary" className="flex items-center justify-center gap-2 h-12 px-6">
-                How does it work?
+                Learn more
                 <span className="text-xl">↓ ↓ ↓</span>
               </Button>
 

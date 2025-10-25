@@ -21,7 +21,13 @@ export default function Button({ children, onClick, variant = "primary", classNa
       "liquid-glass text-white/90 hover:text-white",
   }
 
-  const classes = `${baseClasses} ${variantClasses[variant]} ${className}`
+  const glowClasses = {
+    primary:
+      "shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]",
+    secondary: "",
+  }
+
+  const classes = `${baseClasses} ${variantClasses[variant]} ${glowClasses[variant]} ${className}`
 
   if (href) {
     return (
