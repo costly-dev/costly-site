@@ -22,46 +22,109 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection }: H
 
   return(
     <header
-      className={`fixed top-2.5 left-4 right-4 z-50 bg-black/30 backdrop-blur-md border border-white/20 rounded-2xl transition-all duration-300 ${isSticky ? "" : ""}`}
+      className={`fixed top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 z-50 liquid-glass liquid-glass-interactive rounded-xl sm:rounded-2xl transition-all duration-300 ${isSticky ? "shadow-lg" : ""}`}
     >
-      <div className="px-6 py-4"> {/* REMOVED max-w-7xl mx-auto */}
-        <div className="relative flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <div className="px-4 sm:px-6 py-3 sm:py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/icon-PS4vPKIEDNGx8DaZnerSDvbFjF5DZH.png"
+              src="/icon.png"
               alt="Costly Logo"
-              className="w-8 h-8"
+              className="w-6 h-6 sm:w-8 sm:h-8"
             />
-            <span className="text-xl font-bold text-yellow-400">Costly</span>
+            <span className="text-lg sm:text-xl font-bold text-silver-300">Costly</span>
           </div>
 
-          {/* Center navigation with absolute positioning */}
-          <nav className="hidden md:flex items-center gap-8 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {/* Mobile navigation with icons - absolutely centered */}
+          <nav className="absolute left-1/2 transform -translate-x-1/2 flex lg:hidden items-center justify-center gap-3">
             <button
               onClick={() => onNavigate("home")}
-              className={`text-white hover:text-yellow-400 transition-colors ${activeSection === "home" ? "border-b-2 border-yellow-400" : ""}`}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "home" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="Home"
             >
-              Home
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+              </svg>
             </button>
             <button
               onClick={() => onNavigate("about")}
-              className={`text-white hover:text-yellow-400 transition-colors ${activeSection === "about" ? "border-b-2 border-yellow-400" : ""}`}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "about" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="About"
             >
-              About
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/>
+              </svg>
             </button>
             <button
               onClick={() => onNavigate("roadmap")}
-              className={`text-white hover:text-yellow-400 transition-colors ${activeSection === "roadmap" ? "border-b-2 border-yellow-400" : ""}`}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "roadmap" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="Roadmap"
             >
-              Roadmap
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
+              </svg>
+            </button>
+            <button
+              onClick={() => onNavigate("contact")}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "contact" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="Contact"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
             </button>
           </nav>
 
+          {/* Desktop navigation with icons - absolutely centered */}
+          <nav className="absolute left-1/2 transform -translate-x-1/2 hidden lg:flex items-center justify-center gap-5 xl:gap-6">
+            <button
+              onClick={() => onNavigate("home")}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "home" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="Home"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+              </svg>
+            </button>
+            <button
+              onClick={() => onNavigate("about")}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "about" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="About"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/>
+              </svg>
+            </button>
+            <button
+              onClick={() => onNavigate("roadmap")}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "roadmap" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="Roadmap"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
+              </svg>
+            </button>
+            <button
+              onClick={() => onNavigate("contact")}
+              className={`p-2 rounded-lg transition-colors ${activeSection === "contact" ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+              title="Contact"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+            </button>
+          </nav>
+
+          {/* Waitlist button */}
           <button
             onClick={onWaitlistClick}
-            className="bg-yellow-400 text-black px-6 py-2 rounded-full font-medium hover:bg-yellow-300 transition-colors backdrop-blur-md"
+            className="liquid-glass-button text-white px-4 sm:px-6 py-2 rounded-full font-medium text-sm sm:text-base"
           >
-            Waitlist Sign Up
+            <span className="hidden sm:inline">Waitlist Sign Up</span>
+            <span className="sm:hidden">Join</span>
           </button>
         </div>
       </div>

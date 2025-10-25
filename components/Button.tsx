@@ -16,9 +16,9 @@ export default function Button({ children, onClick, variant = "primary", classNa
 
   const variantClasses = {
     primary:
-      "bg-yellow-400/90 backdrop-blur-md border border-yellow-300/30 text-black hover:bg-yellow-300/90 shadow-yellow-400/20",
+      "liquid-glass-button text-white",
     secondary:
-      "bg-gray-800/40 backdrop-blur-md border border-gray-600/40 text-white hover:bg-gray-700/50 shadow-gray-900/30",
+      "liquid-glass text-white/90 hover:text-white",
   }
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`

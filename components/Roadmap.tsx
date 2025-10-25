@@ -8,47 +8,48 @@ interface RoadmapProps {
 export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
   const phases = [
     {
-      title: "MVP (Current Phase)",
-      features: ["Set apps to be blocked", "Penalty Customization", "Send money into vault", "Referral Awards"],
+      title: "Core Features",
+      features: ["Native app blocking via FamilyControls", "Stripe payment integration", "Convex cloud sync", "Clerk authentication"],
     },
     {
-      title: "Friends",
+      title: "Accountability",
       features: [
-        "Community features (Leaderboards)",
-        "Option to send money to friends or Organizations",
-        "UI/UX & Graph improvements",
+        "Penalty escalation system",
+        "Streak tracking & rewards",
+        "Balance withdrawal goals",
+        "Tamper-proof enforcement",
       ],
     },
     {
-      title: "QOL",
-      features: ["Animations", "Customizability", "AI Peak Hours Prediction", "Dynamic penalties"],
+      title: "Premium",
+      features: ["$2.99/month subscription", "Advanced block lists", "Custom difficulty multipliers", "Reward tracking"],
     },
     {
-      title: "TBD",
-      features: ["•", "•"],
+      title: "Security",
+      features: ["TLS 1.3 encryption", "PCI DSS compliance", "Biometric MFA", "Double-entry ledger"],
     },
     {
-      title: "TBD",
-      features: ["•", "•"],
+      title: "Future",
+      features: ["Plaid bank integration", "Advanced analytics", "Team accountability", "API access"],
     },
   ]
 
   return (
-    <section id="roadmap" className="py-16 px-6">
+    <section id="roadmap" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
-          <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl p-8">
-            <h4 className="text-xl font-bold text-white mb-8 text-center">Costly Roadmap</h4>
+          <div className="liquid-glass liquid-glass-intense rounded-2xl p-6 sm:p-8">
+            <h4 className="text-xl sm:text-2xl font-bold text-white mb-8 text-center">Costly Roadmap</h4>
 
             {/* Desktop/Tablet view - 5 columns */}
-            <div className="hidden md:block">
-              <div className="grid grid-cols-5 gap-4">
+            <div className="hidden lg:block">
+              <div className="grid grid-cols-5 gap-6">
                 {phases.map((phase, index) => (
                   <div key={index} className="space-y-4">
-                    <h5 className="text-lg font-bold text-white text-center">{phase.title}</h5>
+                    <h5 className="text-lg font-bold text-silver-300 text-center">{phase.title}</h5>
                     <ul className="space-y-2">
                       {phase.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="text-sm text-gray-300">
+                        <li key={featureIndex} className="text-sm text-gray-300 leading-relaxed">
                           • {feature}
                         </li>
                       ))}
@@ -57,28 +58,20 @@ export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
                 ))}
               </div>
               {/* Horizontal progress bar for desktop/tablet */}
-              <div className="mt-8 w-full h-2 bg-gray-700 rounded-full">
-                <div className="w-[8%] h-full bg-yellow-400 rounded-full"></div>
+              <div className="mt-8 w-full h-3 bg-gray-700 rounded-full">
+                <div className="w-[8%] h-full bg-silver-300 rounded-full"></div>
               </div>
             </div>
 
-            {/* Mobile view - Vertical stack with progress */}
-            <div className="md:hidden flex gap-4">
-              {/* Progress bar on the left */}
-              <div className="flex flex-col items-center">
-                <div className="w-2 h-full bg-gray-700 rounded-full relative">
-                  <div className="absolute top-0 w-full h-[10%] bg-yellow-400 rounded-full"></div>
-                </div>
-              </div>
-              
-              {/* Stacked phases */}
-              <div className="flex-1 space-y-4">
-                {phases.slice(0, 4).map((phase, index) => (
-                  <div key={index} className="bg-gray-800/50 rounded-lg p-4">
-                    <h5 className="text-lg font-bold text-white mb-3">{phase.title}</h5>
+            {/* Tablet view - 3 columns */}
+            <div className="hidden md:block lg:hidden">
+              <div className="grid grid-cols-3 gap-6">
+                {phases.slice(0, 3).map((phase, index) => (
+                  <div key={index} className="space-y-4">
+                    <h5 className="text-lg font-bold text-silver-300 text-center">{phase.title}</h5>
                     <ul className="space-y-2">
                       {phase.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="text-sm text-gray-300">
+                        <li key={featureIndex} className="text-sm text-gray-300 leading-relaxed">
                           • {feature}
                         </li>
                       ))}
@@ -86,28 +79,43 @@ export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
                   </div>
                 ))}
               </div>
+              <div className="mt-6 w-full h-3 bg-gray-700 rounded-full">
+                <div className="w-[8%] h-full bg-silver-300 rounded-full"></div>
+              </div>
+            </div>
+
+            {/* Mobile view - Collapsed scrollable with side progress bar */}
+            <div className="md:hidden">
+              <div className="max-h-96 overflow-y-auto scrollbar-hide">
+                <div className="flex gap-4">
+                  {/* Progress bar on the left */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-2 h-full bg-gray-700 rounded-full relative">
+                      <div className="absolute top-0 w-full h-[10%] bg-silver-300 rounded-full"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Stacked phases */}
+                  <div className="flex-1 space-y-4">
+                    {phases.map((phase, index) => (
+                      <div key={index} className="liquid-glass liquid-glass-interactive rounded-lg p-4">
+                        <h5 className="text-lg font-bold text-silver-300 mb-3">{phase.title}</h5>
+                        <ul className="space-y-2">
+                          {phase.features.map((feature, featureIndex) => (
+                            <li key={featureIndex} className="text-sm text-gray-300 leading-relaxed">
+                              • {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-1 gap-16">
-          <div className="bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 space-y-6">
-            <h3 className="text-2xl font-bold text-white text-center">
-              Feel free to visit social media and check out design on Figma.
-            </h3>
-
-            <div className="flex gap-4 justify-center">
-              <Button 
-                variant="primary"
-                onClick={() => onNavigate("home")}
-                className="text-black hover:text-yellow-400 transition-colors"
-              >
-                Touch Me.
-              </Button>
-              <Button variant="secondary" onClick={() => window.location.href = 'mailto:jerry.x0930@gmail.com'}>Contact</Button>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   )

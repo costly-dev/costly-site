@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react"
 import Header from "./Header"
 import Hero from "./Hero"
+import Philosophy from "./Philosophy"
 import About from "./About"
 import Roadmap from "./Roadmap"
+import Contact from "./Contact"
 import ScrollingNotifications from "./ScrollingNotifications"
 import WaitlistModal from "./WaitlistModal"
 
@@ -12,16 +14,61 @@ export default function CostlyApp() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
 
+  // Scroll to top on page load/refresh
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      if (sectionId === "roadmap") {
+        // For roadmap, scroll so it covers the previous content
+        const headerHeight = 100
+        const elementPosition = element.offsetTop - (headerHeight * 1.25)
+        
+        window.scrollTo({
+          top: elementPosition,
+          behavior: "smooth"
+        })
+      } else if (sectionId === "home") {
+        // For home, scroll to top of notifications (default position)
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        })
+      } else if (sectionId === "about") {
+        // For about, center it in the viewport
+        const viewportHeight = window.innerHeight
+        const elementHeight = element.offsetHeight
+        const headerHeight = 100
+        const centerPosition = element.offsetTop - headerHeight - (viewportHeight - elementHeight) / 2
+        
+        window.scrollTo({
+          top: Math.max(0, centerPosition),
+          behavior: "smooth"
+        })
+      } else if (sectionId === "contact") {
+        // For contact, scroll to the top of the contact section
+        window.scrollTo({
+          top: element.offsetTop,
+          behavior: "smooth"
+        })
+      } else {
+        // For other sections, use normal positioning
+        const headerHeight = 100
+        const elementPosition = element.offsetTop - headerHeight
+        window.scrollTo({
+          top: elementPosition,
+          behavior: "smooth"
+        })
+      }
     }
   }
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "roadmap"]
+      const sections = ["home", "about", "roadmap", "contact"]
       const scrollPosition = window.scrollY + 200
 
       for (const section of sections) {
@@ -50,12 +97,17 @@ export default function CostlyApp() {
       <ScrollingNotifications />
 
       <main>
-        <Hero onScrollToAbout={() => scrollToSection("about")} />
-        <About />
+        <Hero 
+          onScrollToAbout={() => scrollToSection("about")} 
+          onWaitlistClick={() => setIsWaitlistOpen(true)}
+        />
+        <Philosophy onNavigate={scrollToSection} />
+        <About onNavigate={scrollToSection} />
         <Roadmap 
           onNavigate={scrollToSection}
           activeSection={activeSection}
         />
+        <Contact onWaitlistClick={() => setIsWaitlistOpen(true)} />
       </main>
 
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />

@@ -6,88 +6,66 @@ import PhoneZoomContainer from "./PhoneZoomContainer"
 
 interface HeroProps {
   onScrollToAbout: () => void
+  onWaitlistClick: () => void
 }
 
-export default function Hero({ onScrollToAbout }: HeroProps) {
+export default function Hero({ onScrollToAbout, onWaitlistClick }: HeroProps) {
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center px-6">
-      
-      <div className="w-full flex items-center justify-center min-h-screen">
-        
-        <div className="flex flex-col md:grid md:grid-cols-2 items-center w-full max-w-6xl">
-
-          <div className="phone-spacer"></div>
+    <section id="home" className="min-h-screen flex items-start justify-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start min-h-screen py-16">
           
-          {/* Text content - different positioning per breakpoint */}
-          <div className="relative space-y-4 ">
+          {/* Text content */}
+          <div className="space-y-6 lg:space-y-8 order-2 lg:order-1">
+            <header>
             <h1
-              className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-center lg:text-left"
               style={{ fontFamily: "Londrina Shadow, cursive" }}
             >
-              <span className="text-yellow-400 stroke-text">Financial</span>{" "}
-              <span className="text-white stroke-text">Deterrent</span>
-              <br />
-              <span className="text-white stroke-text">FOR</span>{" "}
-              <span className="text-purple-400 stroke-text">Distractions</span>
+              <span className="text-silver-300">Focus</span>{" "}
+              <span className="text-white">That</span>{" "}
+              <span className="text-white">Counts</span>
             </h1>
             
-            <p className="text-base md:text-lg lg:text-xl font-italic text-white uppercase tracking-wider leading-tight"
-              style={{ fontFamily: "Patrick Hand SC, cursive" }}>
-              In a world engineered to steal your attention, where billion-dollar companies hire neuroscientists to make apps more addictive, you need a stronger defense than "I'll try harder tomorrow."  
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 leading-relaxed max-w-2xl mt-5 text-center lg:text-left">
+              Costly is a behavioral accountability app for iPhone and Mac that connects your focus to real, measurable stakes. You set your own rules: how long you'll stay focused, which apps you'll block, and how much you're willing to risk if you break them.
             </p>
+            </header>
+
+            {/* Join Waitlist Button */}
+            <div className="flex justify-center lg:justify-start">
+              <Button 
+                onClick={onWaitlistClick} 
+                variant="primary" 
+                className="flex items-center justify-center gap-2 h-12 px-6 w-full max-w-2xl"
+              >
+                Join Waitlist
+              </Button>
+            </div>
 
             <SocialIcons />
 
-            <div className="flex gap-4">
-              <Button onClick={onScrollToAbout} variant="primary" className="flex items-center gap-2 h-12">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button onClick={onScrollToAbout} variant="primary" className="flex items-center justify-center gap-2 h-12 px-6">
                 How does it work?
                 <span className="text-xl">↓ ↓ ↓</span>
               </Button>
 
-              <Button variant="secondary" className="h-12 flex px-2 py-3 items-center portrait:hidden">
+              <Button variant="secondary" className="h-12 px-6 hidden sm:flex items-center">
                 ↑ Click 
               </Button>
             </div>
-        
-          <div className="relative h-20"></div>
-          <div className="relative h-20"></div>
             
-            <div className="relative bg-gray-900/30 backdrop-blur-sm border border-gray-700 rounded-2xl px-4 py-3 md:bp-20">
-              <p
-                className="text-lg md:text-xl lg:text-2xl font-bold text-white uppercase tracking-wider leading-tight"
-                style={{ fontFamily: "Patrick Hand SC, cursive" }}
-              >
-                We built Costly because willpower alone isn't enough anymore. 
-                
-                Pick your poison apps, set your price, and every time you give in to temptation, you pay. Literally. No exceptions, no take-backs, no "just this once." 
-                
-                It's not about punishment—it's about making the invisible cost of distraction visible. 
-                
-                Opened TikTok? It just cost you $.
-                
-                Still worth it?
-              </p>
-            </div>
           </div>
 
-
-          <div className="relative h-10 lg:hidden"></div>
-
-          {/* Phone image - different positioning per breakpoint */}
-          <div className=" flex justify-center">
+          {/* Placeholder for app preview */}
+          <div className="flex justify-center order-1 lg:order-2">
             <div className="relative">
-              <div className="relative w-72 h-[550px] lg:w-[570px] lg:h-[970px] ">
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/phonebezel-xzHDgMofVDJxKqTXK7pwViO5w1T8UZ.png"
-                  alt="Phone Bezel"
-                  className="absolute inset-0 w-full h-full object-contain"
-                />
-                <div className="absolute inset-0 flex items-center justify-center p-4">
-                  <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-08-30%20at%203.13.48%E2%80%AFAM-NMocdKDsHk4ig3nUYlSNFE3AaNFGL8.png"
-                    alt="Costly App Start Screen"
-                    className="w-[100%] h-[100%] object-contain rounded-[5rem] "
-                  />
+              <div className="relative w-64 h-[480px] sm:w-72 sm:h-[550px] lg:w-[320px] lg:h-[580px] xl:w-[360px] xl:h-[650px] liquid-glass liquid-glass-interactive rounded-2xl flex items-center justify-center">
+                <div className="text-center text-white/60">
+                  <div className="text-4xl mb-4">•</div>
+                  <p className="text-lg">App Preview</p>
+                  <p className="text-sm">Coming Soon</p>
                 </div>
               </div>
             </div>

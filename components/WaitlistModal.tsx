@@ -51,7 +51,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
 
-      <div className="relative bg-gray-900/90 backdrop-blur-md border border-gray-700 rounded-2xl p-8 max-w-md w-full mx-4">
+      <div className="relative liquid-glass liquid-glass-intense rounded-2xl p-8 max-w-md w-full mx-4">
         <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white">
           ✕
         </button>
@@ -70,7 +70,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400"
+                className="w-full px-4 py-3 liquid-glass border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40"
               />
 
               {error && (
@@ -80,7 +80,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-yellow-400 text-black py-3 rounded-lg font-medium hover:bg-yellow-300 transition-colors disabled:opacity-50"
+                className="w-full liquid-glass-button text-white py-3 rounded-lg font-medium disabled:opacity-50"
               >
                 {isSubmitting ? "Joining..." : "Join Waitlist"}
               </button>

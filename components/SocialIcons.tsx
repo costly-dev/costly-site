@@ -4,42 +4,42 @@ export default function SocialIcons() {
       name: "LinkedIn",
       icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/92548-PjbixvdLQyu430F4s4CmF5WI3Iw4wc.png",
       url:"https://www.linkedin.com/company/its-costly",
-      color: "bg-yellow-400",
+      color: "bg-black border-2 border-white",
     },
     {
       name: "GitHub",
-      icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/github_PNG40-7dxspWPkVl1nFKWV2KIZX6Rh4xgN8x.png",
+      icon: "/github.png",
       url:"https://github.com/costly-dev",
-      color: "bg-yellow-400",
+      color: "bg-black border-2 border-white",
     },
     {
       name: "Instagram",
       icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/insta-vA3pfyrlFknPW65GP8nMGDZAVhlwnD.png",
       url:"/coming-soon",
-      color: "bg-yellow-400",
+      color: "bg-black border-2 border-white",
     },
     {
       name: "Discord",
       icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/discord-Pl5crUf3G0Qxft6XVMAP0B0YAm9QN1.png",
       url:"/coming-soon",
-      color: "bg-yellow-400",
+      color: "bg-black border-2 border-white",
     },
     {
       name: "Reddit",
       icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Reddit-ynPmaOineKwe990ip45P3xXajwfLI9.png",
       url:"/coming-soon",
-      color: "bg-yellow-400",
+      color: "bg-black border-2 border-white",
     },
     {
       name: "Figma",
       icon: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/65888-lkdPFWb43zAGXxJc2C6v26FRFZpw3F.png",
       url:"https://www.figma.com/design/64edVxv8mtdyn1EosHyJgR/Costly-App-Flow?node-id=0-1&t=885acFJRJXrLbck3-1",
-      color: "bg-yellow-400",
+      color: "bg-black border-2 border-white",
     },
   ]
 
   return (
-    <div className="flex gap-5 flex-wrap portrait:gap-2">
+    <div className="flex gap-5 flex-wrap portrait:gap-2 justify-center lg:justify-start">
         {socialLinks.map((social) => (
         <a    // ← ADD THIS
             key={social.name}

@@ -32,8 +32,10 @@ export default function ScrollingNotifications() {
     const interval = setInterval(() => {
       setTranslateX((prev) => {
         // Reset when first set scrolls completely off screen
-        // Each notification is ~300px wide, 5 notifications = ~1500px
-        if (prev <= -1500) {
+        // Each notification is ~320px wide + 12px gap = ~332px
+        // 5 notifications = ~1660px, but we need to account for the gap
+        const totalWidth = (320 + 12) * 5 // 1660px
+        if (prev <= -totalWidth) {
           return 0
         }
         return prev - 1
@@ -44,21 +46,21 @@ export default function ScrollingNotifications() {
   }, [])
 
   return (
-    <div className="relative w-full overflow-hidden py-4 mt-20">
+    <div className="relative w-full overflow-hidden py-4 mt-20 sm:mt-24">
       <div
-        className="flex gap-3 transition-transform duration-75 ease-linear"
+        className="flex gap-3"
         style={{ transform: `translateX(${translateX}px)` }}
       >
         {[...Array(6)].map((_, setIndex) =>
           notifications.map((notification, index) => (
             <div
               key={`${setIndex}-${index}`}
-              className="flex-shrink-0 bg-gray-900/80 backdrop-blur-md border border-gray-700/30 rounded-2xl px-3 py-3 min-w-[320px] max-w-[320px] shadow-sm"
+              className="flex-shrink-0 liquid-glass liquid-glass-interactive rounded-2xl px-3 py-3 min-w-[320px] max-w-[320px] shadow-sm"
             >
               <div className="flex items-start gap-2">
                 <div className="w-8 h-8 rounded-lg flex-shrink-0 mt-1.5">
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/icon-XBlCBTIndUwhWRsxZco9q2mA2KQFDT.png"
+                    src="/icon.png"
                     alt="Costly"
                     className="w-8 h-8 rounded-lg"
                   />
