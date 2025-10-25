@@ -19,6 +19,12 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     setIsSubmitting(true)
     setError(null)
 
+    if (!supabase) {
+      setError("Waitlist service is currently unavailable. Please try again later.")
+      setIsSubmitting(false)
+      return
+    }
+
     const { data, error } = await supabase
       .from('waitlist')
       .insert([{ email }])
