@@ -33,7 +33,7 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection }: H
               alt="Costly Logo"
               className="w-6 h-6 sm:w-8 sm:h-8"
             />
-            <span className="text-lg sm:text-xl font-bold text-silver-300">Costly</span>
+            <span className="hidden sm:inline text-lg sm:text-xl font-bold text-silver-300">Costly</span>
           </div>
 
           {/* Mobile navigation with icons - absolutely centered */}
