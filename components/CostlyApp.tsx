@@ -38,16 +38,27 @@ export default function CostlyApp() {
           behavior: "smooth"
         })
       } else if (sectionId === "about") {
-        // For about, center it in the viewport
-        const viewportHeight = window.innerHeight
-        const elementHeight = element.offsetHeight
+        // For about, center on desktop but scroll to top on mobile
+        const isMobile = window.innerWidth < 640 // sm breakpoint
         const headerHeight = 100
-        const centerPosition = element.offsetTop - headerHeight - (viewportHeight - elementHeight) / 2
         
-        window.scrollTo({
-          top: Math.max(0, centerPosition),
-          behavior: "smooth"
-        })
+        if (isMobile) {
+          // Mobile: scroll to top of section
+          window.scrollTo({
+            top: element.offsetTop - headerHeight,
+            behavior: "smooth"
+          })
+        } else {
+          // Desktop: center it in the viewport
+          const viewportHeight = window.innerHeight
+          const elementHeight = element.offsetHeight
+          const centerPosition = element.offsetTop - headerHeight - (viewportHeight - elementHeight) / 2
+          
+          window.scrollTo({
+            top: Math.max(0, centerPosition),
+            behavior: "smooth"
+          })
+        }
       } else if (sectionId === "contact") {
         // For contact, scroll to the top of the contact section
         window.scrollTo({
