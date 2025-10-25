@@ -23,7 +23,7 @@ export default function Button({ children, onClick, variant = "primary", classNa
 
   const glowClasses = {
     primary:
-      "shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] animate-pulse",
+      "shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)]",
     secondary: "",
   }
 

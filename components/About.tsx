@@ -116,9 +116,11 @@ export default function About({ onNavigate }: AboutProps) {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [hasAutoCentered])
 
-  // Auto-rotation effect with continuous downward scrolling
+  // Auto-rotation effect with continuous downward scrolling (desktop only)
   useEffect(() => {
-    if (!isPaused && !isScrolling && !isUserScrolling) {
+    const isMobile = window.innerWidth < 640 // sm breakpoint
+    
+    if (!isMobile && !isPaused && !isScrolling && !isUserScrolling) {
       intervalRef.current = setInterval(() => {
         setActiveCard((prev) => (prev + 1) % cards.length)
       }, 4000)
