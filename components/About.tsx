@@ -177,6 +177,16 @@ export default function About({ onNavigate }: AboutProps) {
   return (
     <section ref={sectionRef} id="about" className="pt-12 pb-20 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        {/* Section heading */}
+        <header className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            How It Works
+          </h2>
+          <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
+            Discover how Costly transforms your focus into measurable progress through behavioral accountability
+          </p>
+        </header>
+        
         {/* Card selector */}
         <div className="flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
           {cards.map((card, index) => (

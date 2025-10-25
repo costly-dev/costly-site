@@ -37,9 +37,19 @@ export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
   return (
     <section id="roadmap" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Section heading */}
+        <header className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Development Roadmap
+          </h2>
+          <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
+            Our planned features and development timeline for Costly
+          </p>
+        </header>
+        
         <div className="mb-16">
           <div className="liquid-glass liquid-glass-intense rounded-2xl p-6 sm:p-8">
-            <h4 className="text-xl sm:text-2xl font-bold text-white mb-8 text-center">Costly Roadmap</h4>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-8 text-center">Costly Roadmap</h3>
 
             {/* Desktop/Tablet view - 5 columns */}
             <div className="hidden lg:block">
