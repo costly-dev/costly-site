@@ -187,8 +187,8 @@ export default function About({ onNavigate }: AboutProps) {
           </p>
         </header>
         
-        {/* Card selector */}
-        <div className="flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
+        {/* Card selector - hidden on mobile */}
+        <div className="hidden sm:flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
           {cards.map((card, index) => (
             <button
               key={index}
@@ -210,8 +210,28 @@ export default function About({ onNavigate }: AboutProps) {
           ))}
         </div>
 
-        {/* Roulette-style scrolling container */}
-        <div className="relative h-[700px] sm:h-[600px] lg:h-[500px] overflow-hidden">
+        {/* Mobile: Display all cards normally with fade-in */}
+        <div className="sm:hidden space-y-12">
+          {cards.map((card, index) => (
+            <div
+              key={index}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${index * 200}ms` }}
+            >
+              <div className="w-full max-w-4xl mx-auto">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-relaxed mb-8 text-center">
+                  {card.title}
+                </h3>
+                <div className="text-center">
+                  {card.content}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: Roulette-style scrolling container */}
+        <div className="hidden sm:block relative h-[700px] sm:h-[600px] lg:h-[500px] overflow-hidden">
           {/* Fade gradients */}
           <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
           <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
