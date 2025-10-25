@@ -16,7 +16,6 @@ const nextConfig = {
   compress: true,
   // Enable experimental features for better performance
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
   // Headers for better SEO and security
