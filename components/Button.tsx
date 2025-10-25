@@ -16,14 +16,14 @@ export default function Button({ children, onClick, variant = "primary", classNa
 
   const variantClasses = {
     primary:
-      "liquid-glass-button text-white",
+      "liquid-glass-button text-white shimmer",
     secondary:
       "liquid-glass text-white/90 hover:text-white",
   }
 
   const glowClasses = {
     primary:
-      "shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]",
+      "shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] animate-pulse",
     secondary: "",
   }
 
