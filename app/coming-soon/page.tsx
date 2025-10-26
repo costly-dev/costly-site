@@ -18,14 +18,8 @@ export default function ComingSoon() {
           <img
             src="/icon.png"
             alt="Costly Logo"
-            className="w-16 h-16 mx-auto mb-4"
+            className="w-16 h-16 mx-auto"
           />
-          <h1 
-            className="text-2xl font-bold text-white"
-            style={{ fontFamily: "Londrina Shadow, cursive" }}
-          >
-            Costly
-          </h1>
         </div>
 
         {/* Coming Soon Message */}

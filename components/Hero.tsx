@@ -98,6 +98,12 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
               : 'translate-x-8 opacity-0'
           }`}>
             <div className="relative">
+              {/* Mobile desktop recommendation */}
+              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 lg:hidden">
+                <p className="text-xs text-white/40 text-center whitespace-nowrap">
+                  (This site looks better on desktop)
+                </p>
+              </div>
               {/* Mobile and small screens - use original image */}
               <img 
                 src="/GraphicsNotif.png" 
