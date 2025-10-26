@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef } from "react"
 import Button from "./Button"
+import ObfuscatedEmail from "./ObfuscatedEmail"
 
 interface ContactProps {
   onWaitlistClick: () => void
 }
 
 export default function Contact({ onWaitlistClick }: ContactProps) {
-  const [isVisible, setIsVisible] = useState(false)
   const [animatedItems, setAnimatedItems] = useState<Set<string>>(new Set())
   const sectionRef = useRef<HTMLElement>(null)
 
@@ -18,7 +18,6 @@ export default function Contact({ onWaitlistClick }: ContactProps) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true)
             // Reset animation state when entering view
             setAnimatedItems(new Set())
             
@@ -37,7 +36,6 @@ export default function Contact({ onWaitlistClick }: ContactProps) {
             })
           } else {
             // Reset animation state when leaving view
-            setIsVisible(false)
             setAnimatedItems(new Set())
           }
         })
@@ -131,9 +129,10 @@ export default function Contact({ onWaitlistClick }: ContactProps) {
           }`}>
             <p className="text-sm">
               Questions? Reach out to us at{" "}
-              <span className="text-silver-300">
-                TBA@email.com
-              </span>
+              <ObfuscatedEmail 
+                email="hello@costly.live"
+                className="text-silver-300"
+              />
             </p>
             
             <div className="flex justify-center space-x-4 text-xs">
