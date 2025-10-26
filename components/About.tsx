@@ -3,22 +3,20 @@
 import { useState, useEffect, useRef } from "react"
 
 interface AboutProps {
-  onNavigate?: (section: string) => void
+  isActive?: boolean
 }
 
-export default function About({ onNavigate }: AboutProps) {
+export default function About({ isActive }: AboutProps) {
   const [activeCard, setActiveCard] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
   const [isScrolling, setIsScrolling] = useState(false)
   const [hasAutoCentered, setHasAutoCentered] = useState(false)
-  const [isUserScrolling, setIsUserScrolling] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [animatedHeader, setAnimatedHeader] = useState(false)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [isCentering, setIsCentering] = useState(false)
+  const [headerFade, setHeaderFade] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const cards = [
     {
@@ -68,7 +66,43 @@ export default function About({ onNavigate }: AboutProps) {
     }
   ]
 
-  // Auto-center when landing on About section and handle scroll direction
+  // Handle navigation to About section - trigger smooth scroll correction (Desktop only)
+  useEffect(() => {
+    if (isActive && sectionRef.current && !hasAutoCentered) {
+      const isMobile = window.innerWidth < 640 // sm breakpoint
+      const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024 // md to lg breakpoint
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+      const isIPad = window.innerWidth >= 1024 && isTouchDevice && !window.matchMedia('(hover: hover)').matches
+      
+      if (!isMobile && !isTablet && !isIPad) {
+        const section = sectionRef.current
+        const sectionTop = section.offsetTop
+        const sectionBottom = sectionTop + section.offsetHeight
+        const viewportHeight = window.innerHeight
+        const targetScrollPosition = sectionTop + (sectionBottom - sectionTop) / 2 - viewportHeight / 2
+        
+        // Block input during centering
+        setIsCentering(true)
+        
+        // Smooth scroll correction
+        window.scrollTo({
+          top: Math.max(0, targetScrollPosition),
+          behavior: "smooth"
+        })
+        
+        // Allow input after centering animation completes
+        setTimeout(() => {
+          setIsCentering(false)
+          setHasAutoCentered(true)
+        }, 1000) // Wait for smooth scroll to complete
+      } else {
+        // On mobile, tablet, and iPad, just mark as centered without any scrolling
+        setHasAutoCentered(true)
+      }
+    }
+  }, [isActive, hasAutoCentered])
+
+  // Handle user scrolling detection for auto-scroll pause
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
@@ -82,31 +116,22 @@ export default function About({ onNavigate }: AboutProps) {
         
         // Check if we're in the About section
         if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
-          // Auto-center on first visit
-          if (!hasAutoCentered) {
-            setHasAutoCentered(true)
-            const targetScrollPosition = sectionTop + (sectionBottom - sectionTop) / 2 - viewportHeight / 2
-            
-            window.scrollTo({
-              top: Math.max(0, targetScrollPosition),
-              behavior: "smooth"
-            })
+          // If user scrolls during centering, cancel the centering
+          const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
+          if (scrollDelta > 5 && isCentering) {
+            setIsCentering(false)
+            setHasAutoCentered(true) // Mark as centered to prevent re-centering
           }
           
-          // Detect user scrolling and pause auto-scroll
-          const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
-          if (scrollDelta > 5) { // Threshold to detect intentional scrolling
-            setIsUserScrolling(true)
-            
-            // Clear existing timeout
-            if (scrollTimeoutRef.current) {
-              clearTimeout(scrollTimeoutRef.current)
+          // Check if header is getting covered during auto-scroll
+          const aboutSection = document.getElementById('about')
+          if (aboutSection) {
+            const headerElement = aboutSection.querySelector('header')
+            if (headerElement) {
+              const headerRect = headerElement.getBoundingClientRect()
+              const isHeaderCovered = headerRect.top < 80 // Fade when header is within 80px of top
+              setHeaderFade(isHeaderCovered)
             }
-            
-            // Resume auto-scroll after user stops scrolling
-            scrollTimeoutRef.current = setTimeout(() => {
-              setIsUserScrolling(false)
-            }, 1000) // Resume after 1 second of no scrolling
           }
         }
       }
@@ -116,29 +141,9 @@ export default function About({ onNavigate }: AboutProps) {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [hasAutoCentered])
+  }, [])
 
-  // Auto-rotation effect with continuous downward scrolling (desktop only)
-  useEffect(() => {
-    const isMobile = window.innerWidth < 640 // sm breakpoint
-    
-    if (!isMobile && !isPaused && !isScrolling && !isUserScrolling) {
-      intervalRef.current = setInterval(() => {
-        setActiveCard((prev) => (prev + 1) % cards.length)
-      }, 4000)
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = null
-      }
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
-    }
-  }, [isPaused, isScrolling, isUserScrolling, cards.length])
+  // Auto-rotation effect removed - users can manually navigate cards
 
   // Simple scroll to active card
   useEffect(() => {
@@ -175,14 +180,49 @@ export default function About({ onNavigate }: AboutProps) {
         if (isInView) {
           // Animate header first
           setAnimatedHeader(true)
+          
+          // Check if header is getting covered by checking scroll position
+          const headerElement = aboutSection.querySelector('header')
+          if (headerElement) {
+            const headerRect = headerElement.getBoundingClientRect()
+            const isHeaderCovered = headerRect.top < 100 // Fade when header is within 100px of top
+            setHeaderFade(isHeaderCovered)
+          }
+          
+          // Center when entering About section (only once per session) - Desktop only
+          const isMobile = window.innerWidth < 640 // sm breakpoint
+          const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024 // md to lg breakpoint
+          const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+          const isIPad = window.innerWidth >= 1024 && isTouchDevice && !window.matchMedia('(hover: hover)').matches
+          if (!hasAutoCentered && !isCentering && !isMobile && !isTablet && !isIPad) {
+            const sectionTop = aboutSection.offsetTop
+            // Center so header is visible, not perfectly centered
+            const targetScrollPosition = sectionTop - 100 // Leave 100px space for header
+            
+            // Start centering but don't block scroll input
+            setIsCentering(true)
+            
+            // Smooth scroll correction
+            window.scrollTo({
+              top: Math.max(0, targetScrollPosition),
+              behavior: "smooth"
+            })
+            
+            // Mark as centered after a short delay, but allow user to override
+            setTimeout(() => {
+              setIsCentering(false)
+              setHasAutoCentered(true)
+            }, 500) // Shorter delay to be less intrusive
+          } else if (isMobile) {
+            // On mobile, just mark as centered without any scrolling
+            setHasAutoCentered(true)
+          }
         } else {
           // Reset header animation when leaving view
           setAnimatedHeader(false)
+          // Don't reset hasAutoCentered - only reset on page load or explicit navigation
         }
         
-        if (!isInView && isPaused) {
-          setIsPaused(false)
-        }
       }
 
       // Auto-detect which card should be active based on scroll position
@@ -200,38 +240,87 @@ export default function About({ onNavigate }: AboutProps) {
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isPaused, isScrolling, activeCard, cards.length])
+  }, [isScrolling, activeCard, cards.length])
 
   return (
-    <section ref={sectionRef} id="about" className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <>
+      {/* Mobile-specific animations */}
+      <style jsx>{`
+        @keyframes mobileCardFloat {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-8px) rotate(0.5deg); }
+        }
+        
+        @keyframes mobileIconPulse {
+          0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+          50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+        }
+        
+        @keyframes mobileTitleGlow {
+          0%, 100% { 
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            filter: brightness(1);
+          }
+          50% { 
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.3);
+            filter: brightness(1.1);
+          }
+        }
+        
+        @keyframes mobileTextShimmer {
+          0%, 100% { 
+            background-position: -200% center;
+            opacity: 0.9;
+          }
+          50% { 
+            background-position: 200% center;
+            opacity: 1;
+          }
+        }
+        
+        @keyframes mobileDotPulse {
+          0%, 100% { 
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+          }
+          50% { 
+            transform: scale(1.3);
+            box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+          }
+        }
+      `}</style>
+      
+      <section ref={sectionRef} id="about" className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
         {/* Section heading */}
         <header className={`text-center mb-6 transition-all duration-700 ${
           animatedHeader 
-            ? 'opacity-100 translate-y-0 scale-100' 
+            ? 'translate-y-0 scale-100' 
             : 'opacity-0 translate-y-8 scale-95'
-        }`}>
+        } ${headerFade ? 'opacity-0 scale-95' : animatedHeader ? 'opacity-100' : 'opacity-0'}`}>
           <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             How It Works
           </h3>
         </header>
         
         {/* Card selector - hidden on mobile */}
-        <div className={`hidden sm:flex justify-center gap-4 sm:gap-6 mb-2 flex-wrap transition-all duration-500 ${
+        <div className={`hidden sm:flex justify-center gap-4 sm:gap-6 mb-6 flex-wrap transition-all duration-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}>
           {cards.map((card, index) => (
             <button
               key={index}
               onClick={() => {
-                setActiveCard(index)
-                setIsPaused(true)
+                if (!isCentering) {
+                  setActiveCard(index)
+                }
               }}
+              disabled={isCentering}
               className={`liquid-glass-button px-3 sm:px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                 activeCard === index 
                   ? "bg-white/20 text-white scale-110" 
                   : "text-white/70 hover:text-white hover:scale-105"
-              }`}
+              } ${isCentering ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {card.icon}
               <span className="text-xs sm:text-sm">
@@ -241,20 +330,103 @@ export default function About({ onNavigate }: AboutProps) {
           ))}
         </div>
 
-        {/* Mobile: Display all cards normally with fade-in */}
-        <div className="sm:hidden space-y-12">
+        {/* Mobile: Enhanced animated cards with cool effects */}
+        <div className="sm:hidden space-y-16">
           {cards.map((card, index) => (
             <div
               key={index}
-              className="animate-fade-in-up"
-              style={{ animationDelay: `${index * 200}ms` }}
+              className={`transform transition-all duration-700 ease-out ${
+                isVisible 
+                  ? 'opacity-100 translate-y-0 scale-100' 
+                  : 'opacity-0 translate-y-12 scale-95'
+              }`}
+              style={{ 
+                animationDelay: `${index * 300}ms`,
+                animation: isVisible ? `mobileCardFloat ${3 + index * 0.5}s ease-in-out infinite` : 'none'
+              }}
             >
               <div className="w-full max-w-4xl mx-auto">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-relaxed mb-8 text-center">
+                {/* Animated icon container */}
+                <div 
+                  className="flex justify-center mb-6"
+                  style={{
+                    animation: isVisible ? `mobileIconPulse ${2 + index * 0.3}s ease-in-out infinite` : 'none'
+                  }}
+                >
+                  <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
+                    <div className="text-white/80 text-2xl">
+                      {card.icon}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Animated title with gradient text */}
+                <h3 
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-relaxed mb-8 text-center bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent"
+                  style={{
+                    animation: isVisible ? `mobileTitleGlow ${4 + index * 0.5}s ease-in-out infinite` : 'none'
+                  }}
+                >
                   {card.title}
                 </h3>
+                
+                {/* Animated content with staggered text reveal */}
                 <div className="text-center">
-                  {card.content}
+                  <div className="space-y-4">
+                    {Array.isArray(card.content.props.children) ? (
+                      card.content.props.children.map((paragraph: React.ReactNode, pIndex: number) => (
+                        <div 
+                          key={pIndex}
+                          className={`text-white/90 leading-relaxed text-lg sm:text-xl transition-all duration-500 ${
+                            isVisible 
+                              ? 'opacity-100 translate-x-0' 
+                              : 'opacity-0 translate-x-8'
+                          }`}
+                          style={{ 
+                            transitionDelay: `${(index * 300) + (pIndex * 200)}ms`,
+                            animation: isVisible ? `mobileTextShimmer ${6 + pIndex}s ease-in-out infinite` : 'none'
+                          }}
+                        >
+                          {paragraph}
+                        </div>
+                      ))
+                    ) : (
+                      <div
+                        className={`text-white/90 leading-relaxed text-lg sm:text-xl transition-all duration-500 ${
+                          isVisible 
+                            ? 'opacity-100 translate-x-0' 
+                            : 'opacity-0 translate-x-8'
+                        }`}
+                        style={{ 
+                          transitionDelay: `${index * 300}ms`,
+                          animation: isVisible ? `mobileTextShimmer 6s ease-in-out infinite` : 'none'
+                        }}
+                      >
+                        {card.content}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Animated progress indicator */}
+                <div className="flex justify-center mt-8">
+                  <div className="flex space-x-2">
+                    {cards.map((_, dotIndex) => (
+                      <div
+                        key={dotIndex}
+                        className={`w-2 h-2 rounded-full transition-all duration-500 ${
+                          dotIndex === index 
+                            ? 'bg-white/60 scale-125' 
+                            : 'bg-white/20'
+                        }`}
+                        style={{
+                          animation: isVisible && dotIndex === index 
+                            ? `mobileDotPulse 2s ease-in-out infinite` 
+                            : 'none'
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -284,6 +456,8 @@ export default function About({ onNavigate }: AboutProps) {
                 if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
                   setActiveCard(newActiveCard)
                 }
+                
+                // Card selection logic only - no centering lock
               }
             }}
           >
@@ -291,7 +465,7 @@ export default function About({ onNavigate }: AboutProps) {
               {cards.map((card, index) => (
                 <div
                   key={index}
-                  className="h-[700px] sm:h-[600px] lg:h-[500px] flex items-start justify-center p-4 sm:p-6 lg:p-8 pt-16 sm:pt-20 lg:pt-24"
+                  className="h-[700px] sm:h-[600px] lg:h-[500px] flex items-start justify-center p-4 sm:p-6 lg:p-8 pt-8 sm:pt-12 lg:pt-16"
                 >
                   <div className="w-full max-w-4xl">
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-relaxed mb-8 text-center">
@@ -308,5 +482,6 @@ export default function About({ onNavigate }: AboutProps) {
         </div>
       </div>
     </section>
+    </>
   )
 }

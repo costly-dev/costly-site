@@ -92,11 +92,11 @@ export default function Contact({ onWaitlistClick }: ContactProps) {
               
               <div className="space-y-4">
                 <p className="text-white/90 leading-relaxed text-base text-center">
-                  Costly's pricing is simple: a $2.99/month subscription unlocks all premium features, including advanced block lists, custom difficulty multipliers, and reward tracking. No data selling, no ads, no microtransactions.
+                  Costly's pricing is simple: a $2.99/month subscription unlocks all premium features, including advanced block lists, custom difficulty multipliers, and reward tracking. No data selling & no ads.
                 </p>
                 
                 <p className="text-white/90 leading-relaxed text-base text-center">
-                  Optional deposits are always held securely through Stripe and can only be withdrawn by meeting focus goals. If you delete your account, all remaining deposits are forfeited as part of the accountability framework: a reminder that follow-through matters more than refunds.
+                  Account deposits are always held securely through Stripe and can only be withdrawn by meeting focus goals. If you delete your account, all remaining deposits are forfeited as part of the accountability framework: a reminder that follow-through matters more than refunds.
                 </p>
               </div>
 

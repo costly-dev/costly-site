@@ -32,16 +32,16 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     }
 
     // Simple scroll-based movement - text moves down as you scroll
-    const scrollProgress = Math.min(scrollY / 800, 1) // Move over 800px of scroll
-    const maxMovement = 650 // Maximum pixels to move down
+    const scrollProgress = Math.min(scrollY / 800, 1) // Move over 600px of scroll (faster response)
+    const maxMovement = 700 // Maximum pixels to move down (more dramatic movement)
     
     setTextTransform(scrollProgress * maxMovement)
   }, [scrollY])
 
   return (
-    <section id="home" className="min-h-screen flex items-start justify-center px-4 sm:px-6 lg:px-8">
+    <section id="home" className="min-h-screen flex items-start justify-center px-3 sm:px-5 lg:px-[76px]">
       <div className="w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start min-h-screen py-16 lg:ml-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start min-h-screen py-16">
           
           {/* Text content */}
           <div 

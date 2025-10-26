@@ -242,7 +242,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={GeistSans.className}>
+      <body className={`${GeistSans.className} bg-black`}>
 
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         
