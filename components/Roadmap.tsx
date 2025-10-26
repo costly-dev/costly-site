@@ -49,7 +49,6 @@ export default function Roadmap({ onNavigate, activeSection }: RoadmapProps) {
         
         <div className="mb-16">
           <div className="liquid-glass liquid-glass-intense rounded-2xl p-6 sm:p-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-8 text-center">Costly Roadmap</h3>
 
             {/* Desktop/Tablet view - 5 columns */}
             <div className="hidden lg:block">
