@@ -85,7 +85,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
               </Button>
             </div>
 
-            <div className="flex justify-center w-full max-w-2xl">
+            <div className="flex justify-center w-full max-w-2xl mt-6 lg:mt-0">
               <SocialIcons onScrollToAbout={onScrollToAbout} />
             </div>
             
