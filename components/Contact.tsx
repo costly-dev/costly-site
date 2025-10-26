@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react"
 import Button from "./Button"
-import ObfuscatedEmail from "./ObfuscatedEmail"
 
 interface ContactProps {
   onWaitlistClick: () => void
@@ -129,10 +128,9 @@ export default function Contact({ onWaitlistClick }: ContactProps) {
           }`}>
             <p className="text-sm">
               Questions? Reach out to us at{" "}
-              <ObfuscatedEmail 
-                email="hello@costly.live"
-                className="text-silver-300"
-              />
+              <span className="text-silver-300">
+                hello@costly.live
+              </span>
             </p>
             
             <div className="flex justify-center space-x-4 text-xs">
