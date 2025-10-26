@@ -2,14 +2,11 @@
 
 import { useState, useEffect, useRef } from "react"
 
-interface AboutProps {
-  isActive?: boolean
-}
+interface AboutProps {}
 
-export default function About({ isActive }: AboutProps) {
+export default function About({}: AboutProps) {
   const [activeCard, setActiveCard] = useState(0)
   const [isScrolling, setIsScrolling] = useState(false)
-  const [hasAutoCentered, setHasAutoCentered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [animatedHeader, setAnimatedHeader] = useState(false)
   const [headerFade, setHeaderFade] = useState(false)
@@ -103,49 +100,7 @@ export default function About({ isActive }: AboutProps) {
     }
   }, [isPhilosophyComplete])
 
-  // Handle centering only when user is stuck between pages (not on intentional navigation)
-  useEffect(() => {
-    if (isActive && sectionRef.current && !hasAutoCentered) {
-      const isMobile = window.innerWidth < 640 // sm breakpoint
-      const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024 // md to lg breakpoint
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-      const isIPad = window.innerWidth >= 1024 && isTouchDevice && !window.matchMedia('(hover: hover)').matches
-      
-      if (!isMobile && !isTablet && !isIPad) {
-        const section = sectionRef.current
-        const sectionTop = section.offsetTop
-        const sectionBottom = sectionTop + section.offsetHeight
-        const viewportHeight = window.innerHeight
-        const currentScrollY = window.scrollY
-        
-        // Check if user is stuck between pages (section is partially visible but not properly centered)
-        const sectionVisibleTop = Math.max(sectionTop, currentScrollY)
-        const sectionVisibleBottom = Math.min(sectionBottom, currentScrollY + viewportHeight)
-        const sectionVisibleHeight = sectionVisibleBottom - sectionVisibleTop
-        const sectionTotalHeight = sectionBottom - sectionTop
-        
-        // Only center if section is partially visible (stuck between pages) and not properly positioned
-        const isPartiallyVisible = sectionVisibleHeight > 0 && sectionVisibleHeight < sectionTotalHeight * 0.8
-        const isNotProperlyCentered = Math.abs(currentScrollY - (sectionTop - 100)) > 200 // 200px threshold
-        
-        if (isPartiallyVisible && isNotProperlyCentered) {
-          const targetScrollPosition = sectionTop - 100 // Leave space for header
-          
-          // Smooth scroll correction (no input blocking)
-          window.scrollTo({
-            top: Math.max(0, targetScrollPosition),
-            behavior: "smooth"
-          })
-        }
-        
-        // Mark as centered immediately (whether we scrolled or not)
-        setHasAutoCentered(true)
-      } else {
-        // On mobile, tablet, and iPad, just mark as centered without any scrolling
-        setHasAutoCentered(true)
-      }
-    }
-  }, [isActive, hasAutoCentered])
+  // No auto-centering or scroll lock - users can scroll freely
 
   // Handle user scrolling detection for auto-scroll pause
   useEffect(() => {
@@ -231,28 +186,7 @@ export default function About({ isActive }: AboutProps) {
             setHeaderFade(isHeaderCovered)
           }
           
-          // Center when entering About section (only once per session) - Desktop only
-          const isMobile = window.innerWidth < 640 // sm breakpoint
-          const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024 // md to lg breakpoint
-          const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-          const isIPad = window.innerWidth >= 1024 && isTouchDevice && !window.matchMedia('(hover: hover)').matches
-          if (!hasAutoCentered && !isMobile && !isTablet && !isIPad) {
-            const sectionTop = aboutSection.offsetTop
-            // Center so header is visible, not perfectly centered
-            const targetScrollPosition = sectionTop - 100 // Leave 100px space for header
-            
-            // Smooth scroll correction (no input blocking)
-            window.scrollTo({
-              top: Math.max(0, targetScrollPosition),
-              behavior: "smooth"
-            })
-            
-            // Mark as centered immediately
-            setHasAutoCentered(true)
-          } else if (isMobile) {
-            // On mobile, just mark as centered without any scrolling
-            setHasAutoCentered(true)
-          }
+          // No auto-centering - users can scroll freely
         } else {
           // Reset header animation when leaving view
           setAnimatedHeader(false)
