@@ -43,32 +43,34 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
   ]
 
   return (
-    <div className="flex gap-5 flex-wrap portrait:gap-2 justify-center lg:flex-1">
-        {socialLinks.map((social) => (
-        <a
-            key={social.name}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-12 h-12 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-2"
-            aria-label={social.name}
-        >
-            <img
-            src={social.icon}
-            alt={`${social.name} icon`}
-            className={`w-full h-full object-contain ${
-              social.name === "GitHub" ? "scale-150" : 
-              social.name === "LinkedIn" ? "scale-125" : 
-              ""
-            }`}
-            />
-        </a>
-        ))}
+    <div className="flex flex-col md:flex-row gap-5 md:gap-6 items-center justify-center lg:flex-1">
+        <div className="flex gap-5 flex-wrap portrait:gap-2 justify-center">
+          {socialLinks.map((social) => (
+          <a
+              key={social.name}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-2"
+              aria-label={social.name}
+          >
+              <img
+              src={social.icon}
+              alt={`${social.name} icon`}
+              className={`w-full h-full object-contain ${
+                social.name === "GitHub" ? "scale-150" : 
+                social.name === "LinkedIn" ? "scale-125" : 
+                ""
+              }`}
+              />
+          </a>
+          ))}
+        </div>
         
         {onScrollToAbout && (
           <button
             onClick={onScrollToAbout}
-            className="px-6 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-2 mt-4 lg:mt-0"
+            className="px-6 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-2"
           >
             Learn more
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -77,5 +79,5 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
           </button>
         )}
     </div>
-    )
+  )
 }

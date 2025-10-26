@@ -1,7 +1,7 @@
 "use client"
 import { supabase } from "../lib/supabase"
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface WaitlistModalProps {
   isOpen: boolean
@@ -13,6 +13,24 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  // Handle fade in/out animations
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true)
+    } else {
+      setIsVisible(false)
+    }
+  }, [isOpen])
+
+  const handleClose = () => {
+    setIsVisible(false)
+    // Wait for animation to complete before calling onClose
+    setTimeout(() => {
+      onClose()
+    }, 300)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,7 +62,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     setIsSubmitting(false)
 
     setTimeout(() => {
-      onClose()
+      handleClose()
       setIsSubmitted(false)
       setEmail("")
       setError(null)
@@ -54,11 +72,22 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+    <div className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ${
+      isVisible ? 'opacity-100' : 'opacity-0'
+    }`}>
+      <div 
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+          isVisible ? 'opacity-100' : 'opacity-0'
+        }`} 
+        onClick={handleClose}
+      ></div>
 
-      <div className="relative liquid-glass liquid-glass-intense rounded-2xl p-8 max-w-md w-full mx-4">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white">
+      <div className={`relative liquid-glass liquid-glass-intense rounded-2xl p-8 max-w-md w-full mx-4 transition-all duration-300 ${
+        isVisible 
+          ? 'opacity-100 scale-100 translate-y-0' 
+          : 'opacity-0 scale-95 translate-y-4'
+      }`}>
+        <button onClick={handleClose} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
           ✕
         </button>
 

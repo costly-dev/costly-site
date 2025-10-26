@@ -12,6 +12,8 @@ export default function About({ onNavigate }: AboutProps) {
   const [isScrolling, setIsScrolling] = useState(false)
   const [hasAutoCentered, setHasAutoCentered] = useState(false)
   const [isUserScrolling, setIsUserScrolling] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [animatedHeader, setAnimatedHeader] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -158,7 +160,7 @@ export default function About({ onNavigate }: AboutProps) {
     }
   }, [activeCard, cards.length])
 
-  // Check if About section is in view
+  // Check if About section is in view and handle scroll-based card selection
   useEffect(() => {
     const handleScroll = () => {
       const aboutSection = document.getElementById('about')
@@ -166,31 +168,58 @@ export default function About({ onNavigate }: AboutProps) {
         const rect = aboutSection.getBoundingClientRect()
         const isInView = rect.top < window.innerHeight && rect.bottom > 0
         
+        // Handle fade in/out animations
+        setIsVisible(isInView)
+        
+        // Handle header animation
+        if (isInView) {
+          // Animate header first
+          setAnimatedHeader(true)
+        } else {
+          // Reset header animation when leaving view
+          setAnimatedHeader(false)
+        }
+        
         if (!isInView && isPaused) {
           setIsPaused(false)
+        }
+      }
+
+      // Auto-detect which card should be active based on scroll position
+      if (scrollContainerRef.current && !isScrolling) {
+        const container = scrollContainerRef.current
+        const scrollTop = container.scrollTop
+        const cardHeight = container.scrollHeight / cards.length
+        const newActiveCard = Math.round(scrollTop / cardHeight)
+        
+        if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
+          setActiveCard(newActiveCard)
         }
       }
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isPaused])
+  }, [isPaused, isScrolling, activeCard, cards.length])
 
   return (
-    <section ref={sectionRef} id="about" className="pt-12 pb-20 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32 px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} id="about" className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Section heading */}
-        <header className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+        <header className={`text-center mb-6 transition-all duration-700 ${
+          animatedHeader 
+            ? 'opacity-100 translate-y-0 scale-100' 
+            : 'opacity-0 translate-y-8 scale-95'
+        }`}>
+          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             How It Works
-          </h2>
-          <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
-            Discover how Costly transforms your focus into measurable progress through behavioral accountability
-          </p>
+          </h3>
         </header>
         
         {/* Card selector - hidden on mobile */}
-        <div className="hidden sm:flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
+        <div className={`hidden sm:flex justify-center gap-4 sm:gap-6 mb-2 flex-wrap transition-all duration-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
           {cards.map((card, index) => (
             <button
               key={index}
@@ -198,14 +227,14 @@ export default function About({ onNavigate }: AboutProps) {
                 setActiveCard(index)
                 setIsPaused(true)
               }}
-              className={`liquid-glass-button px-4 sm:px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`liquid-glass-button px-3 sm:px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                 activeCard === index 
-                  ? "bg-white/20 text-white" 
-                  : "text-white/70 hover:text-white"
+                  ? "bg-white/20 text-white scale-110" 
+                  : "text-white/70 hover:text-white hover:scale-105"
               }`}
             >
               {card.icon}
-              <span className="text-sm sm:text-base">
+              <span className="text-xs sm:text-sm">
                 {index === 0 ? "System" : index === 1 ? "Technology" : "Design"}
               </span>
             </button>
@@ -233,7 +262,9 @@ export default function About({ onNavigate }: AboutProps) {
         </div>
 
         {/* Desktop: Roulette-style scrolling container */}
-        <div className="hidden sm:block relative h-[700px] sm:h-[600px] lg:h-[500px] overflow-hidden">
+        <div className={`hidden sm:block relative h-[700px] sm:h-[600px] lg:h-[500px] overflow-hidden transition-all duration-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
           {/* Fade gradients */}
           <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
           <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
@@ -243,12 +274,24 @@ export default function About({ onNavigate }: AboutProps) {
             ref={scrollContainerRef}
             className="h-full overflow-y-auto scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onScroll={() => {
+              if (scrollContainerRef.current && !isScrolling) {
+                const container = scrollContainerRef.current
+                const scrollTop = container.scrollTop
+                const cardHeight = container.scrollHeight / cards.length
+                const newActiveCard = Math.round(scrollTop / cardHeight)
+                
+                if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
+                  setActiveCard(newActiveCard)
+                }
+              }
+            }}
           >
             <div className="space-y-0">
               {cards.map((card, index) => (
                 <div
                   key={index}
-                  className="h-[700px] sm:h-[600px] lg:h-[500px] flex items-center justify-center p-4 sm:p-6 lg:p-8"
+                  className="h-[700px] sm:h-[600px] lg:h-[500px] flex items-start justify-center p-4 sm:p-6 lg:p-8 pt-16 sm:pt-20 lg:pt-24"
                 >
                   <div className="w-full max-w-4xl">
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-relaxed mb-8 text-center">

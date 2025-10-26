@@ -14,7 +14,7 @@ export default function Philosophy({ onNavigate }: PhilosophyProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
 
-  const fullText = "Every minute of discipline strengthens your streak, while every lapse comes with a small, automatic financial consequence. By turning focus into something tangible, Costly helps you build consistency not through guilt or gamification, but through clear, immediate accountability. It's self-accountability made concrete: lose focus, lose a dollar; stay disciplined, reclaim your balance and your confidence."
+  const fullText = "Every minute of discipline strengthens your streak, while every lapse comes with a small, automatic financial consequence. By turning focus into something tangible, Costly helps you build consistency not through guilt or gamification, but through clear, immediate accountability. It's self-accountability made concrete: lose focus, lose a dollar; stay disciplined, reclaim your balance and your confidence. The stakes are real: if you delete the app before meeting your withdrawal goals, you forfeit your accumulated balance. This isn't a penalty—it's the natural consequence of abandoning your commitment to yourself. Your money stays locked until you prove you can maintain the habits you set out to build."
 
   // Check localStorage on component mount
   useEffect(() => {
