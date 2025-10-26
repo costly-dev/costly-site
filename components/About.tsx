@@ -260,17 +260,17 @@ export default function About({}: AboutProps) {
         }
       `}</style>
       
-      <section ref={sectionRef} id="about" className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+    <section ref={sectionRef} id="about" className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
         {/* Section heading */}
         <header className={`text-center mb-6 transition-all duration-700 ${
           // Phase 1: Invisible but present until philosophy complete and arrow faded
           !isPhase2 
             ? 'opacity-0 translate-y-8 scale-95' 
             : // Phase 2: Fade in when scrolled to, fade out when header covered
-            animatedHeader 
+          animatedHeader 
               ? 'translate-y-0 scale-100' 
-              : 'opacity-0 translate-y-8 scale-95'
+            : 'opacity-0 translate-y-8 scale-95'
         } ${headerFade ? 'opacity-0 scale-95' : isPhase2 ? 'opacity-100' : 'opacity-0'}`}>
           <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             How It Works
@@ -286,7 +286,7 @@ export default function About({}: AboutProps) {
               key={index}
               onClick={() => {
                 {
-                  setActiveCard(index)
+                setActiveCard(index)
                 }
               }}
               className={`liquid-glass-button px-3 sm:px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
@@ -375,7 +375,7 @@ export default function About({}: AboutProps) {
                           animation: isVisible ? `mobileTextShimmer 6s ease-in-out infinite` : 'none'
                         }}
                       >
-                        {card.content}
+                  {card.content}
                       </div>
                     )}
                   </div>

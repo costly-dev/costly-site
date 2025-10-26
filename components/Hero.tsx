@@ -32,8 +32,8 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     }
 
     // Simple scroll-based movement - text moves down as you scroll
-    const scrollProgress = Math.min(scrollY / 800, 1) // Move over 600px of scroll (faster response)
-    const maxMovement = 700 // Maximum pixels to move down (more dramatic movement)
+    const scrollProgress = Math.min(scrollY / 700, 1) // Move over 600px of scroll (faster response)
+    const maxMovement = 675 // Maximum pixels to move down (more dramatic movement)
     
     setTextTransform(scrollProgress * maxMovement)
   }, [scrollY])
