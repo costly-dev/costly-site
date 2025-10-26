@@ -125,7 +125,10 @@ export default function CostlyApp() {
           onNavigate={scrollToSection}
           activeSection={activeSection}
         />
-        <Contact onWaitlistClick={() => setIsWaitlistOpen(true)} />
+        <Contact 
+          onWaitlistClick={() => setIsWaitlistOpen(true)} 
+          onNavigate={scrollToSection}
+        />
       </main>
 
       <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
