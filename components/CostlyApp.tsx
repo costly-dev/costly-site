@@ -9,10 +9,12 @@ import Roadmap from "./Roadmap"
 import Contact from "./Contact"
 import ScrollingNotifications from "./ScrollingNotifications"
 import WaitlistModal from "./WaitlistModal"
+import LoadingScreen from "./LoadingScreen"
 
 export default function CostlyApp() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
+  const [isLoaded, setIsLoaded] = useState(false)
 
   // Scroll to top on page load/refresh
   useEffect(() => {
@@ -100,17 +102,21 @@ export default function CostlyApp() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      <LoadingScreen onLoadingComplete={() => setIsLoaded(true)} />
+      
       <Header
         onWaitlistClick={() => setIsWaitlistOpen(true)}
         onNavigate={scrollToSection}
         activeSection={activeSection}
+        isLoaded={isLoaded}
       />
-      <ScrollingNotifications />
+      <ScrollingNotifications isLoaded={isLoaded} />
 
       <main>
         <Hero 
           onScrollToAbout={() => scrollToSection("about")} 
           onWaitlistClick={() => setIsWaitlistOpen(true)}
+          isLoaded={isLoaded}
         />
         <Philosophy onNavigate={scrollToSection} />
         <About onNavigate={scrollToSection} />

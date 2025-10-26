@@ -25,11 +25,21 @@ const notifications = [
   },
 ]
 
-export default function ScrollingNotifications() {
+interface ScrollingNotificationsProps {
+  isLoaded?: boolean
+}
+
+export default function ScrollingNotifications({ isLoaded = false }: ScrollingNotificationsProps) {
   const [translateX, setTranslateX] = useState(0)
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    let animationId: number
+    let startTime: number
+    const speed = 0.5 // pixels per frame (smoother)
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime
+      
       setTranslateX((prev) => {
         // Reset when first set scrolls completely off screen
         // Each notification is ~320px wide + 12px gap = ~332px
@@ -38,15 +48,27 @@ export default function ScrollingNotifications() {
         if (prev <= -totalWidth) {
           return 0
         }
-        return prev - 1
+        return prev - speed
       })
-    }, 50)
+      
+      animationId = requestAnimationFrame(animate)
+    }
 
-    return () => clearInterval(interval)
+    animationId = requestAnimationFrame(animate)
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId)
+      }
+    }
   }, [])
 
   return (
-    <div className="relative w-full overflow-hidden py-4 mt-20 sm:mt-24">
+    <div className={`relative w-full overflow-hidden py-4 mt-20 sm:mt-24 transition-all duration-1000 ease-out delay-500 ${
+      isLoaded 
+        ? 'translate-y-0 opacity-100' 
+        : '-translate-y-4 opacity-0'
+    }`}>
       <div
         className="flex gap-3"
         style={{ transform: `translateX(${translateX}px)` }}

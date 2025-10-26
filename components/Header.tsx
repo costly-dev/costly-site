@@ -6,9 +6,10 @@ interface HeaderProps {
   onWaitlistClick: () => void
   onNavigate: (section: string) => void
   activeSection: string
+  isLoaded?: boolean
 }
 
-export default function Header({ onWaitlistClick, onNavigate, activeSection }: HeaderProps) {
+export default function Header({ onWaitlistClick, onNavigate, activeSection, isLoaded = false }: HeaderProps) {
   const [isSticky, setIsSticky] = useState(false)
 
   useEffect(() => {
@@ -22,7 +23,13 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection }: H
 
   return(
     <header
-      className={`fixed top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 z-50 liquid-glass liquid-glass-interactive rounded-xl sm:rounded-2xl transition-all duration-300 ${isSticky ? "shadow-lg" : ""}`}
+      className={`fixed top-5 left-2 sm:left-4 right-2 sm:right-4 z-50 liquid-glass liquid-glass-interactive rounded-xl sm:rounded-2xl transition-all duration-300 ${
+        isSticky ? "shadow-lg" : ""
+      } ${
+        isLoaded 
+          ? 'translate-y-0 opacity-100' 
+          : '-translate-y-2 opacity-0'
+      }`}
     >
       <div className="px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
