@@ -15,6 +15,7 @@ export default function CostlyApp() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isPhilosophyComplete, setIsPhilosophyComplete] = useState(false)
 
   // Scroll to top on page load/refresh
   useEffect(() => {
@@ -118,7 +119,7 @@ export default function CostlyApp() {
           onWaitlistClick={() => setIsWaitlistOpen(true)}
           isLoaded={isLoaded}
         />
-        <Philosophy onNavigate={scrollToSection} />
+        <Philosophy onComplete={() => setIsPhilosophyComplete(true)} />
         <About onNavigate={scrollToSection} />
         <Roadmap 
           onNavigate={scrollToSection}

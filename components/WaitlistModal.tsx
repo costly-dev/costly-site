@@ -29,7 +29,7 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     // Wait for animation to complete before calling onClose
     setTimeout(() => {
       onClose()
-    }, 300)
+    }, 200)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,12 +72,12 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   if (!isOpen) return null
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ${
-      isVisible ? 'opacity-100' : 'opacity-0'
+    <div className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ease-out ${
+      isOpen ? 'opacity-100' : 'opacity-0'
     }`}>
       <div 
-        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-          isVisible ? 'opacity-100' : 'opacity-0'
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-all duration-300 ease-out ${
+          isOpen ? 'opacity-100' : 'opacity-0'
         }`} 
         onClick={handleClose}
       ></div>

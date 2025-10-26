@@ -12,8 +12,10 @@ export default function About({ isActive }: AboutProps) {
   const [hasAutoCentered, setHasAutoCentered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [animatedHeader, setAnimatedHeader] = useState(false)
-  const [isCentering, setIsCentering] = useState(false)
   const [headerFade, setHeaderFade] = useState(false)
+  const [isPhilosophyComplete, setIsPhilosophyComplete] = useState(false)
+  const [hasArrowFaded, setHasArrowFaded] = useState(false)
+  const [isPhase2, setIsPhase2] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
@@ -66,7 +68,42 @@ export default function About({ isActive }: AboutProps) {
     }
   ]
 
-  // Handle navigation to About section - trigger smooth scroll correction (Desktop only)
+  // Check localStorage on component mount and listen for philosophy completion
+  useEffect(() => {
+    const cachedGenerated = localStorage.getItem('philosophy-generated')
+    if (cachedGenerated === 'true') {
+      setIsPhilosophyComplete(true)
+      setIsPhase2(true) // If already generated, go straight to phase 2
+    }
+    
+    // Listen for philosophy completion from parent
+    const handlePhilosophyComplete = () => {
+      setIsPhilosophyComplete(true)
+      // Move to phase 2 if arrow has already faded
+      if (hasArrowFaded) {
+        setIsPhase2(true)
+      }
+    }
+    
+    // Listen for arrow fade from philosophy component
+    const handleArrowFade = () => {
+      setHasArrowFaded(true)
+      // Move to phase 2 if philosophy is already complete
+      if (isPhilosophyComplete) {
+        setIsPhase2(true)
+      }
+    }
+    
+    window.addEventListener('philosophy-complete', handlePhilosophyComplete)
+    window.addEventListener('arrow-fade', handleArrowFade)
+    
+    return () => {
+      window.removeEventListener('philosophy-complete', handlePhilosophyComplete)
+      window.removeEventListener('arrow-fade', handleArrowFade)
+    }
+  }, [isPhilosophyComplete])
+
+  // Handle centering only when user is stuck between pages (not on intentional navigation)
   useEffect(() => {
     if (isActive && sectionRef.current && !hasAutoCentered) {
       const isMobile = window.innerWidth < 640 // sm breakpoint
@@ -79,22 +116,30 @@ export default function About({ isActive }: AboutProps) {
         const sectionTop = section.offsetTop
         const sectionBottom = sectionTop + section.offsetHeight
         const viewportHeight = window.innerHeight
-        const targetScrollPosition = sectionTop + (sectionBottom - sectionTop) / 2 - viewportHeight / 2
+        const currentScrollY = window.scrollY
         
-        // Block input during centering
-        setIsCentering(true)
+        // Check if user is stuck between pages (section is partially visible but not properly centered)
+        const sectionVisibleTop = Math.max(sectionTop, currentScrollY)
+        const sectionVisibleBottom = Math.min(sectionBottom, currentScrollY + viewportHeight)
+        const sectionVisibleHeight = sectionVisibleBottom - sectionVisibleTop
+        const sectionTotalHeight = sectionBottom - sectionTop
         
-        // Smooth scroll correction
-        window.scrollTo({
-          top: Math.max(0, targetScrollPosition),
-          behavior: "smooth"
-        })
+        // Only center if section is partially visible (stuck between pages) and not properly positioned
+        const isPartiallyVisible = sectionVisibleHeight > 0 && sectionVisibleHeight < sectionTotalHeight * 0.8
+        const isNotProperlyCentered = Math.abs(currentScrollY - (sectionTop - 100)) > 200 // 200px threshold
         
-        // Allow input after centering animation completes
-        setTimeout(() => {
-          setIsCentering(false)
-          setHasAutoCentered(true)
-        }, 1000) // Wait for smooth scroll to complete
+        if (isPartiallyVisible && isNotProperlyCentered) {
+          const targetScrollPosition = sectionTop - 100 // Leave space for header
+          
+          // Smooth scroll correction (no input blocking)
+          window.scrollTo({
+            top: Math.max(0, targetScrollPosition),
+            behavior: "smooth"
+          })
+        }
+        
+        // Mark as centered immediately (whether we scrolled or not)
+        setHasAutoCentered(true)
       } else {
         // On mobile, tablet, and iPad, just mark as centered without any scrolling
         setHasAutoCentered(true)
@@ -116,12 +161,7 @@ export default function About({ isActive }: AboutProps) {
         
         // Check if we're in the About section
         if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
-          // If user scrolls during centering, cancel the centering
-          const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
-          if (scrollDelta > 5 && isCentering) {
-            setIsCentering(false)
-            setHasAutoCentered(true) // Mark as centered to prevent re-centering
-          }
+          // User can scroll freely - no centering cancellation needed
           
           // Check if header is getting covered during auto-scroll
           const aboutSection = document.getElementById('about')
@@ -176,6 +216,8 @@ export default function About({ isActive }: AboutProps) {
         // Handle fade in/out animations
         setIsVisible(isInView)
         
+        // Track when user scrolls to About section - no longer needed
+        
         // Handle header animation
         if (isInView) {
           // Animate header first
@@ -194,25 +236,19 @@ export default function About({ isActive }: AboutProps) {
           const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024 // md to lg breakpoint
           const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
           const isIPad = window.innerWidth >= 1024 && isTouchDevice && !window.matchMedia('(hover: hover)').matches
-          if (!hasAutoCentered && !isCentering && !isMobile && !isTablet && !isIPad) {
+          if (!hasAutoCentered && !isMobile && !isTablet && !isIPad) {
             const sectionTop = aboutSection.offsetTop
             // Center so header is visible, not perfectly centered
             const targetScrollPosition = sectionTop - 100 // Leave 100px space for header
             
-            // Start centering but don't block scroll input
-            setIsCentering(true)
-            
-            // Smooth scroll correction
+            // Smooth scroll correction (no input blocking)
             window.scrollTo({
               top: Math.max(0, targetScrollPosition),
               behavior: "smooth"
             })
             
-            // Mark as centered after a short delay, but allow user to override
-            setTimeout(() => {
-              setIsCentering(false)
-              setHasAutoCentered(true)
-            }, 500) // Shorter delay to be less intrusive
+            // Mark as centered immediately
+            setHasAutoCentered(true)
           } else if (isMobile) {
             // On mobile, just mark as centered without any scrolling
             setHasAutoCentered(true)
@@ -294,10 +330,14 @@ export default function About({ isActive }: AboutProps) {
         <div className="max-w-4xl mx-auto">
         {/* Section heading */}
         <header className={`text-center mb-6 transition-all duration-700 ${
-          animatedHeader 
-            ? 'translate-y-0 scale-100' 
-            : 'opacity-0 translate-y-8 scale-95'
-        } ${headerFade ? 'opacity-0 scale-95' : animatedHeader ? 'opacity-100' : 'opacity-0'}`}>
+          // Phase 1: Invisible but present until philosophy complete and arrow faded
+          !isPhase2 
+            ? 'opacity-0 translate-y-8 scale-95' 
+            : // Phase 2: Fade in when scrolled to, fade out when header covered
+            animatedHeader 
+              ? 'translate-y-0 scale-100' 
+              : 'opacity-0 translate-y-8 scale-95'
+        } ${headerFade ? 'opacity-0 scale-95' : isPhase2 ? 'opacity-100' : 'opacity-0'}`}>
           <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             How It Works
           </h3>
@@ -311,16 +351,15 @@ export default function About({ isActive }: AboutProps) {
             <button
               key={index}
               onClick={() => {
-                if (!isCentering) {
+                {
                   setActiveCard(index)
                 }
               }}
-              disabled={isCentering}
               className={`liquid-glass-button px-3 sm:px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                 activeCard === index 
                   ? "bg-white/20 text-white scale-110" 
                   : "text-white/70 hover:text-white hover:scale-105"
-              } ${isCentering ? "opacity-50 cursor-not-allowed" : ""}`}
+              }`}
             >
               {card.icon}
               <span className="text-xs sm:text-sm">
