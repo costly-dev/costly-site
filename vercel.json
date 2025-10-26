@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/coming-soon",
+      "destination": "/api/503"
+    }
+  ],
+  "functions": {
+    "app/api/503/route.ts": {
+      "maxDuration": 10
+    }
+  }
+}

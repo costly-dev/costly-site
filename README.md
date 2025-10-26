@@ -39,6 +39,10 @@ npm run dev
 npm run build
 ```
 
+## Developer
+
+Created by [Jerry Xiao](https://github.com/undeemed) - Software Developer based in Sugar Land, Texas.
+
 ## Deployment
 
 This project is automatically deployed to Vercel when changes are pushed to the main branch.
