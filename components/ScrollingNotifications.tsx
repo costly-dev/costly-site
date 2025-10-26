@@ -27,10 +27,9 @@ const notifications = [
 
 interface ScrollingNotificationsProps {
   isLoaded?: boolean
-  showNotifications?: boolean
 }
 
-export default function ScrollingNotifications({ isLoaded = false, showNotifications = false }: ScrollingNotificationsProps) {
+export default function ScrollingNotifications({ isLoaded = false }: ScrollingNotificationsProps) {
   const [translateX, setTranslateX] = useState(0)
 
   useEffect(() => {
@@ -65,8 +64,8 @@ export default function ScrollingNotifications({ isLoaded = false, showNotificat
   }, [])
 
   return (
-    <div className={`relative w-full overflow-hidden py-4 mt-20 sm:mt-24 transition-all duration-1000 ease-out ${
-      showNotifications 
+    <div className={`relative w-full overflow-hidden py-4 mt-20 sm:mt-24 transition-all duration-1000 ease-out delay-500 ${
+      isLoaded 
         ? 'translate-y-0 opacity-100' 
         : '-translate-y-4 opacity-0'
     }`}>

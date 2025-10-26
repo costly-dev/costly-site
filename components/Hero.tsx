@@ -9,15 +9,11 @@ interface HeroProps {
   onScrollToAbout: () => void
   onWaitlistClick: () => void
   isLoaded?: boolean
-  showNotifications?: boolean
-  showPhone?: boolean
-  showText?: boolean
 }
 
-export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = false, showNotifications = false, showPhone = false, showText = false }: HeroProps) {
+export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = false }: HeroProps) {
   const [scrollY, setScrollY] = useState(0)
   const [textTransform, setTextTransform] = useState(0)
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,18 +25,8 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
   }, [])
 
   useEffect(() => {
-    // Handle initial load animation
-    if (showText) {
-      const timer = setTimeout(() => {
-        setIsInitialLoad(false)
-      }, 1000) // Wait for initial fade-in to complete
-      return () => clearTimeout(timer)
-    }
-  }, [showText])
-
-  useEffect(() => {
-    // Only apply scroll animation on desktop (lg and up) and after initial load
-    if (window.innerWidth < 1024 || isInitialLoad) {
+    // Only apply scroll animation on desktop (lg and up)
+    if (window.innerWidth < 1024) {
       setTextTransform(0)
       return
     }
@@ -50,7 +36,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     const maxMovement = 650 // Maximum pixels to move down
     
     setTextTransform(scrollProgress * maxMovement)
-  }, [scrollY, isInitialLoad])
+  }, [scrollY])
 
   return (
     <section id="home" className="min-h-screen flex items-start justify-center px-4 sm:px-6 lg:px-8">
@@ -60,17 +46,13 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           {/* Text content */}
           <div 
             className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-1000 ease-out ${
-              showText 
+              isLoaded 
                 ? 'opacity-100' 
                 : 'translate-y-8 opacity-0'
             }`}
             style={{
-              transform: isLoaded 
-                ? (isInitialLoad ? 'translateY(0px)' : `translateY(${textTransform}px)`)
-                : 'translateY(80px)',
-              transition: isLoaded 
-                ? (isInitialLoad ? 'all 1s ease-out' : 'transform 0.1s ease-out')
-                : 'all 1s ease-out'
+              transform: isLoaded ? `translateY(${textTransform}px)` : 'translateY(8px)',
+              transition: isLoaded ? 'transform 0.1s ease-out' : 'all 1s ease-out'
             }}
           >
             <header>
@@ -110,8 +92,8 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           </div>
 
           {/* App preview */}
-          <div className={`flex justify-center order-1 lg:order-2 transition-all duration-1000 ease-out ${
-            showPhone 
+          <div className={`flex justify-center order-1 lg:order-2 transition-all duration-1000 ease-out delay-300 ${
+            isLoaded 
               ? 'translate-x-0 opacity-100' 
               : 'translate-x-8 opacity-0'
           }`}>

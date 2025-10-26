@@ -15,40 +15,11 @@ export default function CostlyApp() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [isLoaded, setIsLoaded] = useState(false)
-  const [showNotifications, setShowNotifications] = useState(false)
-  const [showPhone, setShowPhone] = useState(false)
-  const [showText, setShowText] = useState(false)
 
   // Scroll to top on page load/refresh
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  // Sequential animation triggers
-  useEffect(() => {
-    if (isLoaded) {
-      // Show notifications first
-      const timer1 = setTimeout(() => {
-        setShowNotifications(true)
-      }, 200)
-      
-      // Show phone after notifications finish
-      const timer2 = setTimeout(() => {
-        setShowPhone(true)
-      }, 1200)
-      
-      // Show text after phone finishes
-      const timer3 = setTimeout(() => {
-        setShowText(true)
-      }, 2200)
-      
-      return () => {
-        clearTimeout(timer1)
-        clearTimeout(timer2)
-        clearTimeout(timer3)
-      }
-    }
-  }, [isLoaded])
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -139,16 +110,13 @@ export default function CostlyApp() {
         activeSection={activeSection}
         isLoaded={isLoaded}
       />
-      <ScrollingNotifications isLoaded={isLoaded} showNotifications={showNotifications} />
+      <ScrollingNotifications isLoaded={isLoaded} />
 
       <main>
         <Hero 
           onScrollToAbout={() => scrollToSection("about")} 
           onWaitlistClick={() => setIsWaitlistOpen(true)}
           isLoaded={isLoaded}
-          showNotifications={showNotifications}
-          showPhone={showPhone}
-          showText={showText}
         />
         <Philosophy onNavigate={scrollToSection} />
         <About onNavigate={scrollToSection} />
