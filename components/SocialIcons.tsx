@@ -68,7 +68,7 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
         {onScrollToAbout && (
           <button
             onClick={onScrollToAbout}
-            className="px-6 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-2"
+            className="px-6 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-2 mt-4 lg:mt-0"
           >
             Learn more
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
