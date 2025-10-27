@@ -134,10 +134,19 @@ export default function RootLayout({
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        {/* Preload critical fonts */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Londrina+Shadow&display=swap" as="style" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap" as="style" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Londrina+Shadow&family=Patrick+Hand+SC&display=swap"
           rel="stylesheet"
         />
+        {/* Preload critical images */}
+        <link rel="preload" as="image" href="/GraphicsNotif.png" />
+        <link rel="preload" as="image" href="/GraphicsNotif_upscaled_compressed.jpg" />
+        <link rel="preload" as="image" href="/icon.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

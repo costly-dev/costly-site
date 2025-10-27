@@ -11,7 +11,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
-    // Simulate loading progress
+    // Reduce loading time significantly for better LCP
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -19,13 +19,13 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           // Fade out after loading completes
           setTimeout(() => {
             setIsVisible(false)
-            setTimeout(onLoadingComplete, 300) // Wait for fade out animation
-          }, 200)
+            setTimeout(onLoadingComplete, 150) // Reduced fade out time
+          }, 100) // Reduced delay
           return 100
         }
-        return prev + Math.random() * 15 + 5 // Random increment between 5-20
+        return prev + Math.random() * 25 + 10 // Faster progress (10-35 instead of 5-20)
       })
-    }, 100)
+    }, 50) // Faster interval (50ms instead of 100ms)
 
     return () => clearInterval(interval)
   }, [onLoadingComplete])
@@ -41,6 +41,10 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
             src="/icon.png"
             alt="Costly Logo"
             className="w-16 h-16 mx-auto animate-pulse"
+            width={64}
+            height={64}
+            loading="eager"
+            decoding="async"
           />
         </div>
 

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import SocialIcons from "./SocialIcons"
 import Button from "./Button"
-import PhoneZoomContainer from "./PhoneZoomContainer"
 
 interface HeroProps {
   onScrollToAbout: () => void
@@ -31,9 +30,16 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
       return
     }
 
+    // More stable scroll-based movement with reduced motion support
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      setTextTransform(0)
+      return
+    }
+
     // Simple scroll-based movement - text moves down as you scroll
     const scrollProgress = Math.min(scrollY / 700, 1) // Move over 600px of scroll (faster response)
-    const maxMovement = 675 // Maximum pixels to move down (more dramatic movement)
+    const maxMovement = 400 // Reduced maximum movement for better stability
     
     setTextTransform(scrollProgress * maxMovement)
   }, [scrollY])
@@ -45,7 +51,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           
           {/* Text content */}
           <div 
-            className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-1000 ease-out ${
+            className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-1000 ease-out optimized-animation ${
               isLoaded 
                 ? 'opacity-100' 
                 : 'translate-y-8 opacity-0'
@@ -57,8 +63,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           >
             <header>
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-center lg:text-left"
-              style={{ fontFamily: "Londrina Shadow, cursive" }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-center lg:text-left font-londrina-shadow"
             >
               <span className="text-silver-300">Focus</span>{" "}
               <span className="text-white">That</span>{" "}
@@ -75,11 +80,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
               <Button 
                 onClick={onWaitlistClick} 
                 variant="primary" 
-                className="flex items-center justify-center gap-2 h-12 px-6 w-full max-w-2xl !bg-white/90 !text-black shadow-[0_0_25px_rgba(255,255,255,0.6)]"
-                style={{ 
-                  animation: 'bounce-interval 5s infinite',
-                  animationTimingFunction: 'ease-in-out'
-                }}
+                className="flex items-center justify-center gap-2 h-12 px-6 w-full max-w-2xl !bg-white/90 !text-black shadow-[0_0_25px_rgba(255,255,255,0.6)] stable-button"
               >
                 Join Waitlist
               </Button>
@@ -97,7 +98,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
               ? 'translate-x-0 opacity-100' 
               : 'translate-x-8 opacity-0'
           }`}>
-            <div className="relative">
+            <div className="relative hero-image-container">
               {/* Mobile desktop recommendation */}
               <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 lg:hidden">
                 <p className="text-xs text-white/40 text-center whitespace-nowrap">
@@ -109,13 +110,21 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 src="/GraphicsNotif.png" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="w-64 h-[520px] sm:w-72 sm:h-[585px] lg:hidden object-contain"
+                width={288}
+                height={585}
+                loading="eager"
+                decoding="async"
               />
               
-              {/* Desktop - use upscaled image */}
+              {/* Desktop - use compressed image */}
               <img 
-                src="/GraphicsNotif_upscaled.png" 
+                src="/GraphicsNotif_upscaled_compressed.jpg" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="hidden lg:block w-[450px] h-[920px] xl:w-[500px] xl:h-[1020px] object-contain"
+                width={500}
+                height={1020}
+                loading="eager"
+                decoding="async"
               />
             </div>
           </div>

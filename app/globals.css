@@ -170,6 +170,74 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  
+  /* Prevent layout shifts */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Reserve space for hero images to prevent CLS */
+  .hero-image-container {
+    min-height: 520px;
+  }
+  
+  @media (min-width: 640px) {
+    .hero-image-container {
+      min-height: 585px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-image-container {
+      min-height: 920px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .hero-image-container {
+      min-height: 1020px;
+    }
+  }
+  
+  /* Font loading optimization */
+  .font-londrina-shadow {
+    font-family: "Londrina Shadow", cursive;
+    font-display: swap;
+  }
+  
+  /* Prevent layout shifts during font loading */
+  h1 {
+    font-size: clamp(1.875rem, 4vw, 4.5rem);
+    line-height: 1.1;
+  }
+  
+  /* Stable button dimensions */
+  .stable-button {
+    min-height: 3rem;
+    min-width: 12rem;
+  }
+  
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .will-change-auto {
+    will-change: auto;
+  }
+  
+  /* Optimize animations for better performance */
+  .optimized-animation {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* Bounce animation for button */
+  .bounce-animation {
+    animation: bounce-interval 5s infinite ease-in-out;
+  }
 }
 
 @layer utilities {
