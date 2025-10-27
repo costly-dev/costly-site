@@ -12,7 +12,7 @@ Allow: /placeholder-logo.svg
 Allow: /github.png
 
 # Sitemap
-Sitemap: https://costly-dev.github.io/sitemap.xml
+Sitemap: https://costly.live/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

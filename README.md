@@ -1,4 +1,4 @@
-# Costly - Focus That Counts
+# Costly - Bet Against Addiction
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-costly.live-blue?style=for-the-badge&logo=vercel)](https://costly.live)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
@@ -75,7 +75,7 @@ npm start
 
 - **Email**: [hello@costly.live](mailto:hello@costly.live)
 - **LinkedIn**: [xiaojerry](https://linkedin.com/in/xiaojerry)
-- **GitHub**: [@undeemed](https://github.com/undeemed)
+- **GitHub**: [@costly-dev](https://github.com/costly-dev/costly-site)
 
 ## Deployment
 

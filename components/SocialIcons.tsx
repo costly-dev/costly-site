@@ -45,8 +45,34 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
   ]
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 md:gap-5 items-center justify-center">
-        <div className="flex gap-2 md:gap-3 lg:gap-4 flex-wrap justify-center">
+    <div className="w-full">
+      {/* Mobile Layout: Icons only */}
+      <div className="flex gap-2 md:gap-3 lg:gap-4 justify-center lg:justify-start flex-shrink-0 lg:hidden">
+        {socialLinks.map((social) => (
+        <a
+            key={social.name}
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-1.5"
+            aria-label={social.name}
+        >
+            <img
+            src={social.icon}
+            alt={`${social.name} icon`}
+            className={`w-full h-full object-contain ${
+              social.name === "GitHub" ? "scale-150" : 
+              social.name === "LinkedIn" ? "scale-125" : 
+              ""
+            }`}
+            />
+        </a>
+        ))}
+      </div>
+
+      {/* Desktop Layout: Icons + Learn More in same row */}
+      <div className="hidden lg:flex flex-row gap-4 items-center justify-start w-full">
+        <div className="flex gap-2 md:gap-3 lg:gap-4 flex-wrap justify-start flex-shrink-0">
           {socialLinks.map((social) => (
           <a
               key={social.name}
@@ -72,7 +98,7 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
         {onScrollToAbout && (
           <button
             onClick={onScrollToAbout}
-            className="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2.5 text-xs md:text-sm lg:text-base rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-1.5 whitespace-nowrap"
+            className="px-3 py-1.5 md:px-4 md:py-2 lg:px-6 lg:py-3 text-xs md:text-sm lg:text-base rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-1.5 whitespace-nowrap flex-1 justify-center"
           >
             Learn more
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -80,6 +106,7 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
             </svg>
           </button>
         )}
+      </div>
     </div>
   )
 }

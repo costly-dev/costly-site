@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 const notifications = [
   {
@@ -31,15 +31,16 @@ interface ScrollingNotificationsProps {
 
 export default function ScrollingNotifications({ isLoaded = false }: ScrollingNotificationsProps) {
   const [translateX, setTranslateX] = useState(0)
+  const animationRef = useRef<number>()
+  const isAnimatingRef = useRef(false)
 
   useEffect(() => {
-    let animationId: number
-    let startTime: number
+    if (isAnimatingRef.current) return // Prevent multiple animations
+    
+    isAnimatingRef.current = true
     const speed = 0.5 // pixels per frame (smoother)
 
     const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime
-      
       setTranslateX((prev) => {
         // Reset when first set scrolls completely off screen
         // Each notification is ~320px wide + 12px gap = ~332px
@@ -51,15 +52,16 @@ export default function ScrollingNotifications({ isLoaded = false }: ScrollingNo
         return prev - speed
       })
       
-      animationId = requestAnimationFrame(animate)
+      animationRef.current = requestAnimationFrame(animate)
     }
 
-    animationId = requestAnimationFrame(animate)
+    animationRef.current = requestAnimationFrame(animate)
 
     return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
       }
+      isAnimatingRef.current = false
     }
   }, [])
 

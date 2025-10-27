@@ -14,11 +14,8 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
   const [scrollY, setScrollY] = useState(0)
   const [textTransform, setTextTransform] = useState(0)
   const [currentFontIndex, setCurrentFontIndex] = useState(0) // Start with consistent font
-  const [isTransitioning, setIsTransitioning] = useState(false)
   const [usedFonts, setUsedFonts] = useState<number[]>([])
   const [shuffledFonts, setShuffledFonts] = useState<number[]>([])
-  const [fontScales, setFontScales] = useState<number[]>([])
-  const [lastScrollY, setLastScrollY] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const [hasInitialized, setHasInitialized] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false)
@@ -27,14 +24,10 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
   const [isRouletteComplete, setIsRouletteComplete] = useState(false)
   const [scrollVelocity, setScrollVelocity] = useState(0)
   const [isScrolling, setIsScrolling] = useState(false)
-  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('down')
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
 
   const cursiveFonts = [
-    'font-norican',
-    'font-yesteryear',
-    'font-amita',
     'font-dancing-script',
     'font-pacifico',
     'font-kalam',
@@ -43,15 +36,12 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     'font-allura',
     'font-alex-brush',
     'font-satisfy',
-    'font-yellowtail',
     'font-bad-script',
     'font-berkshire-swash',
     'font-cedarville-cursive',
     'font-courgette',
-    'font-felipa',
-    'font-gloria-hallelujah',
+    'font-felipa', 
     'font-gochi-hand',
-    'font-handlee',
     'font-indie-flower',
     'font-itim',
     'font-kaushan-script',
@@ -65,24 +55,16 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     'font-princess-sofia',
     'font-redressed',
     'font-rochester',
-    'font-sail',
     'font-salsa',
     'font-shadows-into-light',
     'font-shadows-into-light-two',
     'font-sofia',
-    'font-sue-ellen-francisco',
     'font-tangerine',
-    'font-the-girl-next-door',
     'font-tillana',
     'font-waiting-for-the-sunrise',
-    'font-walter-turncoat',
   ]
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-
     // Detect mobile/desktop on mount
     setIsMobile(window.innerWidth < 1024)
 
@@ -92,50 +74,16 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
       setHasInitialized(true)
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Only add scroll listener on desktop
+    if (window.innerWidth >= 1024) {
+      const handleScroll = () => {
+        setScrollY(window.scrollY)
+      }
+      window.addEventListener('scroll', handleScroll)
+      return () => window.removeEventListener('scroll', handleScroll)
+    }
   }, [hasInitialized, cursiveFonts.length])
 
-  // Function to measure font size and calculate scale
-  const measureFontSize = (fontClass: string): number => {
-    // Create a temporary element to measure the font
-    const tempElement = document.createElement('h1')
-    tempElement.className = `text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight ${isMobile ? 'text-center' : 'text-left'} ${fontClass} whitespace-nowrap`
-    tempElement.textContent = 'Focus That Counts'
-    tempElement.style.position = 'absolute'
-    tempElement.style.visibility = 'hidden'
-    tempElement.style.top = '-9999px'
-    tempElement.style.left = '-9999px'
-    tempElement.style.width = 'auto'
-    tempElement.style.height = 'auto'
-    
-    document.body.appendChild(tempElement)
-    
-    // Force a reflow to ensure accurate measurements
-    tempElement.offsetHeight
-    
-    const rect = tempElement.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    
-    document.body.removeChild(tempElement)
-    
-    // Calculate target width based on screen size - should not cross middle line
-    const screenWidth = window.innerWidth
-    const maxWidth = isMobile 
-      ? Math.max(screenWidth - 100, 200) // Full width minus padding on mobile
-      : Math.max(screenWidth / 2 - 150, 200) // Half screen minus padding on desktop
-    const targetWidth = Math.min(maxWidth, isMobile ? 400 : 500) // Different caps for mobile/desktop
-    const targetHeight = 100 // Target height in pixels
-    
-    const widthScale = targetWidth / width
-    const heightScale = targetHeight / height
-    
-    // Use the smaller scale to ensure text fits within screen bounds
-    const scale = Math.min(widthScale, heightScale, 1.0) // Reduced max scale
-    
-    return Math.max(scale, 0.5) // Reduced minimum scale
-  }
 
   // Initialize shuffled fonts and measure font sizes on component mount
   useEffect(() => {
@@ -151,40 +99,66 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     const fontIndices = Array.from({ length: cursiveFonts.length }, (_, i) => i)
     setShuffledFonts(shuffleArray(fontIndices))
     
-    // Measure all font sizes
-    const scales = cursiveFonts.map(fontClass => measureFontSize(fontClass))
-    setFontScales(scales)
   }, [cursiveFonts.length, isMobile])
 
-  // Recalculate font scales on window resize
-  useEffect(() => {
-    const handleResize = () => {
-      const scales = cursiveFonts.map(fontClass => measureFontSize(fontClass))
-      setFontScales(scales)
-    }
+  // Function to calculate optimal font size for desktop (scale up until right edge reaches center)
+  const calculateDesktopFontSize = (fontClass: string): number => {
+    if (typeof window === 'undefined') return 60
+    
+    const tempElement = document.createElement('h1')
+    tempElement.textContent = 'Bet Against Addiction'
+    tempElement.className = `font-bold leading-tight ${fontClass}`
+    tempElement.style.position = 'absolute'
+    tempElement.style.visibility = 'hidden'
+    tempElement.style.whiteSpace = 'nowrap'
+    tempElement.style.top = '-9999px'
+    tempElement.style.left = '-9999px'
+    tempElement.style.fontSize = '60px' // Start with base size
+    
+    document.body.appendChild(tempElement)
+    
+    // Force reflow to get accurate measurements
+    tempElement.offsetHeight
+    
+    const baseWidth = tempElement.offsetWidth
+    const screenWidth = window.innerWidth
+    const centerX = screenWidth / 2
+    
+    document.body.removeChild(tempElement)
+    
+    // Calculate scale factor to make text width reach center
+    const scaleFactor = centerX / baseWidth
+    
+    // Calculate final font size (base 60px * scale factor)
+    const finalFontSize = 60 * scaleFactor
+    
+    // Cap at reasonable maximum (e.g., 120px) and minimum (e.g., 30px)
+    return Math.min(Math.max(finalFontSize, 30), 120)
+  }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [cursiveFonts.length])
+
+  // State for dynamic font size
+  const [dynamicFontSize, setDynamicFontSize] = useState(60)
+
+  // Calculate font size when font changes (all screen sizes)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && cursiveFonts.length > 0) {
+      const currentFont = cursiveFonts[currentFontIndex] || cursiveFonts[0]
+      const newFontSize = calculateDesktopFontSize(currentFont)
+      setDynamicFontSize(newFontSize)
+    }
+  }, [currentFontIndex, cursiveFonts, isRouletteComplete])
 
 
   // Desktop: One-time scroll detection for roulette trigger
   useEffect(() => {
-    const isDesktop = window.innerWidth >= 1024
-    if (!isDesktop || hasRouletteTriggered) return
+    if (isMobile || hasRouletteTriggered) return
 
     let lastScrollPosition = window.scrollY
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const scrollDifference = Math.abs(currentScrollY - lastScrollPosition)
-      
-      // Detect scroll direction
-      if (currentScrollY > lastScrollPosition) {
-        setScrollDirection('down')
-      } else if (currentScrollY < lastScrollPosition) {
-        setScrollDirection('up')
-      }
       
       // Calculate scroll velocity
       const velocity = scrollDifference
@@ -212,23 +186,21 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
         clearTimeout(scrollTimeoutRef.current)
       }
     }
-  }, [hasRouletteTriggered])
+  }, [hasRouletteTriggered, isMobile])
 
   // Mobile/Tablet: Random font on reload only
   useEffect(() => {
-    const isMobileOrTablet = window.innerWidth < 1024
-    if (!isMobileOrTablet || shuffledFonts.length === 0) return
+    if (!isMobile || shuffledFonts.length === 0) return
 
     // Set random font on reload for mobile/tablet
-    const randomIndex = Math.floor(Math.random() * cursiveFonts.length)
+    const randomIndex = cursiveFonts.length > 0 ? Math.floor(Math.random() * cursiveFonts.length) : 0
     setCurrentFontIndex(randomIndex)
     setUsedFonts([randomIndex])
-  }, [cursiveFonts.length, shuffledFonts])
+  }, [cursiveFonts.length, shuffledFonts, isMobile])
 
   // One-time roulette animation - triggers once when scrolling starts
   useEffect(() => {
-    const isDesktop = window.innerWidth >= 1024
-    if (!isDesktop || hasRouletteTriggered || isRouletteComplete) return
+    if (isMobile || hasRouletteTriggered || isRouletteComplete) return
 
     if (isScrolling && scrollVelocity > 0 && !isSpinning) {
       // Trigger roulette for the first time
@@ -236,12 +208,12 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
       setHasRouletteTriggered(true)
       
       // Generate fonts for the one-time roulette
-      const spinFonts = []
+      const spinFonts: {font: string, gap: number}[] = []
       const totalLines = 6
       
       for (let i = 0; i < totalLines; i++) {
         spinFonts.push({
-          font: cursiveFonts[Math.floor(Math.random() * cursiveFonts.length)],
+          font: cursiveFonts.length > 0 ? cursiveFonts[Math.floor(Math.random() * cursiveFonts.length)] || cursiveFonts[0] : cursiveFonts[0] || 'font-dancing-script',
           gap: i < 3 ? 1.0 : (i - 2) * 1.5
         })
       }
@@ -257,36 +229,39 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
         }
         setShuffledFonts(shuffled)
-        finalFontIndex = shuffled[0]
+        finalFontIndex = shuffled[0] || 0
       } else {
-        finalFontIndex = shuffledFonts[usedFonts.length]
+        finalFontIndex = shuffledFonts.length > 0 && usedFonts.length < shuffledFonts.length ? (shuffledFonts[usedFonts.length] || shuffledFonts[0] || 0) : 0
       }
       
       spinFonts.push({
-        font: cursiveFonts[finalFontIndex],
+        font: cursiveFonts.length > 0 ? cursiveFonts[finalFontIndex] || cursiveFonts[0] : cursiveFonts[0] || 'font-dancing-script',
         gap: 2.0
       })
       setSlotMachineFonts(spinFonts)
       
-      // Set a timeout to complete the roulette
-      setTimeout(() => {
-        // Use the last font from the current slot machine fonts
-        const lastFont = spinFonts[spinFonts.length - 1]
-        const fontIndex = cursiveFonts.indexOf(lastFont.font)
-        if (fontIndex !== -1) {
-          setCurrentFontIndex(fontIndex)
-          setUsedFonts(prev => [...prev, fontIndex])
-        }
-        setIsSpinning(false)
-        setIsScrolling(false)
-        setIsRouletteComplete(true)
-      }, 2000) // Match CSS animation duration
+        // Set a timeout to complete the roulette
+        setTimeout(() => {
+          // Use the last font from the current slot machine fonts
+          const lastFont = spinFonts[spinFonts.length - 1]
+          const fontIndex = cursiveFonts.indexOf(lastFont.font)
+          if (fontIndex !== -1 && cursiveFonts.length > 0) {
+            setCurrentFontIndex(fontIndex)
+            setUsedFonts(prev => [...prev, fontIndex])
+          } else if (cursiveFonts.length > 0) {
+            setCurrentFontIndex(0)
+            setUsedFonts(prev => [...prev, 0])
+          }
+          setIsSpinning(false)
+          setIsScrolling(false)
+          setIsRouletteComplete(true)
+        }, 2000) // Match CSS animation duration
     }
-  }, [isScrolling, scrollVelocity, isSpinning, hasRouletteTriggered, isRouletteComplete, cursiveFonts.length, shuffledFonts, usedFonts])
+  }, [isScrolling, scrollVelocity, isSpinning, hasRouletteTriggered, isRouletteComplete, cursiveFonts.length, shuffledFonts, usedFonts, isMobile])
 
   useEffect(() => {
     // Only apply scroll animation on desktop (lg and up)
-    if (window.innerWidth < 1024) {
+    if (isMobile) {
       setTextTransform(0)
       return
     }
@@ -303,7 +278,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     const maxMovement = 700 // Reduced maximum movement for better stability
     
     setTextTransform(scrollProgress * maxMovement)
-  }, [scrollY])
+  }, [scrollY, isMobile])
 
   return (
     <section id="home" className="min-h-screen flex items-start justify-center px-3 sm:px-5 lg:px-[76px]">
@@ -312,14 +287,16 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           
           {/* Text content */}
           <div 
-            className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-1000 ease-out optimized-animation pl-0 relative z-10 text-center xl:text-left ${
+            className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-1000 ease-out optimized-animation pl-0 pr-0 relative z-10 text-center lg:text-left ${
               isLoaded 
                 ? 'opacity-100' 
                 : 'translate-y-8 opacity-0'
             }`}
             style={{
-              transform: isLoaded ? `translateY(${textTransform}px)` : 'translateY(8px)',
-              transition: isLoaded ? 'transform 0.1s ease-out' : 'all 1s ease-out'
+              transform: isLoaded 
+                ? (isMobile ? 'translateY(0px)' : `translateY(${textTransform}px)`)
+                : 'translateY(8px)',
+              transition: isLoaded ? (isMobile ? 'none' : 'transform 0.1s ease-out') : 'all 1s ease-out'
             }}
           >
             <header>
@@ -333,7 +310,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 font-quicksand (modern cursive)
             */}
             {isSpinning && !isMobile ? (
-              <div className="slot-machine-container">
+              <div className="slot-machine-container text-center xl:text-left">
                 <div className={`${isScrolling ? 'roulette-spinning' : 'roulette-slowdown'}`}>
                   {slotMachineFonts.map((fontData, index) => (
                     <div 
@@ -341,12 +318,13 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                       className={`slot-machine-line text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-center xl:text-left ${fontData.font} whitespace-nowrap`}
                       style={{
                         marginBottom: `${fontData.gap}em`,
-                        transformOrigin: isMobile ? 'center center' : 'left center'
+                        fontSize: `${dynamicFontSize}px`,
+                        marginLeft: !isMobile ? '-24px' : '0px'
                       }}
                     >
-                      <span className="text-silver-300">Focus</span>{" "}
-                      <span className="text-white">That</span>{" "}
-                      <span className="text-white">Counts</span>
+                      <span className="text-silver-300">Bet</span>{" "}
+                      <span className="text-white">Against</span>{" "}
+                      <span className="text-white">Addiction</span>
                     </div>
                   ))}
                 </div>
@@ -354,15 +332,15 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
             ) : (
               <h1
                 ref={titleRef}
-                className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-center xl:text-left ${cursiveFonts[currentFontIndex]} whitespace-nowrap`}
+                className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-center xl:text-left ${cursiveFonts.length > 0 ? cursiveFonts[currentFontIndex] || cursiveFonts[0] : 'font-dancing-script'} whitespace-nowrap`}
                 style={{
-                  transform: `scale(${fontScales[currentFontIndex] || 1})`,
-                  transformOrigin: isMobile ? 'center center' : 'left center'
+                  fontSize: `${dynamicFontSize}px`,
+                  marginLeft: !isMobile ? '-24px' : '0px'
                 }}
               >
-                <span className="text-silver-300">Focus</span>{" "}
-                <span className="text-white">That</span>{" "}
-                <span className="text-white">Counts</span>
+                <span className="text-silver-300">Bet</span>{" "}
+                <span className="text-white">Against</span>{" "}
+                <span className="text-white">Addiction</span>
               </h1>
             )}
             
@@ -371,20 +349,36 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
             </p>
             </header>
 
-            {/* Join Waitlist Button */}
-            <div className="flex justify-center lg:justify-start">
+            {/* Join Waitlist Button - Full Width */}
+            <div className="flex justify-center lg:justify-start w-full max-w-2xl mt-6">
               <Button 
                 onClick={onWaitlistClick} 
                 variant="primary" 
-                className="flex items-center justify-center gap-2 h-12 px-6 w-full max-w-2xl !bg-white/90 !text-black shadow-[0_0_25px_rgba(255,255,255,0.6)] stable-button"
+                className="flex items-center justify-center gap-2 h-12 px-6 w-full !bg-white/90 !text-black shadow-[0_0_25px_rgba(255,255,255,0.6)] stable-button"
               >
                 Join Waitlist
               </Button>
             </div>
 
-            <div className="flex justify-center w-full max-w-2xl mt-6 lg:mt-0">
+            {/* Icons Row */}
+            <div className="flex justify-center lg:justify-start w-full max-w-2xl mt-4">
               <SocialIcons onScrollToAbout={onScrollToAbout} />
             </div>
+
+            {/* Learn More Button - Mobile Only (separate row) */}
+            {onScrollToAbout && (
+              <div className="flex justify-center w-full max-w-2xl mt-4 lg:hidden">
+                <button
+                  onClick={onScrollToAbout}
+                  className="px-6 py-3 text-sm rounded-full font-medium transition-all duration-200 hover:scale-105 backdrop-blur-md shadow-lg liquid-glass-button text-white shimmer shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:shadow-[0_0_35px_rgba(255,255,255,0.6)] flex items-center gap-1.5 whitespace-nowrap w-full justify-center"
+                >
+                  Learn more
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l2.293-2.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/>
+                  </svg>
+                </button>
+              </div>
+            )}
             
           </div>
 
@@ -401,26 +395,31 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                   (This site looks better on desktop)
                 </p>
               </div>
-              {/* Mobile and small screens - use original image */}
+              {/* Mobile and small screens - use original image with lazy loading */}
               <img 
                 src="/GraphicsNotif.png" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="w-64 h-[520px] sm:w-72 sm:h-[585px] lg:hidden object-contain"
                 width={288}
                 height={585}
-                loading="eager"
+                loading="lazy"
                 decoding="async"
               />
               
-              {/* Desktop - use compressed image */}
+              {/* Desktop - use high-res image with lazy loading and fallback */}
               <img 
-                src="/GraphicsNotif_upscaled_compressed.jpg" 
+                src="/GraphicsNotif_upscaled.png" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
-                className="hidden lg:block w-[450px] h-[920px] xl:w-[500px] xl:h-[1020px] object-contain"
+                className="hidden lg:block w-[450px] h-[920px] xl:w-[500px] xl:h-[1020px] object-contain transition-opacity duration-300"
                 width={500}
                 height={1020}
-                loading="eager"
+                loading="lazy"
                 decoding="async"
+                onError={(e) => {
+                  // Fallback to compressed version if high-res fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/GraphicsNotif_upscaled_compressed.jpg';
+                }}
               />
             </div>
           </div>

@@ -3,13 +3,12 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Suspense } from "react"
-import PhoneZoomContainer from "./PhoneZoomContainer.tsx" // ← Add this
 import "./globals.css"
 
 export const metadata: Metadata = {
   title: {
-    default: "Costly - Focus That Counts | Behavioral Accountability App for iPhone & Mac",
-    template: "%s | Costly - Focus That Counts"
+    default: "Costly - Bet Against Addiction | Behavioral Accountability App for iPhone & Mac",
+    template: "%s | Costly - Bet Against Addiction"
   },
   description: "Costly is a behavioral accountability app for iPhone and Mac that connects your focus to real, measurable stakes. Set your own rules, stake deposits, and build consistency through clear, immediate accountability. Native app blocking via FamilyControls.",
   keywords: [
@@ -51,9 +50,44 @@ export const metadata: Metadata = {
     "digital wellness",
     "focus management",
     "habit tracking",
-    "self-discipline app"
+    "self-discipline app",
+    "tally",
+    "tally.",
+    "tally instagram",
+    "Ycombinator",
+    "YC",
+    "startups",
+    "start ups",
+    "block",
+    "bet on yourself",
+    "gooning",
+    "points",
+    "betting",
+    "penalty",
+    "looksmaxxing",
+    "looksmaxing",
+    "locked in",
+    "locked",
+    "screen time",
+    "investments",
+    "stocks",
+    "trading",
+    "self improvement",
+    "money",
+    "saas",
+    "discipline",
+    "right",
+    "stop distractions",
+    "gambling",
+    "winning",
+    "live",
+    "alive",
+    "maxxing",
+    "grind",
+    "skills",
+    "grow"
   ],
-  authors: [{ name: "Costly Team", url: "https://costly-dev.github.io" }],
+  authors: [{ name: "Costly Team", url: "https://www.costly.live" }],
   creator: "Costly",
   publisher: "Costly",
   formatDetection: {
@@ -61,21 +95,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://costly-dev.github.io"),
+  metadataBase: new URL("https://www.costly.live"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Costly - Focus That Counts | Behavioral Accountability App",
+    title: "Costly - Bet Against Addiction | Behavioral Accountability App",
     description: "Behavioral accountability app for iPhone and Mac that connects your focus to real, measurable stakes. Native app blocking, penalty system, and streak tracking.",
-    url: "https://costly-dev.github.io",
+    url: "https://www.costly.live",
     siteName: "Costly",
     images: [
       {
         url: "/icon.png",
         width: 1200,
         height: 630,
-        alt: "Costly App - Focus That Counts - Behavioral Accountability App for iPhone and Mac",
+        alt: "Costly App - Bet Against Addiction - Behavioral Accountability App for iPhone and Mac",
         type: "image/png",
       },
     ],
@@ -84,7 +118,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Costly - Focus That Counts",
+    title: "Costly - Bet Against Addiction",
     description: "Behavioral accountability app for iPhone and Mac. Connect your focus to real stakes with native app blocking and penalty system.",
     images: ["/icon.png"],
     creator: "@costlyapp",
@@ -142,7 +176,7 @@ export default function RootLayout({
         />
         {/* Preload critical images */}
         <link rel="preload" as="image" href="/GraphicsNotif.png" />
-        <link rel="preload" as="image" href="/GraphicsNotif_upscaled_compressed.jpg" />
+        <link rel="preload" as="image" href="/GraphicsNotif_upscaled.png" />
         <link rel="preload" as="image" href="/icon.png" />
         <script
           type="application/ld+json"
@@ -151,9 +185,9 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "Costly",
-              "alternateName": "Focus That Counts",
+              "alternateName": "Bet Against Addiction",
               "description": "Behavioral accountability app for iPhone and Mac that connects your focus to real, measurable stakes. Native app blocking via FamilyControls with penalty system and streak tracking.",
-              "url": "https://costly-dev.github.io",
+              "url": "https://www.costly.live",
               "applicationCategory": "ProductivityApplication",
               "operatingSystem": ["iOS", "macOS"],
               "softwareVersion": "1.0.0",
@@ -181,12 +215,12 @@ export default function RootLayout({
               "author": {
                 "@type": "Organization",
                 "name": "Costly Team",
-                "url": "https://costly-dev.github.io"
+                "url": "https://costly.live"
               },
               "publisher": {
                 "@type": "Organization",
                 "name": "Costly",
-                "url": "https://costly-dev.github.io"
+                "url": "https://costly.live"
               },
               "keywords": "behavioral accountability, focus app, iPhone productivity, Mac productivity, FamilyControls, app blocking, penalty system, streak tracking, liquid glass design, subscription app, digital wellness, habit tracking, self-discipline",
               "screenshot": "/icon.png",
@@ -213,8 +247,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "Costly - Focus That Counts",
-              "url": "https://costly-dev.github.io",
+              "name": "Costly - Bet Against Addiction",
+              "url": "https://www.costly.live",
               "description": "Official website for Costly, the behavioral accountability app that connects your focus to real, measurable stakes.",
               "publisher": {
                 "@type": "Organization",
@@ -222,7 +256,7 @@ export default function RootLayout({
               },
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://costly-dev.github.io/?q={search_term_string}",
+                "target": "https://www.costly.live",
                 "query-input": "required name=search_term_string"
               }
             })
@@ -235,14 +269,14 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Costly Team",
-              "url": "https://costly-dev.github.io",
-              "logo": "https://costly-dev.github.io/icon.png",
+              "url": "https://www.costly.live",
+              "logo": "https://www.costly.live/icon.png",
               "description": "The team behind Costly, a behavioral accountability app for iPhone and Mac.",
               "foundingDate": "2024",
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "url": "https://costly-dev.github.io/#contact"
+                "url": "https://www.costly.live"
               }
             })
           }}

@@ -217,33 +217,29 @@ export default function About({}: AboutProps) {
       {/* Mobile-specific animations */}
       <style jsx>{`
         @keyframes mobileCardFloat {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-8px) rotate(0.5deg); }
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-4px); }
         }
         
         @keyframes mobileIconPulse {
-          0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
-          50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.05); opacity: 1; }
         }
         
         @keyframes mobileTitleGlow {
           0%, 100% { 
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            filter: brightness(1);
+            opacity: 0.9;
           }
           50% { 
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.3);
-            filter: brightness(1.1);
+            opacity: 1;
           }
         }
         
         @keyframes mobileTextShimmer {
           0%, 100% { 
-            background-position: -200% center;
             opacity: 0.9;
           }
           50% { 
-            background-position: 200% center;
             opacity: 1;
           }
         }
@@ -251,11 +247,11 @@ export default function About({}: AboutProps) {
         @keyframes mobileDotPulse {
           0%, 100% { 
             transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            opacity: 0.8;
           }
           50% { 
-            transform: scale(1.3);
-            box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+            transform: scale(1.2);
+            opacity: 1;
           }
         }
       `}</style>
@@ -314,8 +310,9 @@ export default function About({}: AboutProps) {
                   : 'opacity-0 translate-y-12 scale-95'
               }`}
               style={{ 
-                animationDelay: `${index * 300}ms`,
-                animation: isVisible ? `mobileCardFloat ${3 + index * 0.5}s ease-in-out infinite` : 'none'
+                animationDelay: `${index * 500}ms`,
+                animation: isVisible ? `mobileCardFloat ${5 + index * 0.5}s ease-in-out infinite` : 'none',
+                willChange: isVisible ? 'transform' : 'auto'
               }}
             >
               <div className="w-full max-w-4xl mx-auto">
@@ -323,7 +320,8 @@ export default function About({}: AboutProps) {
                 <div 
                   className="flex justify-center mb-6"
                   style={{
-                    animation: isVisible ? `mobileIconPulse ${2 + index * 0.3}s ease-in-out infinite` : 'none'
+                    animation: isVisible ? `mobileIconPulse ${4 + index * 0.3}s ease-in-out infinite` : 'none',
+                    willChange: isVisible ? 'transform' : 'auto'
                   }}
                 >
                   <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
@@ -337,7 +335,8 @@ export default function About({}: AboutProps) {
                 <h3 
                   className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-relaxed mb-8 text-center bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent"
                   style={{
-                    animation: isVisible ? `mobileTitleGlow ${4 + index * 0.5}s ease-in-out infinite` : 'none'
+                    animation: isVisible ? `mobileTitleGlow ${6 + index * 0.5}s ease-in-out infinite` : 'none',
+                    willChange: isVisible ? 'opacity' : 'auto'
                   }}
                 >
                   {card.title}
@@ -357,7 +356,8 @@ export default function About({}: AboutProps) {
                           }`}
                           style={{ 
                             transitionDelay: `${(index * 300) + (pIndex * 200)}ms`,
-                            animation: isVisible ? `mobileTextShimmer ${6 + pIndex}s ease-in-out infinite` : 'none'
+                            animation: isVisible ? `mobileTextShimmer ${8 + pIndex}s ease-in-out infinite` : 'none',
+                            willChange: isVisible ? 'opacity' : 'auto'
                           }}
                         >
                           {paragraph}
@@ -372,7 +372,8 @@ export default function About({}: AboutProps) {
                         }`}
                         style={{ 
                           transitionDelay: `${index * 300}ms`,
-                          animation: isVisible ? `mobileTextShimmer 6s ease-in-out infinite` : 'none'
+                          animation: isVisible ? `mobileTextShimmer 8s ease-in-out infinite` : 'none',
+                          willChange: isVisible ? 'opacity' : 'auto'
                         }}
                       >
                         {card.content}
@@ -395,7 +396,8 @@ export default function About({}: AboutProps) {
                         style={{
                           animation: isVisible && dotIndex === index 
                             ? `mobileDotPulse 2s ease-in-out infinite` 
-                            : 'none'
+                            : 'none',
+                          willChange: isVisible && dotIndex === index ? 'transform' : 'auto'
                         }}
                       />
                     ))}
