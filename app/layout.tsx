@@ -1,7 +1,5 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Suspense } from "react"
@@ -125,7 +123,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en">
       <head>
         <link
           rel="icon"
@@ -136,11 +134,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        {/* Preload critical fonts */}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Londrina+Shadow&display=swap" as="style" />
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap" as="style" />
+        {/* Preload ALL cursive fonts */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&family=Kalam&family=Caveat&family=Comfortaa&family=Quicksand&family=Great+Vibes&family=Allura&family=Alex+Brush&family=Satisfy&family=Yellowtail&family=Amatic+SC&family=Bad+Script&family=Berkshire+Swash&family=Butterfly+Kids&family=Cedarville+Cursive&family=Courgette&family=Crimson+Text&family=Dawning+of+a+New+Day&family=Devonshire&family=Engagement&family=Euphoria+Script&family=Felipa&family=Freehand&family=Gloria+Hallelujah&family=Gochi+Hand&family=Grand+Hotel&family=Handlee&family=Homemade+Apple&family=Indie+Flower&family=Itim&family=Just+Another+Hand&family=Kaushan+Script&family=Kristi&family=La+Belle+Aurore&family=Lobster&family=Lobster+Two&family=Marck+Script&family=Merienda&family=Merienda+One&family=Miss+Fajardose&family=Mr+Bedfort&family=Mr+Dafoe&family=Mr+De+Haviland&family=Mrs+Saint+Delafield&family=Mrs+Sheppards&family=Niconne&family=Norican&family=Nosifer&family=Nothing+You+Could+Do&family=Over+the+Rainbow&family=Permanent+Marker&family=Pinyon+Script&family=Princess+Sofia&family=Qwigley&family=Rancho&family=Redressed&family=Reenie+Beanie&family=Rochester&family=Rock+Salt&family=Sacramento&family=Sail&family=Salsa&family=Sedgwick+Ave&family=Sedgwick+Ave+Display&family=Shadows+Into+Light&family=Shadows+Into+Light+Two&family=Sofia&family=Sonsie+One&family=Special+Elite&family=Stalemate&family=Sue+Ellen+Francisco&family=Sunshiney&family=Swanky+and+Moo+Moo&family=Tangerine&family=The+Girl+Next+Door&family=Tillana&family=Unkempt&family=Vibur&family=Waiting+for+the+Sunrise&family=Walter+Turncoat&family=Yesteryear&family=Zeyada&display=swap" as="style" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Londrina+Shadow&family=Patrick+Hand+SC&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Londrina+Shadow&family=Dancing+Script&family=Pacifico&family=Kalam&family=Caveat&family=Comfortaa&family=Quicksand&family=Great+Vibes&family=Allura&family=Alex+Brush&family=Satisfy&family=Yellowtail&family=Amatic+SC&family=Bad+Script&family=Berkshire+Swash&family=Butterfly+Kids&family=Cedarville+Cursive&family=Courgette&family=Crimson+Text&family=Dawning+of+a+New+Day&family=Devonshire&family=Engagement&family=Euphoria+Script&family=Felipa&family=Freehand&family=Gloria+Hallelujah&family=Gochi+Hand&family=Grand+Hotel&family=Handlee&family=Homemade+Apple&family=Indie+Flower&family=Itim&family=Just+Another+Hand&family=Kaushan+Script&family=Kristi&family=La+Belle+Aurore&family=Lobster&family=Lobster+Two&family=Marck+Script&family=Merienda&family=Merienda+One&family=Miss+Fajardose&family=Mr+Bedfort&family=Mr+Dafoe&family=Mr+De+Haviland&family=Mrs+Saint+Delafield&family=Mrs+Sheppards&family=Niconne&family=Norican&family=Nosifer&family=Nothing+You+Could+Do&family=Over+the+Rainbow&family=Permanent+Marker&family=Pinyon+Script&family=Princess+Sofia&family=Qwigley&family=Rancho&family=Redressed&family=Reenie+Beanie&family=Rochester&family=Rock+Salt&family=Sacramento&family=Sail&family=Salsa&family=Sedgwick+Ave&family=Sedgwick+Ave+Display&family=Shadows+Into+Light&family=Shadows+Into+Light+Two&family=Sofia&family=Sonsie+One&family=Special+Elite&family=Stalemate&family=Sue+Ellen+Francisco&family=Sunshiney&family=Swanky+and+Moo+Moo&family=Tangerine&family=The+Girl+Next+Door&family=Tillana&family=Unkempt&family=Vibur&family=Waiting+for+the+Sunrise&family=Walter+Turncoat&family=Yesteryear&family=Zeyada&family=Patrick+Hand+SC&display=swap"
           rel="stylesheet"
         />
         {/* Preload critical images */}
@@ -251,7 +248,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${GeistSans.className} bg-black`}>
+      <body className="bg-black">
 
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         
