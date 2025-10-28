@@ -11,7 +11,9 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
   const [isTyping, setIsTyping] = useState(false)
   const [hasGenerated, setHasGenerated] = useState(false)
   const [showArrow, setShowArrow] = useState(false)
+  const [arrowVisible, setArrowVisible] = useState(false)
   const [isScrollLocked, setIsScrollLocked] = useState(false)
+  const [showProgressBar, setShowProgressBar] = useState(true)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
   const lockedScrollPosition = useRef(0)
@@ -24,6 +26,7 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
     if (cachedGenerated === 'true') {
       setDisplayedText(fullText)
       setHasGenerated(true)
+      setShowProgressBar(false) // Hide progress bar if already completed
     }
   }, [fullText])
 
@@ -37,6 +40,7 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
       if (scrollDelta > 5 && showArrow) {
         setShowArrow(false)
+        setArrowVisible(false)
         // Dispatch event for About component
         window.dispatchEvent(new CustomEvent('arrow-fade'))
       }
@@ -93,23 +97,68 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       setHasGenerated(true)
       localStorage.setItem('philosophy-generated', 'true')
       
-      // Show arrow after a short delay
+      // Fade out progress bar after a short delay
+      setTimeout(() => {
+        setShowProgressBar(false)
+      }, 500)
+      
+      // Show arrow after progress bar fades out
       setTimeout(() => {
         setShowArrow(true)
+        setArrowVisible(true)
         // Notify parent that philosophy is complete
         if (onComplete) {
           onComplete()
         }
         // Dispatch event for About component
         window.dispatchEvent(new CustomEvent('philosophy-complete'))
-      }, 1000)
+        
+        // Start arrow fade-out after 3 seconds
+        setTimeout(() => {
+          setShowArrow(false)
+          // Remove arrow from DOM after fade transition completes
+          setTimeout(() => {
+            setArrowVisible(false)
+          }, 1000) // Match CSS transition duration
+        }, 3000) // 3 second delay
+      }, 1500)
     }
   }, [isTyping, displayedText, fullText])
+
+  // Calculate progress percentage
+  const progressPercentage = fullText.length > 0 ? (displayedText.length / fullText.length) * 100 : 0
 
   return (
     <section ref={sectionRef} className="min-h-screen px-4 sm:px-6 lg:px-8 flex items-center justify-center relative pt-20">
       <div className="max-w-7xl mx-auto">
         <div className="p-6 lg:p-8">
+          {/* Progress Bar Section - positioned above the text */}
+          <div className={`mb-8 transition-opacity duration-1000 ease-in-out ${
+            showProgressBar ? 'opacity-100' : 'opacity-0'
+          }`}>
+            {/* Attention Span Training Text */}
+            <div className="text-center mb-4">
+              <h2 className="text-sm sm:text-base font-mono text-white/80 tracking-wider">
+                ATTENTION SPAN TRAINING
+              </h2>
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="w-full bg-white/10 rounded-full h-1 overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-silver-300 to-white transition-all duration-300 ease-out"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+            
+            {/* Progress Percentage */}
+            <div className="text-center mt-2">
+              <span className="text-xs font-mono text-white/60">
+                {Math.round(progressPercentage)}%
+              </span>
+            </div>
+          </div>
+
           <div className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed text-center font-mono">
             <span className="whitespace-pre-wrap">
               {displayedText}
@@ -120,9 +169,11 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       </div>
       
       {/* Cool down arrow that fades in and out */}
-      {showArrow && (
+      {arrowVisible && (
         <div 
-          className="absolute -translate-x-1/2 top-full -mt-32 animate-bounce z-10 cursor-pointer"
+          className={`absolute -translate-x-1/2 top-full -mt-32 z-10 cursor-pointer transition-opacity duration-1000 ease-in-out ${
+            showArrow ? 'opacity-100 animate-bounce' : 'opacity-0'
+          }`}
           onClick={() => {
             // Scroll down to the next section (About)
             const aboutSection = document.getElementById('about')
@@ -130,6 +181,7 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
               aboutSection.scrollIntoView({ behavior: 'smooth' })
             }
             setShowArrow(false)
+            setArrowVisible(false)
           }}
         >
           <div className="flex flex-col items-center gap-2 text-white/60 hover:text-white/80 transition-colors">

@@ -235,14 +235,6 @@ export default function About({}: AboutProps) {
           }
         }
         
-        @keyframes mobileTextShimmer {
-          0%, 100% { 
-            opacity: 0.9;
-          }
-          50% { 
-            opacity: 1;
-          }
-        }
         
         @keyframes mobileDotPulse {
           0%, 100% { 
@@ -355,9 +347,7 @@ export default function About({}: AboutProps) {
                               : 'opacity-0 translate-x-8'
                           }`}
                           style={{ 
-                            transitionDelay: `${(index * 300) + (pIndex * 200)}ms`,
-                            animation: isVisible ? `mobileTextShimmer ${8 + pIndex}s ease-in-out infinite` : 'none',
-                            willChange: isVisible ? 'opacity' : 'auto'
+                            transitionDelay: `${(index * 300) + (pIndex * 200)}ms`
                           }}
                         >
                           {paragraph}
@@ -371,9 +361,7 @@ export default function About({}: AboutProps) {
                             : 'opacity-0 translate-x-8'
                         }`}
                         style={{ 
-                          transitionDelay: `${index * 300}ms`,
-                          animation: isVisible ? `mobileTextShimmer 8s ease-in-out infinite` : 'none',
-                          willChange: isVisible ? 'opacity' : 'auto'
+                          transitionDelay: `${index * 300}ms`
                         }}
                       >
                         {card.content}
