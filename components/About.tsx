@@ -40,9 +40,17 @@ export default function About({}: AboutProps) {
     {
       title: "Built with real technology, not loopholes",
       content: (
-        <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
-          Costly uses a secure, cloud-synced architecture powered by Convex, Clerk, Stripe, and Plaid. App blocking is handled natively through Apple's FamilyControls and ManagedSettings frameworks, meaning blocked apps are truly restricted during active sessions.
-        </p>
+        <div>
+          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+            Costly uses a secure, cloud-synced architecture powered by Convex for real-time data synchronization across all your devices. Cross-device syncing ensures your focus sessions, penalties, and progress are instantly updated whether you're on your phone, tablet, or computer.
+          </p>
+          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+            Financial transactions are handled through Stripe and Plaid integration, providing bank-level security for deposits and penalty charges. Alpaca Markets integration enables your deposits to grow through low-risk investments, turning your focus sessions into a genuine wealth-building mechanism.
+          </p>
+          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+            App blocking is handled natively through Apple's FamilyControls and ManagedSettings frameworks, meaning blocked apps are truly restricted during active sessions—no workarounds, no exceptions.
+          </p>
+        </div>
       ),
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -53,13 +61,39 @@ export default function About({}: AboutProps) {
     {
       title: "Minimalist by design",
       content: (
-        <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
-          The app's interface follows a Liquid Glass design language: a dark, reflective silver aesthetic inspired by composure and clarity. Every element is built for quiet immersion: rounded cards, subtle blurs, ambient reflections, and smooth transitions that make the UI feel alive but not distracting.
-        </p>
+        <div>
+          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+            The app's interface follows a Liquid Glass design language: a monochrome interface with subtle colors and a dark, reflective silver aesthetic inspired by composure and clarity. Every element is built for quiet immersion: rounded cards, subtle blurs, ambient reflections, and smooth transitions that make the UI feel alive but not distracting.
+          </p>
+          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+            The minimal design philosophy extends to every interaction—no unnecessary animations, no distracting colors, no visual noise. Just clean, purposeful interfaces that fade into the background while you focus on what matters most.
+          </p>
+        </div>
       ),
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
+        </svg>
+      )
+    },
+    {
+      title: "Coming soon: Multiplayer accountability",
+      content: (
+        <div>
+          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+            The future of focus includes multiplayer accountability with friends and family. Share focus sessions, create group challenges, and build supportive communities around productivity. When you're struggling to stay focused, your accountability partners can provide gentle encouragement or even help cover penalty costs.
+          </p>
+          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+            Family members can create shared focus goals, track each other's progress, and celebrate milestones together. Friends can form focus groups for study sessions, work sprints, or creative projects. The social element transforms individual discipline into collective achievement.
+          </p>
+          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+            Additional features in development include advanced analytics, custom penalty structures, integration with productivity tools, and AI-powered focus coaching based on your behavioral patterns.
+          </p>
+        </div>
+      ),
+      icon: (
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
         </svg>
       )
     }
@@ -91,12 +125,19 @@ export default function About({}: AboutProps) {
       }
     }
     
+    // Listen for notification completion to trigger icons fade-in
+    const handleNotificationComplete = () => {
+      setIsPhase2(true) // Immediately show About icons when notification fades out
+    }
+    
     window.addEventListener('philosophy-complete', handlePhilosophyComplete)
     window.addEventListener('arrow-fade', handleArrowFade)
+    window.addEventListener('philosophy-notification-complete', handleNotificationComplete)
     
     return () => {
       window.removeEventListener('philosophy-complete', handlePhilosophyComplete)
       window.removeEventListener('arrow-fade', handleArrowFade)
+      window.removeEventListener('philosophy-notification-complete', handleNotificationComplete)
     }
   }, [isPhilosophyComplete])
 
@@ -285,7 +326,7 @@ export default function About({}: AboutProps) {
             >
               {card.icon}
               <span className="text-xs sm:text-sm">
-                {index === 0 ? "System" : index === 1 ? "Technology" : "Design"}
+                {index === 0 ? "System" : index === 1 ? "Technology" : index === 2 ? "Design" : "Future"}
               </span>
             </button>
           ))}

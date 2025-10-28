@@ -13,12 +13,12 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
   const [showArrow, setShowArrow] = useState(false)
   const [arrowVisible, setArrowVisible] = useState(false)
   const [isScrollLocked, setIsScrollLocked] = useState(false)
-  const [showProgressBar, setShowProgressBar] = useState(true)
+  const [showProgressBar, setShowProgressBar] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
   const lockedScrollPosition = useRef(0)
 
-  const fullText = "Every minute of discipline strengthens your streak, while every lapse comes with a small, automatic financial consequence. By turning focus into something tangible, Costly helps you build consistency not through guilt or gamification, but through clear, immediate accountability. It's self-accountability made concrete: lose focus, lose a dollar; stay disciplined, reclaim your balance and your confidence. The stakes are real: if you delete the app before meeting your withdrawal goals, you forfeit your accumulated balance. This isn't a penalty—it's the natural consequence of abandoning your commitment to yourself. Your money stays locked until you prove you can maintain the habits you set out to build."
+  const fullText = "Costly is a platform that lets people turn focus into commitment and discipline into measurable growth. Users place a stake on their own ability to stay off distractions by starting a focus session—if they open apps they've chosen to block, they lose part of that stake as a self-imposed consequence. The funds they set aside are held in a personal Costly account and can grow over time as they remain consistent, but withdrawals are only unlocked once personal milestones are met, such as total focus hours, completed sessions, or sustained streaks. Every change to one's rules or goals carries weight, reinforcing accountability with small penalties that remind users that commitment matters. Future versions will introduce a shared challenge system, allowing friends to join in collective goals and friendly competition built on trust and self-discipline. Costly isn't about restriction—it's about transforming attention into something tangible, where focus itself becomes a form of investment."
 
   // Check localStorage on component mount
   useEffect(() => {
@@ -26,7 +26,6 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
     if (cachedGenerated === 'true') {
       setDisplayedText(fullText)
       setHasGenerated(true)
-      setShowProgressBar(false) // Hide progress bar if already completed
     }
   }, [fullText])
 
@@ -36,11 +35,14 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       const currentScrollY = window.scrollY
       const section = sectionRef.current
       
-      // Detect user scrolling and hide arrow
+      // Detect user scrolling and hide arrow (only if arrow is visible and not already fading)
       const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
-      if (scrollDelta > 5 && showArrow) {
+      if (scrollDelta > 5 && showArrow && arrowVisible) {
         setShowArrow(false)
-        setArrowVisible(false)
+        // Let the arrow fade out naturally instead of immediately hiding
+        setTimeout(() => {
+          setArrowVisible(false)
+        }, 1000) // Match the fade transition duration
         // Dispatch event for About component
         window.dispatchEvent(new CustomEvent('arrow-fade'))
       }
@@ -53,6 +55,7 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
         // Start typing when scrolling into the section (only if not already generated)
         if (scrollPosition >= sectionTop && displayedText.length === 0 && !isTyping && !hasGenerated) {
           setIsTyping(true)
+          setShowProgressBar(true) // Show notification when typing starts
           setIsScrollLocked(true)
           lockedScrollPosition.current = currentScrollY
         }
@@ -97,10 +100,12 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       setHasGenerated(true)
       localStorage.setItem('philosophy-generated', 'true')
       
-      // Fade out progress bar after a short delay
+      // Fade out notification after completion and trigger About icons
       setTimeout(() => {
         setShowProgressBar(false)
-      }, 500)
+        // Dispatch event to trigger About section icons fade-in
+        window.dispatchEvent(new CustomEvent('philosophy-notification-complete'))
+      }, 2000) // Show completion state for 2 seconds
       
       // Show arrow after progress bar fades out
       setTimeout(() => {
@@ -129,41 +134,39 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
   const progressPercentage = fullText.length > 0 ? (displayedText.length / fullText.length) * 100 : 0
 
   return (
-    <section ref={sectionRef} className="min-h-screen px-4 sm:px-6 lg:px-8 flex items-center justify-center relative pt-20">
-      <div className="max-w-7xl mx-auto">
-        <div className="p-6 lg:p-8">
-          {/* Progress Bar Section - positioned above the text */}
-          <div className={`mb-8 transition-opacity duration-1000 ease-in-out ${
-            showProgressBar ? 'opacity-100' : 'opacity-0'
-          }`}>
-            {/* Attention Span Training Text */}
-            <div className="text-center mb-4">
-              <h2 className="text-sm sm:text-base font-mono text-white/80 tracking-wider">
+    <section ref={sectionRef} className="min-h-screen px-4 sm:px-6 lg:px-8 flex items-center justify-center relative pt-20 pb-20">
+      {/* Apple-like Notification */}
+      <div className={`fixed top-4 sm:top-8 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-1000 ease-out ${
+        showProgressBar ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+      }`}>
+          <div className="bg-black/80 backdrop-blur-xl rounded-2xl px-4 sm:px-6 pt-2 sm:pt-3 pb-1.5 sm:pb-2 shadow-2xl w-72 sm:w-80 md:w-96 lg:w-[28rem] mx-auto">
+            {/* Clean Title */}
+            <div className="text-center mb-1 sm:mb-1.5">
+              <h3 className="text-xs sm:text-sm font-medium text-white/90 tracking-wide">
                 ATTENTION SPAN TRAINING
-              </h2>
+              </h3>
             </div>
             
-            {/* Progress Bar */}
-            <div className="w-full bg-white/10 rounded-full h-1 overflow-hidden">
+            {/* Thin Progress Bar */}
+            <div className="w-full bg-white/10 rounded-full h-0.5 sm:h-1 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-silver-300 to-white transition-all duration-300 ease-out"
+                className="h-full bg-white transition-all duration-300 ease-out rounded-full"
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
-            
-            {/* Progress Percentage */}
-            <div className="text-center mt-2">
-              <span className="text-xs font-mono text-white/60">
-                {Math.round(progressPercentage)}%
-              </span>
-            </div>
           </div>
+        </div>
 
-          <div className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed text-center font-mono">
-            <span className="whitespace-pre-wrap">
-              {displayedText}
-            </span>
-            <span className="animate-pulse text-silver-300">|</span>
+      <div className="max-w-7xl mx-auto">
+        {/* Predetermined centered box with even padding */}
+        <div className="min-h-[70vh] flex items-center justify-center py-20">
+          <div className="w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed text-center font-mono">
+              <span className="whitespace-pre-wrap">
+                {displayedText}
+              </span>
+              <span className="animate-pulse text-silver-300">|</span>
+            </div>
           </div>
         </div>
       </div>
