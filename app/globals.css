@@ -213,27 +213,56 @@ html {
   /* Reserve space for hero images to prevent CLS */
   .hero-image-container {
     min-height: 520px;
+    width: 288px; /* Fixed width to prevent CLS */
   }
   
   @media (min-width: 640px) {
     .hero-image-container {
       min-height: 585px;
+      width: 320px; /* Fixed width for sm */
     }
   }
   
   @media (min-width: 1024px) {
     .hero-image-container {
       min-height: 920px;
+      width: 450px; /* Fixed width for lg */
     }
   }
   
   @media (min-width: 1280px) {
     .hero-image-container {
       min-height: 1020px;
+      width: 500px; /* Fixed width for xl */
     }
   }
   
-  /* Font loading optimization */
+  /* Additional CLS prevention */
+  .philosophy-section {
+    min-height: 100vh;
+  }
+  
+  .about-section {
+    min-height: 100vh;
+  }
+  
+  .roadmap-section {
+    min-height: 100vh;
+  }
+  
+  .contact-section {
+    min-height: 100vh;
+  }
+  
+  /* Prevent text layout shifts */
+  h1, h2, h3, h4, h5, h6 {
+    font-display: swap;
+  }
+  
+  /* Smooth transitions to prevent jarring shifts */
+  * {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
   .font-londrina-shadow {
     font-family: "Londrina Shadow", cursive;
     font-display: swap;

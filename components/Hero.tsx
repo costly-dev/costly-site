@@ -395,26 +395,28 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                   (This site looks better on desktop)
                 </p>
               </div>
-              {/* Mobile and small screens - use original image with lazy loading */}
+              {/* Mobile and small screens - optimize for LCP */}
               <img 
                 src="/GraphicsNotif.png" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="w-64 h-[520px] sm:w-72 sm:h-[585px] lg:hidden object-contain"
                 width={288}
                 height={585}
-                loading="lazy"
-                decoding="async"
+                loading="eager"
+                decoding="sync"
+                fetchPriority="high"
               />
               
-              {/* Desktop - use high-res image with lazy loading and fallback */}
+              {/* Desktop - optimize for LCP */}
               <img 
                 src="/GraphicsNotif_upscaled.png" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="hidden lg:block w-[450px] h-[920px] xl:w-[500px] xl:h-[1020px] object-contain transition-opacity duration-300"
                 width={500}
                 height={1020}
-                loading="lazy"
-                decoding="async"
+                loading="eager"
+                decoding="sync"
+                fetchPriority="high"
                 onError={(e) => {
                   // Fallback to compressed version if high-res fails to load
                   const target = e.target as HTMLImageElement;

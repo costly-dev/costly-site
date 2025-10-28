@@ -11,21 +11,21 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
-    // Reduce loading time significantly for better LCP
+    // Much faster loading for better LCP
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval)
-          // Fade out after loading completes
+          // Immediate fade out for better LCP
           setTimeout(() => {
             setIsVisible(false)
-            setTimeout(onLoadingComplete, 150) // Reduced fade out time
-          }, 100) // Reduced delay
+            setTimeout(onLoadingComplete, 50) // Very fast fade out
+          }, 50) // Minimal delay
           return 100
         }
-        return prev + Math.random() * 25 + 10 // Faster progress (10-35 instead of 5-20)
+        return prev + Math.random() * 40 + 20 // Much faster progress (20-60)
       })
-    }, 50) // Faster interval (50ms instead of 100ms)
+    }, 30) // Faster interval (30ms)
 
     return () => clearInterval(interval)
   }, [onLoadingComplete])
