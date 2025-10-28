@@ -213,13 +213,14 @@ html {
   /* Reserve space for hero images to prevent CLS */
   .hero-image-container {
     min-height: 520px;
-    width: 288px; /* Fixed width to prevent CLS */
+    width: 256px; /* Match w-64 (256px) */
+    margin: 0 auto; /* Ensure centering */
   }
   
   @media (min-width: 640px) {
     .hero-image-container {
       min-height: 585px;
-      width: 320px; /* Fixed width for sm */
+      width: 288px; /* Match w-72 (288px) */
     }
   }
   

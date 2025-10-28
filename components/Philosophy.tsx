@@ -161,7 +161,7 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
         {/* Predetermined centered box with even padding */}
         <div className="min-h-[70vh] flex items-center justify-center py-20">
           <div className="w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed text-center font-mono">
+            <div className="text-sm sm:text-base md:text-lg lg:text-xl text-white leading-relaxed text-center font-mono">
               <span className="whitespace-pre-wrap">
                 {displayedText}
               </span>

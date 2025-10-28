@@ -22,10 +22,10 @@ export default function About({}: AboutProps) {
       title: "A system that makes distraction expensive and progress rewarding",
       content: (
         <div>
-          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed mb-6 text-base sm:text-lg md:text-xl">
             When you start a focus session, you stake a small deposit from your Costly balance. As long as you stay off your blocked apps and remain active within your timer, your deposit remains untouched and continues to grow in value inside your account.
           </p>
-          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed text-base sm:text-lg md:text-xl">
             If you break focus by opening a distraction, pausing your session, or tampering with settings, Costly instantly issues a small penalty charge via Stripe. These penalties accumulate into your in-app balance, which you can only withdraw once you've achieved specific personal goals, such as a set number of clean hours or streak days.
           </p>
         </div>
@@ -41,13 +41,13 @@ export default function About({}: AboutProps) {
       title: "Built with real technology, not loopholes",
       content: (
         <div>
-          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed mb-6 text-base sm:text-lg md:text-xl">
             Costly uses a secure, cloud-synced architecture powered by Convex for real-time data synchronization across all your devices. Cross-device syncing ensures your focus sessions, penalties, and progress are instantly updated whether you're on your phone, tablet, or computer.
           </p>
-          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed mb-6 text-base sm:text-lg md:text-xl">
             Financial transactions are handled through Stripe and Plaid integration, providing bank-level security for deposits and penalty charges. Alpaca Markets integration enables your deposits to grow through low-risk investments, turning your focus sessions into a genuine wealth-building mechanism.
           </p>
-          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed text-base sm:text-lg md:text-xl">
             App blocking is handled natively through Apple's FamilyControls and ManagedSettings frameworks, meaning blocked apps are truly restricted during active sessions—no workarounds, no exceptions.
           </p>
         </div>
@@ -62,10 +62,10 @@ export default function About({}: AboutProps) {
       title: "Minimalist by design",
       content: (
         <div>
-          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed mb-6 text-base sm:text-lg md:text-xl">
             The app's interface follows a Liquid Glass design language: a monochrome interface with subtle colors and a dark, reflective silver aesthetic inspired by composure and clarity. Every element is built for quiet immersion: rounded cards, subtle blurs, ambient reflections, and smooth transitions that make the UI feel alive but not distracting.
           </p>
-          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed text-base sm:text-lg md:text-xl">
             The minimal design philosophy extends to every interaction—no unnecessary animations, no distracting colors, no visual noise. Just clean, purposeful interfaces that fade into the background while you focus on what matters most.
           </p>
         </div>
@@ -80,13 +80,13 @@ export default function About({}: AboutProps) {
       title: "Coming soon: Multiplayer accountability",
       content: (
         <div>
-          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed mb-6 text-base sm:text-lg md:text-xl">
             The future of focus includes multiplayer accountability with friends and family. Share focus sessions, create group challenges, and build supportive communities around productivity. When you're struggling to stay focused, your accountability partners can provide gentle encouragement or even help cover penalty costs.
           </p>
-          <p className="text-white/90 leading-relaxed mb-6 text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed mb-6 text-base sm:text-lg md:text-xl">
             Family members can create shared focus goals, track each other's progress, and celebrate milestones together. Friends can form focus groups for study sessions, work sprints, or creative projects. The social element transforms individual discipline into collective achievement.
           </p>
-          <p className="text-white/90 leading-relaxed text-lg sm:text-xl">
+          <p className="text-white/90 leading-relaxed text-base sm:text-lg md:text-xl">
             Additional features in development include advanced analytics, custom penalty structures, integration with productivity tools, and AI-powered focus coaching based on your behavioral patterns.
           </p>
         </div>
@@ -301,7 +301,7 @@ export default function About({}: AboutProps) {
               ? 'translate-y-0 scale-100' 
               : 'opacity-0 translate-y-8 scale-95'
         } ${headerFade ? 'opacity-0 scale-95' : isPhase2 ? 'opacity-100' : 'opacity-0'}`}>
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
             How It Works
           </h3>
         </header>
@@ -366,7 +366,7 @@ export default function About({}: AboutProps) {
                 
                 {/* Animated title with gradient text */}
                 <h3 
-                  className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-relaxed mb-8 text-center bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent"
+                  className="text-xl sm:text-2xl lg:text-3xl font-bold leading-relaxed mb-8 text-center bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent"
                   style={{
                     animation: isVisible ? `mobileTitleGlow ${6 + index * 0.5}s ease-in-out infinite` : 'none',
                     willChange: isVisible ? 'opacity' : 'auto'
@@ -382,7 +382,7 @@ export default function About({}: AboutProps) {
                       card.content.props.children.map((paragraph: React.ReactNode, pIndex: number) => (
                         <div 
                           key={pIndex}
-                          className={`text-white/90 leading-relaxed text-lg sm:text-xl transition-all duration-500 ${
+                          className={`text-white/90 leading-relaxed text-base sm:text-lg md:text-xl transition-all duration-500 ${
                             isVisible 
                               ? 'opacity-100 translate-x-0' 
                               : 'opacity-0 translate-x-8'
@@ -396,7 +396,7 @@ export default function About({}: AboutProps) {
                       ))
                     ) : (
                       <div
-                        className={`text-white/90 leading-relaxed text-lg sm:text-xl transition-all duration-500 ${
+                        className={`text-white/90 leading-relaxed text-base sm:text-lg md:text-xl transition-all duration-500 ${
                           isVisible 
                             ? 'opacity-100 translate-x-0' 
                             : 'opacity-0 translate-x-8'
@@ -472,7 +472,7 @@ export default function About({}: AboutProps) {
                   className="h-[700px] sm:h-[600px] lg:h-[500px] flex items-start justify-center p-4 sm:p-6 lg:p-8 pt-8 sm:pt-12 lg:pt-16"
                 >
                   <div className="w-full max-w-4xl">
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-relaxed mb-8 text-center">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-relaxed mb-8 text-center">
                       {card.title}
                     </h3>
                     <div className="text-center">
