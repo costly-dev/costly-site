@@ -106,6 +106,8 @@ export default function ScrollingNotifications({ isLoaded = false }: ScrollingNo
           // Use CSS variable for measured width and time-based CSS animation for smoothness
           // @ts-ignore - CSS custom property
           "--marquee-width": `${sequenceWidth || (isMobile ? 1460 : 1660)}px`,
+          // Provide restore duration to override reduced motion block for this marquee only
+          "--marquee-restore-duration": `${animationDurationSec ? animationDurationSec + 's' : (isMobile ? '48s' : '33s')}`,
           animationDuration: animationDurationSec ? `${animationDurationSec}s` : (isMobile ? '48s' : '33s'),
           animationPlayState: 'running' as any
         }}

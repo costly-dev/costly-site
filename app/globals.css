@@ -189,6 +189,16 @@ html {
   }
 }
 
+/* Ensure marquee keeps animating even with reduced motion enabled */
+@media (prefers-reduced-motion: reduce) {
+  .scrolling-notifications .marquee-track {
+    animation-name: scrolling-marquee !important;
+    animation-timing-function: linear !important;
+    animation-iteration-count: infinite !important;
+    animation-duration: var(--marquee-restore-duration, 40s) !important;
+  }
+}
+
 /* Mobile-specific optimizations for scrolling notifications */
 @media (max-width: 767px) {
   .scrolling-notifications {
@@ -301,10 +311,7 @@ html {
     font-display: swap;
   }
   
-  /* Smooth transitions to prevent jarring shifts */
-  * {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
+  /* Remove global transitions to improve LCP; scope transitions explicitly where needed */
   .font-londrina-shadow {
     font-family: "Londrina Shadow", cursive;
     font-display: swap;

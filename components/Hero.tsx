@@ -407,9 +407,9 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 fetchPriority="high"
               />
               
-              {/* Desktop - optimize for LCP */}
+              {/* Desktop - optimize for LCP with compressed default */}
               <img 
-                src="/GraphicsNotif_upscaled.png" 
+                src="/GraphicsNotif_upscaled_compressed.jpg" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="hidden lg:block w-[450px] h-[920px] xl:w-[500px] xl:h-[1020px] object-contain transition-opacity duration-300"
                 width={500}
@@ -417,11 +417,6 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 loading="eager"
                 decoding="sync"
                 fetchPriority="high"
-                onError={(e) => {
-                  // Fallback to compressed version if high-res fails to load
-                  const target = e.target as HTMLImageElement;
-                  target.src = '/GraphicsNotif_upscaled_compressed.jpg';
-                }}
               />
             </div>
           </div>
