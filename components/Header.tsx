@@ -82,7 +82,7 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection, isL
 
   return(
     <header
-      className={`fixed top-5 left-2 sm:left-4 right-2 sm:right-4 z-50 liquid-glass liquid-glass-interactive fixed rounded-xl sm:rounded-2xl transition-all duration-300 ${
+      className={`fixed top-5 left-2 sm:left-4 right-2 sm:right-4 z-50 liquid-glass liquid-glass-interactive no-border fixed rounded-xl sm:rounded-2xl transition-all duration-300 ${
         isSticky ? "shadow-lg" : ""
       } ${
         isLoaded 

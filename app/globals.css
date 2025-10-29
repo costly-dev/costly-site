@@ -189,6 +189,47 @@ html {
   }
 }
 
+/* Mobile-specific optimizations for scrolling notifications */
+@media (max-width: 767px) {
+  .scrolling-notifications {
+    /* Force hardware acceleration on mobile */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+  }
+  
+  .scrolling-notifications .flex {
+    /* Optimize for mobile scrolling performance */
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  .notification-item {
+    /* Ensure smooth rendering on mobile */
+    contain: layout style paint;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+/* Keyframes and base styles for CSS marquee */
+@keyframes scrolling-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(calc(-1 * var(--marquee-width, 0px)), 0, 0); }
+}
+
+.scrolling-notifications .marquee-track {
+  will-change: transform;
+  animation-name: scrolling-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform: translateZ(0);
+}
+
 @layer base {
   html {
     font-family: var(--font-sans), "Inter", system-ui, -apple-system, sans-serif;
@@ -714,6 +755,12 @@ html {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Utility to remove borders and outline-like box-shadows */
+  .no-border {
+    border: none !important;
+    box-shadow: none !important;
   }
 
   /* Added stroke text effect and glass morphism */

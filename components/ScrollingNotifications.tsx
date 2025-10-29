@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 
 const notifications = [
   {
@@ -30,15 +30,16 @@ interface ScrollingNotificationsProps {
 }
 
 export default function ScrollingNotifications({ isLoaded = false }: ScrollingNotificationsProps) {
-  const [translateX, setTranslateX] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  const animationRef = useRef<number>()
-  const isAnimatingRef = useRef(false)
+  const [sequenceWidth, setSequenceWidth] = useState(0)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const sequenceRef = useRef<HTMLDivElement>(null)
 
   // Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640)
+      const mobile = window.innerWidth < 640
+      setIsMobile(mobile)
     }
     
     checkMobile()
@@ -47,59 +48,62 @@ export default function ScrollingNotifications({ isLoaded = false }: ScrollingNo
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
+  // Measure the width of a single full sequence (one set of notifications)
+  const measureSequenceWidth = useCallback(() => {
+    const el = sequenceRef.current
+    if (!el) return 0
+    const width = Math.round(el.getBoundingClientRect().width)
+    return width
+  }, [])
+
+  // Keep sequence width updated on mount/resize/font load
   useEffect(() => {
-    if (isAnimatingRef.current) return // Prevent multiple animations
-    
-    isAnimatingRef.current = true
-    const speed = 0.5 // pixels per frame (smoother)
-
-    const animate = (currentTime: number) => {
-      setTranslateX((prev) => {
-        // Reset when first set scrolls completely off screen
-        // Mobile: Each notification is ~280px wide + 12px gap = ~292px
-        // Desktop: Each notification is ~320px wide + 12px gap = ~332px
-        // 5 notifications = ~1460px (mobile) or ~1660px (desktop)
-        const notificationWidth = isMobile ? 280 : 320
-        const gap = 12
-        const totalWidth = (notificationWidth + gap) * 5
-        
-        if (prev <= -totalWidth) {
-          return 0
-        }
-        return prev - speed
-      })
-      
-      animationRef.current = requestAnimationFrame(animate)
+    const update = () => {
+      const w = measureSequenceWidth()
+      if (w > 0) setSequenceWidth(w)
     }
-
-    animationRef.current = requestAnimationFrame(animate)
-
+    update()
+    window.addEventListener('resize', update)
+    window.addEventListener('orientationchange', update)
+    const fontReady = (document as any).fonts?.ready
+    if (fontReady && typeof fontReady.then === 'function') {
+      ;(document as any).fonts.ready.then(update).catch(() => {})
+    }
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current)
-      }
-      isAnimatingRef.current = false
+      window.removeEventListener('resize', update)
+      window.removeEventListener('orientationchange', update)
     }
-  }, [isMobile])
+  }, [measureSequenceWidth])
+
+  // Compute CSS animation duration (seconds) from measured width and desired speed
+  const animationDurationSec = (() => {
+    if (!sequenceWidth) return 0
+    const speedPxPerSec = isMobile ? 30 : 50
+    return sequenceWidth / speedPxPerSec
+  })()
 
   return (
-    <div className={`relative w-full overflow-hidden py-4 mt-20 sm:mt-24 transition-all duration-1000 ease-out delay-500 ${
+    <div className={`scrolling-notifications relative w-full overflow-hidden py-4 mt-20 sm:mt-24 transition-all duration-1000 ease-out delay-500 ${
       isLoaded 
         ? 'translate-y-0 opacity-100' 
         : '-translate-y-4 opacity-0'
     }`}>
       <div
-        className="flex gap-3"
+        ref={trackRef}
+        className="flex flex-nowrap will-change-transform marquee-track"
         style={{ 
-          transform: `translateX(${translateX}px)`,
-          willChange: 'transform' // Optimize for animations
+          // Use CSS variable for measured width and time-based CSS animation for smoothness
+          // @ts-ignore - CSS custom property
+          "--marquee-width": `${sequenceWidth}px`,
+          animationDuration: animationDurationSec ? `${animationDurationSec}s` : undefined,
+          animationPlayState: sequenceWidth > 0 ? 'running' as any : 'paused'
         }}
       >
-        {[...Array(6)].map((_, setIndex) =>
-          notifications.map((notification, index) => (
+        <div className="flex gap-3" ref={sequenceRef}>
+          {notifications.map((notification, index) => (
             <div
-              key={`${setIndex}-${index}`}
-              className="flex-shrink-0 liquid-glass liquid-glass-interactive rounded-2xl px-3 py-3 min-w-[280px] max-w-[280px] sm:min-w-[320px] sm:max-w-[320px] shadow-sm"
+              key={`seq1-${index}`}
+              className="notification-item no-border flex-shrink-0 liquid-glass liquid-glass-interactive rounded-2xl px-3 py-3 min-w-[280px] max-w-[280px] sm:min-w-[320px] sm:max-w-[320px] shadow-sm"
             >
               <div className="flex items-start gap-2">
                 <div className="w-8 h-8 rounded-lg flex-shrink-0 mt-1.5">
@@ -120,8 +124,35 @@ export default function ScrollingNotifications({ isLoaded = false }: ScrollingNo
                 </div>
               </div>
             </div>
-          )),
-        )}
+          ))}
+        </div>
+        <div className="flex gap-3" aria-hidden>
+          {notifications.map((notification, index) => (
+            <div
+              key={`seq2-${index}`}
+              className="notification-item no-border flex-shrink-0 liquid-glass liquid-glass-interactive rounded-2xl px-3 py-3 min-w-[280px] max-w-[280px] sm:min-w-[320px] sm:max-w-[320px] shadow-sm"
+            >
+              <div className="flex items-start gap-2">
+                <div className="w-8 h-8 rounded-lg flex-shrink-0 mt-1.5">
+                  <img
+                    src="/icon.png"
+                    alt="Costly"
+                    className="w-8 h-8 rounded-lg"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className="text-xs font-semibold text-white/90">Costly</span>
+                    <span className="text-xs text-gray-500">now</span>
+                  </div>
+                  <div className="text-sm text-white/80 leading-tight line-clamp-2">
+                    {notification.message}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

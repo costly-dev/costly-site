@@ -63,6 +63,19 @@ const PhoneZoomContainer = ({ children }: { children: React.ReactNode }) => {
               position: fixed !important;
               transform-origin: top center;
             }
+            
+            /* Exclude scrolling notifications from zoom effects */
+            body.phone-zoomed .scrolling-notifications,
+            body.phone-zoomed .scrolling-notifications * {
+              zoom: 2 !important; /* Counter-zoom to keep normal size */
+              transform-origin: top left;
+            }
+            
+            /* Ensure scrolling notifications container maintains proper positioning */
+            body.phone-zoomed .scrolling-notifications {
+              position: relative !important;
+              z-index: 10;
+            }
           `;
           document.head.appendChild(style);
         }
