@@ -82,6 +82,17 @@ export default function ScrollingNotifications({ isLoaded = false }: ScrollingNo
     return sequenceWidth / speedPxPerSec
   })()
 
+  // Debug logging for mobile
+  useEffect(() => {
+    if (isMobile && sequenceWidth > 0) {
+      console.log('Mobile scrolling debug:', {
+        sequenceWidth,
+        animationDurationSec,
+        isMobile
+      })
+    }
+  }, [sequenceWidth, animationDurationSec, isMobile])
+
   return (
     <div className={`scrolling-notifications relative w-full overflow-hidden py-4 mt-20 sm:mt-24 transition-all duration-1000 ease-out delay-500 ${
       isLoaded 
@@ -94,9 +105,9 @@ export default function ScrollingNotifications({ isLoaded = false }: ScrollingNo
         style={{ 
           // Use CSS variable for measured width and time-based CSS animation for smoothness
           // @ts-ignore - CSS custom property
-          "--marquee-width": `${sequenceWidth}px`,
-          animationDuration: animationDurationSec ? `${animationDurationSec}s` : undefined,
-          animationPlayState: sequenceWidth > 0 ? 'running' as any : 'paused'
+          "--marquee-width": `${sequenceWidth || (isMobile ? 1460 : 1660)}px`,
+          animationDuration: animationDurationSec ? `${animationDurationSec}s` : (isMobile ? '48s' : '33s'),
+          animationPlayState: 'running' as any
         }}
       >
         <div className="flex gap-3" ref={sequenceRef}>

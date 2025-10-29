@@ -757,10 +757,10 @@ html {
     text-wrap: balance;
   }
 
-  /* Utility to remove borders and outline-like box-shadows */
+  /* Utility to remove only the 1px border while preserving glass effect */
   .no-border {
     border: none !important;
-    box-shadow: none !important;
+    /* Keep the glass effect box-shadows, only remove the 1px border */
   }
 
   /* Added stroke text effect and glass morphism */
