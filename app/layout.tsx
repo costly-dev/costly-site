@@ -185,6 +185,17 @@ export default function RootLayout({
   if(l){ l.media = 'all'; }
 })();`}
         </Script>
+        {/* Load cursive fonts after page is interactive to avoid blocking LCP */}
+        <Script id="load-cursive-fonts" strategy="afterInteractive">
+{`(function(){
+  if(document.getElementById('font-cursive-loader')) return;
+  var link = document.createElement('link');
+  link.id = 'font-cursive-loader';
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&family=Kalam&family=Caveat&family=Comfortaa&family=Quicksand&family=Great+Vibes&family=Allura&family=Alex+Brush&family=Satisfy&family=Yellowtail&family=Amatic+SC&family=Bad+Script&family=Berkshire+Swash&family=Butterfly+Kids&family=Cedarville+Cursive&family=Courgette&family=Crimson+Text&family=Dawning+of+a+New+Day&family=Devonshire&family=Engagement&family=Euphoria+Script&family=Felipa&family=Freehand&family=Gloria+Hallelujah&family=Gochi+Hand&family=Grand+Hotel&family=Handlee&family=Homemade+Apple&family=Indie+Flower&family=Itim&family=Just+Another+Hand&family=Kaushan+Script&family=Kristi&family=La+Belle+Aurore&family=Lobster&family=Lobster+Two&family=Marck+Script&family=Merienda&family=Merienda+One&family=Miss+Fajardose&family=Mr+Bedfort&family=Mr+Dafoe&family=Mr+De+Haviland&family=Mrs+Saint+Delafield&family=Mrs+Sheppards&family=Niconne&family=Norican&family=Nosifer&family=Nothing+You+Could+Do&family=Over+the+Rainbow&family=Permanent+Marker&family=Pinyon+Script&family=Princess+Sofia&family=Qwigley&family=Rancho&family=Redressed&family=Reenie+Beanie&family=Rochester&family=Rock+Salt&family=Sacramento&family=Sail&family=Salsa&family=Sedgwick+Ave&family=Sedgwick+Ave+Display&family=Shadows+Into+Light&family=Shadows+Into+Light+Two&family=Sofia&family=Sonsie+One&family=Special+Elite&family=Stalemate&family=Sue+Ellen+Francisco&family=Sunshiney&family=Swanky+and+Moo+Moo&family=Tangerine&family=The+Girl+Next+Door&family=Tillana&family=Unkempt&family=Vibur&family=Waiting+for+the+Sunrise&family=Walter+Turncoat&family=Yesteryear&family=Zeyada&display=swap';
+  document.head.appendChild(link);
+})();`}
+        </Script>
         {/* Preload critical images (use compressed for faster LCP) */}
         <link rel="preload" as="image" href="/GraphicsNotif_upscaled_compressed.jpg" />
         <link rel="preload" as="image" href="/icon.png" />

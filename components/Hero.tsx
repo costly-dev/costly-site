@@ -69,9 +69,27 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     setIsMobile(window.innerWidth < 1024)
 
     // Set random font after hydration to avoid SSR mismatch
+    // Wait for fonts to be ready if available, otherwise randomize immediately
     if (!hasInitialized) {
-      setCurrentFontIndex(Math.floor(Math.random() * cursiveFonts.length))
-      setHasInitialized(true)
+      const randomizeFont = () => {
+        if (cursiveFonts.length > 0) {
+          setCurrentFontIndex(Math.floor(Math.random() * cursiveFonts.length))
+        }
+        setHasInitialized(true)
+      }
+
+      // Try to wait for fonts, but don't block if document.fonts isn't available
+      if (typeof document !== 'undefined' && (document as any).fonts && (document as any).fonts.ready) {
+        (document as any).fonts.ready.then(() => {
+          randomizeFont()
+        }).catch(() => {
+          // Fallback if fonts fail to load
+          randomizeFont()
+        })
+      } else {
+        // Immediate fallback
+        randomizeFont()
+      }
     }
 
     // Only add scroll listener on desktop
