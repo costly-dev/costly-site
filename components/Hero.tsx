@@ -68,27 +68,24 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     // Detect mobile/desktop on mount
     setIsMobile(window.innerWidth < 1024)
 
-    // Set random font after hydration to avoid SSR mismatch
-    // Wait for fonts to be ready if available, otherwise randomize immediately
+    // Set consistent font initially to prevent CLS, randomize after fonts load
     if (!hasInitialized) {
-      const randomizeFont = () => {
-        if (cursiveFonts.length > 0) {
-          setCurrentFontIndex(Math.floor(Math.random() * cursiveFonts.length))
-        }
-        setHasInitialized(true)
-      }
-
-      // Try to wait for fonts, but don't block if document.fonts isn't available
+      // Start with first font to prevent shift, then randomize after fonts load
+      setCurrentFontIndex(0)
+      setHasInitialized(true)
+      
+      // Randomize font after fonts are loaded (non-blocking)
       if (typeof document !== 'undefined' && (document as any).fonts && (document as any).fonts.ready) {
         (document as any).fonts.ready.then(() => {
-          randomizeFont()
+          // Small delay to ensure fonts are rendered
+          setTimeout(() => {
+            if (cursiveFonts.length > 0) {
+              setCurrentFontIndex(Math.floor(Math.random() * cursiveFonts.length))
+            }
+          }, 100)
         }).catch(() => {
-          // Fallback if fonts fail to load
-          randomizeFont()
+          // Silent fail - keep first font
         })
-      } else {
-        // Immediate fallback
-        randomizeFont()
       }
     }
 
@@ -119,53 +116,41 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     
   }, [cursiveFonts.length, isMobile])
 
-  // Function to calculate optimal font size for desktop (scale up until right edge reaches center)
-  const calculateDesktopFontSize = (fontClass: string): number => {
+  // Pre-calculate font size to prevent layout shifts
+  // Use fixed sizes per breakpoint instead of dynamic calculation
+  const getFontSize = (): number => {
     if (typeof window === 'undefined') return 60
     
-    const tempElement = document.createElement('h1')
-    tempElement.textContent = 'Bet Against Addiction'
-    tempElement.className = `font-bold leading-tight ${fontClass}`
-    tempElement.style.position = 'absolute'
-    tempElement.style.visibility = 'hidden'
-    tempElement.style.whiteSpace = 'nowrap'
-    tempElement.style.top = '-9999px'
-    tempElement.style.left = '-9999px'
-    tempElement.style.fontSize = '60px' // Start with base size
-    
-    document.body.appendChild(tempElement)
-    
-    // Force reflow to get accurate measurements
-    tempElement.offsetHeight
-    
-    const baseWidth = tempElement.offsetWidth
-    const screenWidth = window.innerWidth
-    const centerX = screenWidth / 2
-    
-    document.body.removeChild(tempElement)
-    
-    // Calculate scale factor to make text width reach center
-    const scaleFactor = centerX / baseWidth
-    
-    // Calculate final font size (base 60px * scale factor)
-    const finalFontSize = 60 * scaleFactor
-    
-    // Cap at reasonable maximum (e.g., 120px) and minimum (e.g., 30px)
-    return Math.min(Math.max(finalFontSize, 30), 120)
+    const width = window.innerWidth
+    if (width >= 1280) return 80  // xl
+    if (width >= 1024) return 70  // lg
+    if (width >= 640) return 60   // sm
+    return 48  // mobile
   }
 
 
-  // State for dynamic font size
-  const [dynamicFontSize, setDynamicFontSize] = useState(60)
+  // State for font size - use fixed sizes to prevent CLS
+  const [dynamicFontSize, setDynamicFontSize] = useState(() => getFontSize())
 
-  // Calculate font size when font changes (all screen sizes)
+  // Update font size on resize only - prevent layout shifts
   useEffect(() => {
-    if (typeof window !== 'undefined' && cursiveFonts.length > 0) {
-      const currentFont = cursiveFonts[currentFontIndex] || cursiveFonts[0]
-      const newFontSize = calculateDesktopFontSize(currentFont)
-      setDynamicFontSize(newFontSize)
+    const updateFontSize = () => {
+      setDynamicFontSize(getFontSize())
     }
-  }, [currentFontIndex, cursiveFonts, isRouletteComplete])
+    
+    // Debounce resize to prevent excessive updates
+    let resizeTimer: NodeJS.Timeout
+    const handleResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(updateFontSize, 100)
+    }
+    
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      clearTimeout(resizeTimer)
+    }
+  }, [])
 
 
   // Desktop: One-time scroll detection for roulette trigger
@@ -353,7 +338,10 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-center xl:text-left ${cursiveFonts.length > 0 ? cursiveFonts[currentFontIndex] || cursiveFonts[0] : 'font-dancing-script'} whitespace-nowrap`}
                 style={{
                   fontSize: `${dynamicFontSize}px`,
-                  marginLeft: !isMobile ? '-24px' : '0px'
+                  marginLeft: !isMobile ? '-24px' : '0px',
+                  minHeight: `${dynamicFontSize * 1.2}px`, // Reserve space to prevent CLS
+                  display: 'block',
+                  visibility: 'visible'
                 }}
               >
                 <span className="text-silver-300">Bet</span>{" "}

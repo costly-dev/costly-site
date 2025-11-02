@@ -317,203 +317,203 @@ html {
     font-display: swap;
   }
   
-  /* COMPLETE cursive font collection with smooth transitions */
-  .font-dancing-script { font-family: "Dancing Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-pacifico { font-family: "Pacifico", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-kalam { font-family: "Kalam", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-caveat { font-family: "Caveat", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-comfortaa { font-family: "Comfortaa", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-quicksand { font-family: "Quicksand", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-great-vibes { font-family: "Great Vibes", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-allura { font-family: "Allura", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-alex-brush { font-family: "Alex Brush", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-satisfy { font-family: "Satisfy", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-yellowtail { font-family: "Yellowtail", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-amatic-sc { font-family: "Amatic SC", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-bad-script { font-family: "Bad Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-berkshire-swash { font-family: "Berkshire Swash", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-butterfly-kids { font-family: "Butterfly Kids", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-cedarville-cursive { font-family: "Cedarville Cursive", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-courgette { font-family: "Courgette", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-crimson-text { font-family: "Crimson Text", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-dawning-of-a-new-day { font-family: "Dawning of a New Day", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-devonshire { font-family: "Devonshire", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-engagement { font-family: "Engagement", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-euphoria-script { font-family: "Euphoria Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-felipa { font-family: "Felipa", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-freehand { font-family: "Freehand", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-gloria-hallelujah { font-family: "Gloria Hallelujah", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-gochi-hand { font-family: "Gochi Hand", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-grand-hotel { font-family: "Grand Hotel", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-handlee { font-family: "Handlee", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-homemade-apple { font-family: "Homemade Apple", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-indie-flower { font-family: "Indie Flower", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-itim { font-family: "Itim", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-just-another-hand { font-family: "Just Another Hand", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-kaushan-script { font-family: "Kaushan Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-kristi { font-family: "Kristi", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-la-belle-aurore { font-family: "La Belle Aurore", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-lobster { font-family: "Lobster", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-lobster-two { font-family: "Lobster Two", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-marck-script { font-family: "Marck Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-merienda { font-family: "Merienda", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-merienda-one { font-family: "Merienda One", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-miss-fajardose { font-family: "Miss Fajardose", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-mr-bedfort { font-family: "Mr Bedfort", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-mr-dafoe { font-family: "Mr Dafoe", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-mr-de-haviland { font-family: "Mr De Haviland", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-mrs-saint-delafield { font-family: "Mrs Saint Delafield", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-mrs-sheppards { font-family: "Mrs Sheppards", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-niconne { font-family: "Niconne", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-norican { font-family: "Norican", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-nosifer { font-family: "Nosifer", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-nothing-you-could-do { font-family: "Nothing You Could Do", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-over-the-rainbow { font-family: "Over the Rainbow", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-permanent-marker { font-family: "Permanent Marker", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-pinyon-script { font-family: "Pinyon Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-princess-sofia { font-family: "Princess Sofia", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-qwigley { font-family: "Qwigley", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-rancho { font-family: "Rancho", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-redressed { font-family: "Redressed", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-reenie-beanie { font-family: "Reenie Beanie", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-rochester { font-family: "Rochester", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-rock-salt { font-family: "Rock Salt", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sacramento { font-family: "Sacramento", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sail { font-family: "Sail", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-salsa { font-family: "Salsa", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sedgwick-ave { font-family: "Sedgwick Ave", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sedgwick-ave-display { font-family: "Sedgwick Ave Display", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-shadows-into-light { font-family: "Shadows Into Light", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-shadows-into-light-two { font-family: "Shadows Into Light Two", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sofia { font-family: "Sofia", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sonsie-one { font-family: "Sonsie One", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-special-elite { font-family: "Special Elite", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-stalemate { font-family: "Stalemate", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sue-ellen-francisco { font-family: "Sue Ellen Francisco", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sunshiney { font-family: "Sunshiney", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-swanky-and-moo-moo { font-family: "Swanky and Moo Moo", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-tangerine { font-family: "Tangerine", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-the-girl-next-door { font-family: "The Girl Next Door", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-tillana { font-family: "Tillana", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-unkempt { font-family: "Unkempt", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-vibur { font-family: "Vibur", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-waiting-for-the-sunrise { font-family: "Waiting for the Sunrise", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-walter-turncoat { font-family: "Walter Turncoat", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-yesteryear { font-family: "Yesteryear", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-zeyada { font-family: "Zeyada", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
+  /* COMPLETE cursive font collection - REMOVED transitions to prevent CLS */
+  .font-dancing-script { font-family: "Dancing Script", cursive !important; font-display: swap; }
+  .font-pacifico { font-family: "Pacifico", cursive !important; font-display: swap; }
+  .font-kalam { font-family: "Kalam", cursive !important; font-display: swap; }
+  .font-caveat { font-family: "Caveat", cursive !important; font-display: swap; }
+  .font-comfortaa { font-family: "Comfortaa", cursive !important; font-display: swap; }
+  .font-quicksand { font-family: "Quicksand", cursive !important; font-display: swap; }
+  .font-great-vibes { font-family: "Great Vibes", cursive !important; font-display: swap; }
+  .font-allura { font-family: "Allura", cursive !important; font-display: swap; }
+  .font-alex-brush { font-family: "Alex Brush", cursive !important; font-display: swap; }
+  .font-satisfy { font-family: "Satisfy", cursive !important; font-display: swap; }
+  .font-yellowtail { font-family: "Yellowtail", cursive !important; font-display: swap; }
+  .font-amatic-sc { font-family: "Amatic SC", cursive !important; font-display: swap; }
+  .font-bad-script { font-family: "Bad Script", cursive !important; font-display: swap; }
+  .font-berkshire-swash { font-family: "Berkshire Swash", cursive !important; font-display: swap; }
+  .font-butterfly-kids { font-family: "Butterfly Kids", cursive !important; font-display: swap; }
+  .font-cedarville-cursive { font-family: "Cedarville Cursive", cursive !important; font-display: swap; }
+  .font-courgette { font-family: "Courgette", cursive !important; font-display: swap; }
+  .font-crimson-text { font-family: "Crimson Text", cursive !important; font-display: swap; }
+  .font-dawning-of-a-new-day { font-family: "Dawning of a New Day", cursive !important; font-display: swap; }
+  .font-devonshire { font-family: "Devonshire", cursive !important; font-display: swap; }
+  .font-engagement { font-family: "Engagement", cursive !important; font-display: swap; }
+  .font-euphoria-script { font-family: "Euphoria Script", cursive !important; font-display: swap; }
+  .font-felipa { font-family: "Felipa", cursive !important; font-display: swap; }
+  .font-freehand { font-family: "Freehand", cursive !important; font-display: swap; }
+  .font-gloria-hallelujah { font-family: "Gloria Hallelujah", cursive !important; font-display: swap; }
+  .font-gochi-hand { font-family: "Gochi Hand", cursive !important; font-display: swap; }
+  .font-grand-hotel { font-family: "Grand Hotel", cursive !important; font-display: swap; }
+  .font-handlee { font-family: "Handlee", cursive !important; font-display: swap; }
+  .font-homemade-apple { font-family: "Homemade Apple", cursive !important; font-display: swap; }
+  .font-indie-flower { font-family: "Indie Flower", cursive !important; font-display: swap; }
+  .font-itim { font-family: "Itim", cursive !important; font-display: swap; }
+  .font-just-another-hand { font-family: "Just Another Hand", cursive !important; font-display: swap; }
+  .font-kaushan-script { font-family: "Kaushan Script", cursive !important; font-display: swap; }
+  .font-kristi { font-family: "Kristi", cursive !important; font-display: swap; }
+  .font-la-belle-aurore { font-family: "La Belle Aurore", cursive !important; font-display: swap; }
+  .font-lobster { font-family: "Lobster", cursive !important; font-display: swap; }
+  .font-lobster-two { font-family: "Lobster Two", cursive !important; font-display: swap; }
+  .font-marck-script { font-family: "Marck Script", cursive !important; font-display: swap; }
+  .font-merienda { font-family: "Merienda", cursive !important; font-display: swap; }
+  .font-merienda-one { font-family: "Merienda One", cursive !important; font-display: swap; }
+  .font-miss-fajardose { font-family: "Miss Fajardose", cursive !important; font-display: swap; }
+  .font-mr-bedfort { font-family: "Mr Bedfort", cursive !important; font-display: swap; }
+  .font-mr-dafoe { font-family: "Mr Dafoe", cursive !important; font-display: swap; }
+  .font-mr-de-haviland { font-family: "Mr De Haviland", cursive !important; font-display: swap; }
+  .font-mrs-saint-delafield { font-family: "Mrs Saint Delafield", cursive !important; font-display: swap; }
+  .font-mrs-sheppards { font-family: "Mrs Sheppards", cursive !important; font-display: swap; }
+  .font-niconne { font-family: "Niconne", cursive !important; font-display: swap; }
+  .font-norican { font-family: "Norican", cursive !important; font-display: swap; }
+  .font-nosifer { font-family: "Nosifer", cursive !important; font-display: swap; }
+  .font-nothing-you-could-do { font-family: "Nothing You Could Do", cursive !important; font-display: swap; }
+  .font-over-the-rainbow { font-family: "Over the Rainbow", cursive !important; font-display: swap; }
+  .font-permanent-marker { font-family: "Permanent Marker", cursive !important; font-display: swap; }
+  .font-pinyon-script { font-family: "Pinyon Script", cursive !important; font-display: swap; }
+  .font-princess-sofia { font-family: "Princess Sofia", cursive !important; font-display: swap; }
+  .font-qwigley { font-family: "Qwigley", cursive !important; font-display: swap; }
+  .font-rancho { font-family: "Rancho", cursive !important; font-display: swap; }
+  .font-redressed { font-family: "Redressed", cursive !important; font-display: swap; }
+  .font-reenie-beanie { font-family: "Reenie Beanie", cursive !important; font-display: swap; }
+  .font-rochester { font-family: "Rochester", cursive !important; font-display: swap; }
+  .font-rock-salt { font-family: "Rock Salt", cursive !important; font-display: swap; }
+  .font-sacramento { font-family: "Sacramento", cursive !important; font-display: swap; }
+  .font-sail { font-family: "Sail", cursive !important; font-display: swap; }
+  .font-salsa { font-family: "Salsa", cursive !important; font-display: swap; }
+  .font-sedgwick-ave { font-family: "Sedgwick Ave", cursive !important; font-display: swap; }
+  .font-sedgwick-ave-display { font-family: "Sedgwick Ave Display", cursive !important; font-display: swap; }
+  .font-shadows-into-light { font-family: "Shadows Into Light", cursive !important; font-display: swap; }
+  .font-shadows-into-light-two { font-family: "Shadows Into Light Two", cursive !important; font-display: swap; }
+  .font-sofia { font-family: "Sofia", cursive !important; font-display: swap; }
+  .font-sonsie-one { font-family: "Sonsie One", cursive !important; font-display: swap; }
+  .font-special-elite { font-family: "Special Elite", cursive !important; font-display: swap; }
+  .font-stalemate { font-family: "Stalemate", cursive !important; font-display: swap; }
+  .font-sue-ellen-francisco { font-family: "Sue Ellen Francisco", cursive !important; font-display: swap; }
+  .font-sunshiney { font-family: "Sunshiney", cursive !important; font-display: swap; }
+  .font-swanky-and-moo-moo { font-family: "Swanky and Moo Moo", cursive !important; font-display: swap; }
+  .font-tangerine { font-family: "Tangerine", cursive !important; font-display: swap; }
+  .font-the-girl-next-door { font-family: "The Girl Next Door", cursive !important; font-display: swap; }
+  .font-tillana { font-family: "Tillana", cursive !important; font-display: swap; }
+  .font-unkempt { font-family: "Unkempt", cursive !important; font-display: swap; }
+  .font-vibur { font-family: "Vibur", cursive !important; font-display: swap; }
+  .font-waiting-for-the-sunrise { font-family: "Waiting for the Sunrise", cursive !important; font-display: swap; }
+  .font-walter-turncoat { font-family: "Walter Turncoat", cursive !important; font-display: swap; }
+  .font-yesteryear { font-family: "Yesteryear", cursive !important; font-display: swap; }
+  .font-zeyada { font-family: "Zeyada", cursive !important; font-display: swap; }
   
-  /* Classic fonts from 100 best fonts list */
-  .font-helvetica { font-family: "Helvetica", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-times-new-roman { font-family: "Times New Roman", "Times", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-arial { font-family: "Arial", "Helvetica", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-calibri { font-family: "Calibri", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-georgia { font-family: "Georgia", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-verdana { font-family: "Verdana", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-tahoma { font-family: "Tahoma", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-trebuchet-ms { font-family: "Trebuchet MS", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-courier-new { font-family: "Courier New", "Courier", monospace !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-impact { font-family: "Impact", "Arial Black", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-comic-sans-ms { font-family: "Comic Sans MS", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-lucida-console { font-family: "Lucida Console", "Courier New", monospace !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-lucida-sans-unicode { font-family: "Lucida Sans Unicode", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-palatino-linotype { font-family: "Palatino Linotype", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-book-antiqua { font-family: "Book Antiqua", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-garamond { font-family: "Garamond", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-century-gothic { font-family: "Century Gothic", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-franklin-gothic-medium { font-family: "Franklin Gothic Medium", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-cambria { font-family: "Cambria", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-consolas { font-family: "Consolas", "Courier New", monospace !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-segoe-ui { font-family: "Segoe UI", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-candara { font-family: "Candara", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-corbel { font-family: "Corbel", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-constantia { font-family: "Constantia", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-baskerville { font-family: "Baskerville", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-bodoni { font-family: "Bodoni MT", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-caslon { font-family: "Caslon", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-didot { font-family: "Didot", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-futura { font-family: "Futura", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-gill-sans { font-family: "Gill Sans", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-myriad-pro { font-family: "Myriad Pro", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-optima { font-family: "Optima", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-rockwell { font-family: "Rockwell", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sabon { font-family: "Sabon", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-univers { font-family: "Univers", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-akzidenz-grotesk { font-family: "Akzidenz Grotesk", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-avenir { font-family: "Avenir", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-brandon-grotesque { font-family: "Brandon Grotesque", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-clarendon { font-family: "Clarendon", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-din { font-family: "DIN", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-frutiger { font-family: "Frutiger", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-gotham { font-family: "Gotham", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-inter { font-family: "Inter", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-lato { font-family: "Lato", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-montserrat { font-family: "Montserrat", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-open-sans { font-family: "Open Sans", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-poppins { font-family: "Poppins", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-roboto { font-family: "Roboto", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-source-sans-pro { font-family: "Source Sans Pro", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-work-sans { font-family: "Work Sans", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-pt-sans { font-family: "PT Sans", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-pt-serif { font-family: "PT Serif", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-merriweather { font-family: "Merriweather", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-playfair-display { font-family: "Playfair Display", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-oswald { font-family: "Oswald", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-raleway { font-family: "Raleway", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-ubuntu { font-family: "Ubuntu", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-noto-sans { font-family: "Noto Sans", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-noto-serif { font-family: "Noto Serif", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-libre-baskerville { font-family: "Libre Baskerville", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-libre-franklin { font-family: "Libre Franklin", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-lora { font-family: "Lora", "Times New Roman", serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-nunito { font-family: "Nunito", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-rubik { font-family: "Rubik", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-kanit { font-family: "Kanit", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-mukti { font-family: "Mukti", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-muli { font-family: "Muli", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-raleway-dots { font-family: "Raleway Dots", "Arial", sans-serif !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
+  /* Classic fonts from 100 best fonts list - REMOVED transitions to prevent CLS */
+  .font-helvetica { font-family: "Helvetica", "Arial", sans-serif !important; font-display: swap; }
+  .font-times-new-roman { font-family: "Times New Roman", "Times", serif !important; font-display: swap; }
+  .font-arial { font-family: "Arial", "Helvetica", sans-serif !important; font-display: swap; }
+  .font-calibri { font-family: "Calibri", "Arial", sans-serif !important; font-display: swap; }
+  .font-georgia { font-family: "Georgia", "Times New Roman", serif !important; font-display: swap; }
+  .font-verdana { font-family: "Verdana", "Arial", sans-serif !important; font-display: swap; }
+  .font-tahoma { font-family: "Tahoma", "Arial", sans-serif !important; font-display: swap; }
+  .font-trebuchet-ms { font-family: "Trebuchet MS", "Arial", sans-serif !important; font-display: swap; }
+  .font-courier-new { font-family: "Courier New", "Courier", monospace !important; font-display: swap; }
+  .font-impact { font-family: "Impact", "Arial Black", sans-serif !important; font-display: swap; }
+  .font-comic-sans-ms { font-family: "Comic Sans MS", "Arial", sans-serif !important; font-display: swap; }
+  .font-lucida-console { font-family: "Lucida Console", "Courier New", monospace !important; font-display: swap; }
+  .font-lucida-sans-unicode { font-family: "Lucida Sans Unicode", "Arial", sans-serif !important; font-display: swap; }
+  .font-palatino-linotype { font-family: "Palatino Linotype", "Times New Roman", serif !important; font-display: swap; }
+  .font-book-antiqua { font-family: "Book Antiqua", "Times New Roman", serif !important; font-display: swap; }
+  .font-garamond { font-family: "Garamond", "Times New Roman", serif !important; font-display: swap; }
+  .font-century-gothic { font-family: "Century Gothic", "Arial", sans-serif !important; font-display: swap; }
+  .font-franklin-gothic-medium { font-family: "Franklin Gothic Medium", "Arial", sans-serif !important; font-display: swap; }
+  .font-cambria { font-family: "Cambria", "Times New Roman", serif !important; font-display: swap; }
+  .font-consolas { font-family: "Consolas", "Courier New", monospace !important; font-display: swap; }
+  .font-segoe-ui { font-family: "Segoe UI", "Arial", sans-serif !important; font-display: swap; }
+  .font-candara { font-family: "Candara", "Arial", sans-serif !important; font-display: swap; }
+  .font-corbel { font-family: "Corbel", "Arial", sans-serif !important; font-display: swap; }
+  .font-constantia { font-family: "Constantia", "Times New Roman", serif !important; font-display: swap; }
+  .font-baskerville { font-family: "Baskerville", "Times New Roman", serif !important; font-display: swap; }
+  .font-bodoni { font-family: "Bodoni MT", "Times New Roman", serif !important; font-display: swap; }
+  .font-caslon { font-family: "Caslon", "Times New Roman", serif !important; font-display: swap; }
+  .font-didot { font-family: "Didot", "Times New Roman", serif !important; font-display: swap; }
+  .font-futura { font-family: "Futura", "Arial", sans-serif !important; font-display: swap; }
+  .font-gill-sans { font-family: "Gill Sans", "Arial", sans-serif !important; font-display: swap; }
+  .font-myriad-pro { font-family: "Myriad Pro", "Arial", sans-serif !important; font-display: swap; }
+  .font-optima { font-family: "Optima", "Arial", sans-serif !important; font-display: swap; }
+  .font-rockwell { font-family: "Rockwell", "Arial", sans-serif !important; font-display: swap; }
+  .font-sabon { font-family: "Sabon", "Times New Roman", serif !important; font-display: swap; }
+  .font-univers { font-family: "Univers", "Arial", sans-serif !important; font-display: swap; }
+  .font-akzidenz-grotesk { font-family: "Akzidenz Grotesk", "Arial", sans-serif !important; font-display: swap; }
+  .font-avenir { font-family: "Avenir", "Arial", sans-serif !important; font-display: swap; }
+  .font-brandon-grotesque { font-family: "Brandon Grotesque", "Arial", sans-serif !important; font-display: swap; }
+  .font-clarendon { font-family: "Clarendon", "Times New Roman", serif !important; font-display: swap; }
+  .font-din { font-family: "DIN", "Arial", sans-serif !important; font-display: swap; }
+  .font-frutiger { font-family: "Frutiger", "Arial", sans-serif !important; font-display: swap; }
+  .font-gotham { font-family: "Gotham", "Arial", sans-serif !important; font-display: swap; }
+  .font-inter { font-family: "Inter", "Arial", sans-serif !important; font-display: swap; }
+  .font-lato { font-family: "Lato", "Arial", sans-serif !important; font-display: swap; }
+  .font-montserrat { font-family: "Montserrat", "Arial", sans-serif !important; font-display: swap; }
+  .font-open-sans { font-family: "Open Sans", "Arial", sans-serif !important; font-display: swap; }
+  .font-poppins { font-family: "Poppins", "Arial", sans-serif !important; font-display: swap; }
+  .font-roboto { font-family: "Roboto", "Arial", sans-serif !important; font-display: swap; }
+  .font-source-sans-pro { font-family: "Source Sans Pro", "Arial", sans-serif !important; font-display: swap; }
+  .font-work-sans { font-family: "Work Sans", "Arial", sans-serif !important; font-display: swap; }
+  .font-pt-sans { font-family: "PT Sans", "Arial", sans-serif !important; font-display: swap; }
+  .font-pt-serif { font-family: "PT Serif", "Times New Roman", serif !important; font-display: swap; }
+  .font-merriweather { font-family: "Merriweather", "Times New Roman", serif !important; font-display: swap; }
+  .font-playfair-display { font-family: "Playfair Display", "Times New Roman", serif !important; font-display: swap; }
+  .font-oswald { font-family: "Oswald", "Arial", sans-serif !important; font-display: swap; }
+  .font-raleway { font-family: "Raleway", "Arial", sans-serif !important; font-display: swap; }
+  .font-ubuntu { font-family: "Ubuntu", "Arial", sans-serif !important; font-display: swap; }
+  .font-noto-sans { font-family: "Noto Sans", "Arial", sans-serif !important; font-display: swap; }
+  .font-noto-serif { font-family: "Noto Serif", "Times New Roman", serif !important; font-display: swap; }
+  .font-libre-baskerville { font-family: "Libre Baskerville", "Times New Roman", serif !important; font-display: swap; }
+  .font-libre-franklin { font-family: "Libre Franklin", "Arial", sans-serif !important; font-display: swap; }
+  .font-lora { font-family: "Lora", "Times New Roman", serif !important; font-display: swap; }
+  .font-nunito { font-family: "Nunito", "Arial", sans-serif !important; font-display: swap; }
+  .font-rubik { font-family: "Rubik", "Arial", sans-serif !important; font-display: swap; }
+  .font-kanit { font-family: "Kanit", "Arial", sans-serif !important; font-display: swap; }
+  .font-mukti { font-family: "Mukti", "Arial", sans-serif !important; font-display: swap; }
+  .font-muli { font-family: "Muli", "Arial", sans-serif !important; font-display: swap; }
+  .font-raleway-dots { font-family: "Raleway Dots", "Arial", sans-serif !important; font-display: swap; }
   
   /* Premium fonts from the provided list */
-  .font-tomatoes { font-family: "Tomatoes", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-halimun { font-family: "Halimun", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-bulgatti { font-family: "Bulgatti", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-hello-ketta { font-family: "Hello Ketta", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sacrifice { font-family: "Sacrifice", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-stylish-calligraphy { font-family: "Stylish Calligraphy", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-ananda-black { font-family: "Ananda Black", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-sweet-getaway { font-family: "Sweet Getaway", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-qaskin { font-family: "Qaskin", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-darlington-signature { font-family: "Darlington Signature", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-weddingday { font-family: "Weddingday", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-great-day { font-family: "Great Day", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-autumn-flowers { font-family: "Autumn Flowers", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-cookie-monster { font-family: "Cookie Monster", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-notera { font-family: "Notera", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-motterdam { font-family: "Motterdam", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-brother-signature { font-family: "Brother Signature", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-millenia { font-family: "Millenia", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-million-astteroids { font-family: "Million Astteroids", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-quizy { font-family: "Quizy", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-brotherland-signature { font-family: "Brotherland Signature", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-bright-sunshine { font-family: "Bright Sunshine", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-cassandra { font-family: "Cassandra", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-rebellion-knight { font-family: "Rebellion Knight", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-fridea-script { font-family: "Fridea Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-bright-diamond-script { font-family: "Bright Diamond Script", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-better-grade { font-family: "Better Grade", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-american-signature { font-family: "American Signature", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-antically { font-family: "Antically", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
+  .font-tomatoes { font-family: "Tomatoes", cursive !important; font-display: swap; }
+  .font-halimun { font-family: "Halimun", cursive !important; font-display: swap; }
+  .font-bulgatti { font-family: "Bulgatti", cursive !important; font-display: swap; }
+  .font-hello-ketta { font-family: "Hello Ketta", cursive !important; font-display: swap; }
+  .font-sacrifice { font-family: "Sacrifice", cursive !important; font-display: swap; }
+  .font-stylish-calligraphy { font-family: "Stylish Calligraphy", cursive !important; font-display: swap; }
+  .font-ananda-black { font-family: "Ananda Black", cursive !important; font-display: swap; }
+  .font-sweet-getaway { font-family: "Sweet Getaway", cursive !important; font-display: swap; }
+  .font-qaskin { font-family: "Qaskin", cursive !important; font-display: swap; }
+  .font-darlington-signature { font-family: "Darlington Signature", cursive !important; font-display: swap; }
+  .font-weddingday { font-family: "Weddingday", cursive !important; font-display: swap; }
+  .font-great-day { font-family: "Great Day", cursive !important; font-display: swap; }
+  .font-autumn-flowers { font-family: "Autumn Flowers", cursive !important; font-display: swap; }
+  .font-cookie-monster { font-family: "Cookie Monster", cursive !important; font-display: swap; }
+  .font-notera { font-family: "Notera", cursive !important; font-display: swap; }
+  .font-motterdam { font-family: "Motterdam", cursive !important; font-display: swap; }
+  .font-brother-signature { font-family: "Brother Signature", cursive !important; font-display: swap; }
+  .font-millenia { font-family: "Millenia", cursive !important; font-display: swap; }
+  .font-million-astteroids { font-family: "Million Astteroids", cursive !important; font-display: swap; }
+  .font-quizy { font-family: "Quizy", cursive !important; font-display: swap; }
+  .font-brotherland-signature { font-family: "Brotherland Signature", cursive !important; font-display: swap; }
+  .font-bright-sunshine { font-family: "Bright Sunshine", cursive !important; font-display: swap; }
+  .font-cassandra { font-family: "Cassandra", cursive !important; font-display: swap; }
+  .font-rebellion-knight { font-family: "Rebellion Knight", cursive !important; font-display: swap; }
+  .font-fridea-script { font-family: "Fridea Script", cursive !important; font-display: swap; }
+  .font-bright-diamond-script { font-family: "Bright Diamond Script", cursive !important; font-display: swap; }
+  .font-better-grade { font-family: "Better Grade", cursive !important; font-display: swap; }
+  .font-american-signature { font-family: "American Signature", cursive !important; font-display: swap; }
+  .font-antically { font-family: "Antically", cursive !important; font-display: swap; }
   
   /* New font collection */
-  .font-monofett { font-family: "Monofett", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-doto { font-family: "Doto", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-nova-mono { font-family: "Nova Mono", monospace !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-suse-mono { font-family: "SUSE Mono", monospace !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-norican { font-family: "Norican", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-yesteryear { font-family: "Yesteryear", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-amita { font-family: "Amita", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-estonia { font-family: "Estonia", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-molle { font-family: "Molle", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
-  .font-oleo-script-swash-caps { font-family: "Oleo Script Swash Caps", cursive !important; font-display: swap; transition: font-family 0.5s ease-in-out; }
+  .font-monofett { font-family: "Monofett", cursive !important; font-display: swap; }
+  .font-doto { font-family: "Doto", cursive !important; font-display: swap; }
+  .font-nova-mono { font-family: "Nova Mono", monospace !important; font-display: swap; }
+  .font-suse-mono { font-family: "SUSE Mono", monospace !important; font-display: swap; }
+  .font-norican { font-family: "Norican", cursive !important; font-display: swap; }
+  .font-yesteryear { font-family: "Yesteryear", cursive !important; font-display: swap; }
+  .font-amita { font-family: "Amita", cursive !important; font-display: swap; }
+  .font-estonia { font-family: "Estonia", cursive !important; font-display: swap; }
+  .font-molle { font-family: "Molle", cursive !important; font-display: swap; }
+  .font-oleo-script-swash-caps { font-family: "Oleo Script Swash Caps", cursive !important; font-display: swap; }
   
   /* Smooth font transition animation */
   .font-transition {

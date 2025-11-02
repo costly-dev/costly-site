@@ -49,16 +49,28 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection, isL
 
     window.addEventListener("scroll", handleScroll)
     
-    // Calculate positions after component mounts and on resize
-    setTimeout(calculateIconPositions, 100)
-    setTimeout(calculateIconPositions, 500)
-    setTimeout(calculateIconPositions, 1000)
+    // Calculate positions once after component mounts - prevent CLS
+    const calculateOnce = () => {
+      requestAnimationFrame(() => {
+        calculateIconPositions()
+      })
+    }
     
-    window.addEventListener("resize", calculateIconPositions)
+    // Use requestAnimationFrame to prevent layout shifts
+    calculateOnce()
+    
+    // Only recalculate on resize, not multiple times on mount
+    const handleResize = () => {
+      requestAnimationFrame(() => {
+        calculateIconPositions()
+      })
+    }
+    
+    window.addEventListener("resize", handleResize)
     
     return () => {
       window.removeEventListener("scroll", handleScroll)
-      window.removeEventListener("resize", calculateIconPositions)
+      window.removeEventListener("resize", handleResize)
     }
   }, [])
 

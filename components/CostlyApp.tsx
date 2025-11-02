@@ -101,9 +101,16 @@ export default function CostlyApp() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Set loaded immediately for better FCP - remove loading screen delay
+  useEffect(() => {
+    // Set loaded after a minimal delay to ensure DOM is ready
+    const timer = setTimeout(() => setIsLoaded(true), 0)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <LoadingScreen onLoadingComplete={() => setIsLoaded(true)} />
+      {/* Removed LoadingScreen to improve FCP and prevent CLS */}
       
       <Header
         onWaitlistClick={() => setIsWaitlistOpen(true)}
