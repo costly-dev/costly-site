@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
+import Image from "next/image"
 import SocialIcons from "./SocialIcons"
 import Button from "./Button"
 
@@ -290,7 +291,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           
           {/* Text content */}
           <div 
-            className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-1000 ease-out optimized-animation pl-0 pr-0 relative z-10 text-center lg:text-left ${
+            className={`space-y-6 lg:space-y-8 order-2 lg:order-1 transition-all duration-300 ease-out optimized-animation pl-0 pr-0 relative z-10 text-center lg:text-left ${
               isLoaded 
                 ? 'opacity-100' 
                 : 'translate-y-8 opacity-0'
@@ -299,7 +300,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
               transform: isLoaded 
                 ? (isMobile ? 'translateY(0px)' : `translateY(${textTransform}px)`)
                 : 'translateY(8px)',
-              transition: isLoaded ? (isMobile ? 'none' : 'transform 0.1s ease-out') : 'all 1s ease-out'
+              transition: isLoaded ? (isMobile ? 'none' : 'transform 0.1s ease-out') : 'all 300ms ease-out'
             }}
           >
             <header>
@@ -389,7 +390,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
           </div>
 
           {/* App preview */}
-          <div className={`flex justify-center lg:justify-end order-1 lg:order-2 transition-all duration-1000 ease-out delay-300 ${
+          <div className={`flex justify-center lg:justify-end order-1 lg:order-2 transition-all duration-500 ease-out ${
             isLoaded 
               ? 'translate-x-0 opacity-100' 
               : 'translate-x-8 opacity-0'
@@ -402,27 +403,27 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 </p>
               </div>
               {/* Mobile and small screens - optimize for LCP */}
-              <img 
+              <Image 
                 src="/GraphicsNotif.png" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="w-64 h-[520px] sm:w-72 sm:h-[585px] lg:hidden object-contain"
                 width={288}
                 height={585}
-                loading="eager"
-                decoding="sync"
-                fetchPriority="high"
+                priority
+                quality={85}
+                sizes="(max-width: 640px) 256px, 288px"
               />
               
               {/* Desktop - optimize for LCP with compressed default */}
-              <img 
+              <Image 
                 src="/GraphicsNotif_upscaled_compressed.jpg" 
                 alt="Costly App Preview - iPhone notification showing penalty system"
                 className="hidden lg:block w-[450px] h-[920px] xl:w-[500px] xl:h-[1020px] object-contain transition-opacity duration-300"
                 width={500}
                 height={1020}
-                loading="eager"
-                decoding="sync"
-                fetchPriority="high"
+                priority
+                quality={85}
+                sizes="(min-width: 1280px) 500px, 450px"
               />
             </div>
           </div>

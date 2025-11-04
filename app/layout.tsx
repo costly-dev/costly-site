@@ -166,13 +166,13 @@ export default function RootLayout({
           href="/icon.png"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        {/* Load only core UI font eagerly for FCP */}
+        {/* Load only core UI font eagerly for FCP - non-blocking async loading */}
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-        {/* Load one cursive font early to prevent CLS - first font in Hero */}
+        {/* Load one cursive font early to prevent CLS - first font in Hero - non-blocking */}
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" as="style" />
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
         {/* Load other cursive fonts lazily after page load to improve FCP */}
@@ -186,9 +186,12 @@ export default function RootLayout({
   document.head.appendChild(link);
 })();`}
         </Script>
-        {/* Preload critical images for mobile FCP */}
-        <link rel="preload" as="image" href="/GraphicsNotif.png" />
+        {/* Preload critical images for mobile FCP - only on mobile */}
+        <link rel="preload" as="image" href="/GraphicsNotif.png" media="(max-width: 1023px)" />
         <link rel="preload" as="image" href="/icon.png" />
+        {/* Preconnect to external resources for faster loading */}
+        <link rel="preconnect" href="https://sf.abarba.me" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://sf.abarba.me" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -297,7 +300,7 @@ export default function RootLayout({
 
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         
-        <Analytics />
+        <Analytics mode="production" />
         <SpeedInsights />
       </body>
     </html>

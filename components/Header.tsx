@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 interface HeaderProps {
   onWaitlistClick: () => void
@@ -106,10 +107,14 @@ export default function Header({ onWaitlistClick, onNavigate, activeSection, isL
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <img
+            <Image
               src="/icon.png"
               alt="Costly Logo"
+              width={32}
+              height={32}
               className="w-6 h-6 sm:w-8 sm:h-8"
+              priority
+              quality={85}
             />
             <span className="hidden sm:inline text-lg sm:text-xl font-bold text-silver-300">Costly</span>
           </div>
