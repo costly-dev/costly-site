@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import DebugButton from "./debug/DebugButton"
 
 interface PhilosophyProps {
   onComplete?: () => void
@@ -17,9 +16,27 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
   const [showProgressBar, setShowProgressBar] = useState(false)
   const [debugMode, setDebugMode] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [DebugButton, setDebugButton] = useState<React.ComponentType<any> | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
   const lockedScrollPosition = useRef(0)
+
+  // Load DebugButton stub (always available, will try to load real one internally)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Always load stub (it's always available and will handle loading real DebugButton internally)
+      import('./debug/DebugButton.stub')
+        .then((stubModule: any) => {
+          if (stubModule?.default) {
+            setDebugButton(() => stubModule.default)
+          }
+        })
+        .catch(() => {
+          // Stub not available (shouldn't happen, but handle gracefully)
+          setDebugButton(null)
+        })
+    }
+  }, [])
 
   const fullText = "Costly is a platform that lets people turn focus into commitment and discipline into measurable growth. Users place a stake on their own ability to stay off distractions by starting a focus session—if they open apps they've chosen to block, they lose part of that stake as a self-imposed consequence. The funds they set aside are held in a personal Costly account and can grow over time as they remain consistent, but withdrawals are only unlocked once personal milestones are met, such as total focus hours, completed sessions, or sustained streaks. Every change to one's rules or goals carries weight, reinforcing accountability with small penalties that remind users that commitment matters. Future versions will introduce a shared challenge system, allowing friends to join in collective goals and friendly competition built on trust and self-discipline. Costly isn't about restriction—it's about transforming attention into something tangible, where focus itself becomes a form of investment."
 
@@ -185,12 +202,14 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
 
   return (
     <section ref={sectionRef} className="min-h-screen px-4 sm:px-6 lg:px-8 flex items-center justify-center relative pt-20 pb-20">
-      {/* Debug Mode Button */}
-      <DebugButton 
-        debugMode={debugMode}
-        onToggleDebug={() => setDebugMode(!debugMode)}
-        onReset={resetAll}
-      />
+      {/* Debug Mode Button - Only in development */}
+      {DebugButton && (
+        <DebugButton
+          debugMode={debugMode}
+          onToggleDebug={() => setDebugMode(!debugMode)}
+          onReset={resetAll}
+        />
+      )}
       {/* Apple-like Notification */}
       <div className={`fixed top-4 sm:top-8 left-1/2 z-50 transition-all duration-1000 ease-out ${
         showProgressBar 

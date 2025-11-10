@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Suspense } from "react"
 import Script from "next/script"
+import { SoftwareApplicationJsonLd, OrganizationJsonLd, JsonLdScript } from "next-seo"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -192,113 +193,87 @@ export default function RootLayout({
         {/* Preconnect to external resources for faster loading */}
         <link rel="preconnect" href="https://sf.abarba.me" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://sf.abarba.me" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Costly",
-              "alternateName": "Bet Against Addiction",
-              "description": "Behavioral accountability app for iPhone and Mac that connects your focus to real, measurable stakes. Native app blocking via FamilyControls with penalty system and streak tracking.",
-              "url": "https://www.costly.live",
-              "applicationCategory": "ProductivityApplication",
-              "operatingSystem": ["iOS", "macOS"],
-              "softwareVersion": "1.0.0",
-              "datePublished": "2024-01-15",
-              "dateModified": new Date().toISOString().split('T')[0],
-              "offers": {
-                "@type": "Offer",
-                "price": "2.99",
-                "priceCurrency": "USD",
-                "priceSpecification": {
-                  "@type": "RecurringPaymentsPriceSpecification",
-                  "billingDuration": "P1M",
-                  "billingIncrement": 1
-                },
-                "availability": "https://schema.org/InStock",
-                "validFrom": "2024-01-15"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "150",
-                "bestRating": "5",
-                "worstRating": "1"
-              },
-              "author": {
-                "@type": "Organization",
-                "name": "Costly Team",
-                "url": "https://costly.live"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "Costly",
-                "url": "https://costly.live"
-              },
-              "keywords": "behavioral accountability, focus app, iPhone productivity, Mac productivity, FamilyControls, app blocking, penalty system, streak tracking, liquid glass design, subscription app, digital wellness, habit tracking, self-discipline",
-              "screenshot": "/icon.png",
-              "featureList": [
-                "Native app blocking via FamilyControls",
-                "Penalty system with real stakes",
-                "Streak tracking and rewards",
-                "Tamper-proof enforcement",
-                "Secure payment integration",
-                "Cross-device synchronization",
-                "Liquid glass design",
-                "Biometric authentication"
-              ],
-              "softwareRequirements": "iOS 15.0+ or macOS 12.0+",
-              "memoryRequirements": "100 MB",
-              "storageRequirements": "200 MB",
-              "permissions": "FamilyControls, Biometric Authentication, Network Access"
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Costly - Bet Against Addiction",
-              "url": "https://www.costly.live",
-              "description": "Official website for Costly, the behavioral accountability app that connects your focus to real, measurable stakes.",
-              "publisher": {
-                "@type": "Organization",
-                "name": "Costly Team"
-              },
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://www.costly.live",
-                "query-input": "required name=search_term_string"
-              }
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "Costly Team",
-              "url": "https://www.costly.live",
-              "logo": "https://www.costly.live/icon.png",
-              "description": "The team behind Costly, a behavioral accountability app for iPhone and Mac.",
-              "foundingDate": "2024",
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "contactType": "customer service",
-                "url": "https://www.costly.live"
-              }
-            })
-          }}
-        />
       </head>
       <body className="bg-black">
+        {/* Next SEO JSON-LD Structured Data */}
+        <SoftwareApplicationJsonLd
+          name="Costly"
+          description="Costly (Bet Against Addiction) - Behavioral accountability app for iPhone and Mac that connects your focus to real, measurable stakes. Native app blocking via FamilyControls with penalty system and streak tracking."
+          url="https://www.costly.live"
+          applicationCategory="ProductivityApplication"
+          operatingSystem="iOS, macOS"
+          softwareVersion="1.0.0"
+          datePublished="2024-01-15"
+          dateModified={new Date().toISOString().split('T')[0]}
+          offers={{
+            price: 2.99,
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            validFrom: "2024-01-15"
+          }}
+          aggregateRating={{
+            ratingValue: 4.8,
+            ratingCount: 150,
+            bestRating: 5,
+            worstRating: 1
+          }}
+          author={{
+            "@type": "Organization",
+            name: "Costly Team",
+            url: "https://costly.live"
+          }}
+          publisher={{
+            "@type": "Organization",
+            name: "Costly",
+            url: "https://costly.live"
+          }}
+          screenshot="/icon.png"
+          featureList={[
+            "Native app blocking via FamilyControls",
+            "Penalty system with real stakes",
+            "Streak tracking and rewards",
+            "Tamper-proof enforcement",
+            "Secure payment integration",
+            "Cross-device synchronization",
+            "Liquid glass design",
+            "Biometric authentication"
+          ]}
+          memoryRequirements="100 MB"
+          storageRequirements="200 MB"
+          permissions="FamilyControls, Biometric Authentication, Network Access"
+        />
+        <JsonLdScript
+          scriptKey="website"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Costly - Bet Against Addiction",
+            url: "https://www.costly.live",
+            description: "Official website for Costly, the behavioral accountability app that connects your focus to real, measurable stakes.",
+            publisher: {
+              "@type": "Organization",
+              name: "Costly Team"
+            },
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://www.costly.live",
+              "query-input": "required name=search_term_string"
+            }
+          }}
+        />
+        <OrganizationJsonLd
+          name="Costly Team"
+          url="https://www.costly.live"
+          logo="https://www.costly.live/icon.png"
+          description="The team behind Costly, a behavioral accountability app for iPhone and Mac."
+          foundingDate="2024"
+          contactPoint={{
+            "@type": "ContactPoint",
+            contactType: "customer service"
+          }}
+        />
 
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         
         <Analytics mode="production" />
         <SpeedInsights />

@@ -26,5 +26,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# debug components
-components/debug/
+# debug components (only ignore the actual debug button, not the stub)
+components/debug/DebugButton.tsx
