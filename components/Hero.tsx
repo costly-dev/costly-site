@@ -336,13 +336,16 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
             ) : (
               <h1
                 ref={titleRef}
-                className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-center xl:text-left ${cursiveFonts.length > 0 ? cursiveFonts[currentFontIndex] || cursiveFonts[0] : 'font-dancing-script'} whitespace-nowrap`}
+                className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight text-center xl:text-left ${cursiveFonts.length > 0 ? cursiveFonts[currentFontIndex] || cursiveFonts[0] : 'font-dancing-script'} ${isMobile ? '' : 'whitespace-nowrap'}`}
                 style={{
                   fontSize: `${dynamicFontSize}px`,
                   marginLeft: !isMobile ? '-24px' : '0px',
                   minHeight: `${dynamicFontSize * 1.2}px`, // Reserve space to prevent CLS
                   display: 'block',
-                  visibility: 'visible'
+                  visibility: 'visible',
+                  wordBreak: isMobile ? 'break-word' : 'normal',
+                  overflowWrap: isMobile ? 'break-word' : 'normal',
+                  maxWidth: '100%'
                 }}
               >
                 <span className="text-silver-300">Bet</span>{" "}

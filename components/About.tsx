@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef } from "react"
 
-interface AboutProps {}
+interface AboutProps {
+  onNavigate?: (section: string) => void
+}
 
-export default function About({}: AboutProps) {
+export default function About({ onNavigate }: AboutProps) {
   const [activeCard, setActiveCard] = useState(0)
   const [isScrolling, setIsScrolling] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
@@ -13,6 +15,8 @@ export default function About({}: AboutProps) {
   const [isPhilosophyComplete, setIsPhilosophyComplete] = useState(false)
   const [hasArrowFaded, setHasArrowFaded] = useState(false)
   const [isPhase2, setIsPhase2] = useState(false)
+  const [hasSelectedAboutFromCards, setHasSelectedAboutFromCards] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
@@ -141,6 +145,33 @@ export default function About({}: AboutProps) {
     }
   }, [isPhilosophyComplete])
 
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Handle click to navigate to About section on desktop (like header button)
+  const handleAboutClick = (e: React.MouseEvent) => {
+    // Only on desktop (not mobile)
+    if (isMobile) return
+    
+    // Don't navigate if clicking on interactive elements
+    const target = e.target as HTMLElement
+    if (target.closest('button') || target.closest('a') || target.closest('[role="button"]')) {
+      return
+    }
+    
+    // Use onNavigate to navigate to about section (same as header button)
+    if (onNavigate) {
+      onNavigate('about')
+    }
+  }
+
   // No auto-centering or scroll lock - users can scroll freely
 
   // Handle user scrolling detection for auto-scroll pause
@@ -212,8 +243,6 @@ export default function About({}: AboutProps) {
         // Handle fade in/out animations
         setIsVisible(isInView)
         
-        // Track when user scrolls to About section - no longer needed
-        
         // Handle header animation
         if (isInView) {
           // Animate header first
@@ -231,7 +260,8 @@ export default function About({}: AboutProps) {
         } else {
           // Reset header animation when leaving view
           setAnimatedHeader(false)
-          // Don't reset hasAutoCentered - only reset on page load or explicit navigation
+          // Reset the flag when leaving About section so it can be selected again when returning
+          setHasSelectedAboutFromCards(false)
         }
         
       }
@@ -245,13 +275,18 @@ export default function About({}: AboutProps) {
         
         if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
           setActiveCard(newActiveCard)
+          // Select "about" section once when card changes (one-time only)
+          if (onNavigate && !hasSelectedAboutFromCards) {
+            onNavigate('about')
+            setHasSelectedAboutFromCards(true)
+          }
         }
       }
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isScrolling, activeCard, cards.length])
+  }, [isScrolling, activeCard, cards.length, onNavigate, hasSelectedAboutFromCards])
 
   return (
     <>
@@ -289,7 +324,12 @@ export default function About({}: AboutProps) {
         }
       `}</style>
       
-      <section ref={sectionRef} id="about" className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8">
+      <section 
+        ref={sectionRef} 
+        id="about" 
+        className="pt-4 pb-20 sm:pt-8 sm:pb-24 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8"
+        onClick={handleAboutClick}
+      >
         <div className="max-w-4xl mx-auto">
         {/* Section heading */}
         <header className={`text-center mb-6 transition-all duration-700 ${
@@ -450,7 +490,31 @@ export default function About({}: AboutProps) {
             ref={scrollContainerRef}
             className="h-full overflow-y-auto scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onWheel={(e) => {
+              // Allow page scrolling when card container is at top/bottom
+              const container = scrollContainerRef.current
+              if (!container) return
+              
+              const { scrollTop, scrollHeight, clientHeight } = container
+              const isAtTop = scrollTop <= 1
+              const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1
+              
+              // If at top and scrolling up, or at bottom and scrolling down, allow page scroll
+              if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
+                // Prevent container from scrolling and allow page to scroll
+                e.preventDefault()
+                e.stopPropagation()
+                // Scroll the page instead
+                window.scrollBy({
+                  top: e.deltaY,
+                  behavior: 'auto'
+                })
+                return
+              }
+              // Otherwise, allow normal container scrolling
+            }}
             onScroll={() => {
+              // Only update cards when user is actively scrolling (not programmatic scroll)
               if (scrollContainerRef.current && !isScrolling) {
                 const container = scrollContainerRef.current
                 const scrollTop = container.scrollTop
@@ -459,9 +523,13 @@ export default function About({}: AboutProps) {
                 
                 if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
                   setActiveCard(newActiveCard)
+                  
+                  // Select "about" section once when card changes (one-time only)
+                  if (onNavigate && !hasSelectedAboutFromCards) {
+                    onNavigate('about')
+                    setHasSelectedAboutFromCards(true)
+                  }
                 }
-                
-                // Card selection logic only - no centering lock
               }
             }}
           >

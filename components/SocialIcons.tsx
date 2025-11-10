@@ -45,16 +45,16 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
   ]
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-visible">
       {/* Mobile Layout: Icons only */}
-      <div className="flex gap-2 md:gap-3 lg:gap-4 justify-center lg:justify-start flex-shrink-0 lg:hidden">
+      <div className="flex gap-2 md:gap-3 lg:gap-4 justify-center lg:justify-start flex-shrink-0 lg:hidden overflow-visible">
         {socialLinks.map((social) => (
         <a
             key={social.name}
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-1.5"
+            className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-1.5 overflow-visible"
             aria-label={social.name}
         >
             <img
@@ -71,15 +71,15 @@ export default function SocialIcons({ onScrollToAbout }: SocialIconsProps) {
       </div>
 
       {/* Desktop Layout: Icons + Learn More in same row */}
-      <div className="hidden lg:flex flex-row gap-4 items-center justify-start w-full">
-        <div className="flex gap-2 md:gap-3 lg:gap-4 flex-wrap justify-start flex-shrink-0">
+      <div className="hidden lg:flex flex-row gap-4 items-center justify-start w-full overflow-visible">
+        <div className="flex gap-2 md:gap-3 lg:gap-4 flex-wrap justify-start flex-shrink-0 overflow-visible">
           {socialLinks.map((social) => (
           <a
               key={social.name}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-1.5"
+              className="w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 bg-black rounded-xl flex items-center justify-center hover:scale-110 transition-transform p-1.5 overflow-visible"
               aria-label={social.name}
           >
               <img

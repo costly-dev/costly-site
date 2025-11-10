@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import DebugButton from "./debug/DebugButton"
 
 interface PhilosophyProps {
   onComplete?: () => void
@@ -14,26 +15,63 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
   const [arrowVisible, setArrowVisible] = useState(false)
   const [isScrollLocked, setIsScrollLocked] = useState(false)
   const [showProgressBar, setShowProgressBar] = useState(false)
+  const [debugMode, setDebugMode] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
   const lockedScrollPosition = useRef(0)
 
   const fullText = "Costly is a platform that lets people turn focus into commitment and discipline into measurable growth. Users place a stake on their own ability to stay off distractions by starting a focus session—if they open apps they've chosen to block, they lose part of that stake as a self-imposed consequence. The funds they set aside are held in a personal Costly account and can grow over time as they remain consistent, but withdrawals are only unlocked once personal milestones are met, such as total focus hours, completed sessions, or sustained streaks. Every change to one's rules or goals carries weight, reinforcing accountability with small penalties that remind users that commitment matters. Future versions will introduce a shared challenge system, allowing friends to join in collective goals and friendly competition built on trust and self-discipline. Costly isn't about restriction—it's about transforming attention into something tangible, where focus itself becomes a form of investment."
 
-  // Check localStorage on component mount
-  useEffect(() => {
-    const cachedGenerated = localStorage.getItem('philosophy-generated')
-    if (cachedGenerated === 'true') {
-      setDisplayedText(fullText)
-      setHasGenerated(true)
+  // Reset function for debug mode
+  const resetAll = () => {
+    // Clear all state
+    setDisplayedText("")
+    setIsTyping(false)
+    setHasGenerated(false)
+    setShowArrow(false)
+    setArrowVisible(false)
+    setIsScrollLocked(false)
+    setShowProgressBar(false)
+    lastScrollY.current = 0
+    lockedScrollPosition.current = 0
+    
+    // Clear localStorage
+    localStorage.removeItem('philosophy-generated')
+    
+    // Clear any pending timeouts by scrolling to top
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }, [fullText])
+  }
+
+  // Check localStorage on component mount (skip if debug mode)
+  useEffect(() => {
+    if (!debugMode) {
+      const cachedGenerated = localStorage.getItem('philosophy-generated')
+      if (cachedGenerated === 'true') {
+        setDisplayedText(fullText)
+        setHasGenerated(true)
+      }
+    }
+  }, [fullText, debugMode])
+
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Handle scroll-based typing and scroll locking
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const section = sectionRef.current
+      let scrollBlocked = false
       
       // Detect user scrolling and hide arrow (only if arrow is visible and not already fading)
       const scrollDelta = Math.abs(currentScrollY - lastScrollY.current)
@@ -60,45 +98,53 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
           lockedScrollPosition.current = currentScrollY
         }
         
-        // Simple scroll lock - only prevent scrolling down past the section during generation
-        if (isScrollLocked && isTyping && section) {
+        // Scroll lock - prevent scrolling past the section bottom during generation
+        // Allow free scrolling within the section, but block revealing content underneath
+        if (isScrollLocked && isTyping && !hasGenerated) {
           const sectionBottom = section.offsetTop + section.offsetHeight
-          const maxScrollY = sectionBottom - viewportHeight + 50 // Small buffer
+          const maxScrollY = sectionBottom - viewportHeight
           
-          // Only prevent scrolling down past the section, allow scrolling up
+          // Prevent scrolling down past the section bottom
+          // Allow scrolling up freely
           if (currentScrollY > maxScrollY) {
             window.scrollTo({
               top: maxScrollY,
               behavior: 'auto' // Instant correction to prevent jitter
             })
+            scrollBlocked = true
           }
-        } else if (isScrollLocked && !isTyping) {
-          // Release scroll lock when typing is complete
+        } else if (isScrollLocked && !isTyping && hasGenerated) {
+          // Release scroll lock when typing is complete and text is fully generated
           setIsScrollLocked(false)
         }
       }
       
-      lastScrollY.current = currentScrollY
+      // Only update lastScrollY if we didn't block the scroll
+      if (!scrollBlocked) {
+        lastScrollY.current = currentScrollY
+      }
     }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [displayedText.length, fullText.length, isTyping, isScrollLocked, showArrow])
+  }, [displayedText.length, fullText.length, isTyping, isScrollLocked, showArrow, hasGenerated])
 
   // Typing animation effect
   useEffect(() => {
     if (isTyping && displayedText.length < fullText.length) {
       const timeout = setTimeout(() => {
         setDisplayedText(fullText.slice(0, displayedText.length + 1))
-      }, 30) // Typing speed
+      }, 25) // Typing speed
       
       return () => clearTimeout(timeout)
     } else if (isTyping && displayedText.length === fullText.length) {
-      // Stop animation when complete and save to localStorage
+      // Stop animation when complete and save to localStorage (skip in debug mode)
       setIsTyping(false)
       setIsScrollLocked(false)
       setHasGenerated(true)
-      localStorage.setItem('philosophy-generated', 'true')
+      if (!debugMode) {
+        localStorage.setItem('philosophy-generated', 'true')
+      }
       
       // Fade out notification after completion and trigger About icons
       setTimeout(() => {
@@ -109,8 +155,12 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       
       // Show arrow after progress bar fades out
       setTimeout(() => {
-        setShowArrow(true)
+        // Set arrowVisible first to add it to DOM, then show it after a small delay to ensure centering
         setArrowVisible(true)
+        // Small delay to ensure element is rendered and centered before fading in
+        setTimeout(() => {
+          setShowArrow(true)
+        }, 50)
         // Notify parent that philosophy is complete
         if (onComplete) {
           onComplete()
@@ -128,18 +178,31 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
         }, 3000) // 3 second delay
       }, 1500)
     }
-  }, [isTyping, displayedText, fullText])
+  }, [isTyping, displayedText, fullText, debugMode, onComplete])
 
   // Calculate progress percentage
   const progressPercentage = fullText.length > 0 ? (displayedText.length / fullText.length) * 100 : 0
 
   return (
     <section ref={sectionRef} className="min-h-screen px-4 sm:px-6 lg:px-8 flex items-center justify-center relative pt-20 pb-20">
+      {/* Debug Mode Button */}
+      <DebugButton 
+        debugMode={debugMode}
+        onToggleDebug={() => setDebugMode(!debugMode)}
+        onReset={resetAll}
+      />
       {/* Apple-like Notification */}
-      <div className={`fixed top-4 sm:top-8 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-1000 ease-out ${
-        showProgressBar ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
-      }`}>
-          <div className="bg-black/80 backdrop-blur-xl rounded-2xl px-4 sm:px-6 pt-2 sm:pt-3 pb-1.5 sm:pb-2 shadow-2xl w-72 sm:w-80 md:w-96 lg:w-[28rem] mx-auto">
+      <div className={`fixed top-4 sm:top-8 left-1/2 z-50 transition-all duration-1000 ease-out ${
+        showProgressBar 
+          ? 'opacity-100' 
+          : 'opacity-0'
+      }`}
+      style={{
+        transform: showProgressBar 
+          ? (isMobile ? 'translate(calc(-50% - 1.5rem), calc(35% - 2px))' : 'translate(-50%, 0%)')
+          : (isMobile ? 'translate(calc(-50% - 1.5rem), -2rem)' : 'translate(-50%, -2rem)')
+      }}>
+          <div className="bg-black/80 backdrop-blur-xl rounded-2xl px-3 sm:px-6 pt-2 sm:pt-3 pb-1.5 sm:pb-2 shadow-2xl w-56 sm:w-80 md:w-96 lg:w-[28rem] mx-auto border-[4pt] border-black">
             {/* Clean Title */}
             <div className="text-center mb-1 sm:mb-1.5">
               <h3 className="text-xs sm:text-sm font-medium text-white/90 tracking-wide">
@@ -174,9 +237,12 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
       {/* Cool down arrow that fades in and out */}
       {arrowVisible && (
         <div 
-          className={`absolute -translate-x-1/2 top-full -mt-32 z-10 cursor-pointer transition-opacity duration-1000 ease-in-out ${
-            showArrow ? 'opacity-100 animate-bounce' : 'opacity-0'
-          }`}
+          className="fixed left-1/2 bottom-32 z-10 cursor-pointer"
+          style={{
+            transform: 'translateX(-50%)',
+            transition: 'opacity 1000ms ease-in-out',
+            opacity: showArrow ? 1 : 0
+          }}
           onClick={() => {
             // Scroll down to the next section (About)
             const aboutSection = document.getElementById('about')
@@ -187,7 +253,9 @@ export default function Philosophy({ onComplete }: PhilosophyProps) {
             setArrowVisible(false)
           }}
         >
-          <div className="flex flex-col items-center gap-2 text-white/60 hover:text-white/80 transition-colors">
+          <div className={`flex flex-col items-center gap-2 text-white/60 hover:text-white/80 transition-colors ${
+            showArrow ? 'animate-bounce' : ''
+          }`}>
             <svg 
               className="w-6 h-6 animate-pulse" 
               fill="currentColor" 
