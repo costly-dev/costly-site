@@ -540,7 +540,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                       Join Waitlist: be the {displayCount}{getOrdinalSuffix(displayCount)} user.
                     </span>
                     <span className="sm:hidden">
-                      Be the {displayCount}{getOrdinalSuffix(displayCount)} to join.
+                      Be the {displayCount}{getOrdinalSuffix(displayCount)} to join waitlist.
                     </span>
                   </>
                 ) : (
