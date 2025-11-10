@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import SocialIcons from "./SocialIcons"
 import Button from "./Button"
@@ -25,8 +25,24 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
   const [isRouletteComplete, setIsRouletteComplete] = useState(false)
   const [scrollVelocity, setScrollVelocity] = useState(0)
   const [isScrolling, setIsScrolling] = useState(false)
+  const [waitlistCount, setWaitlistCount] = useState<number | null>(null)
+  const [displayCount, setDisplayCount] = useState(0)
+  const [hasLoadedCount, setHasLoadedCount] = useState(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
+  const fakeIncrementRef = useRef(0)
+  const incrementTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const currentCountRef = useRef<number | null>(null)
+
+  // Helper function to get ordinal suffix (1st, 2nd, 3rd, 4th, etc.)
+  const getOrdinalSuffix = (num: number): string => {
+    const j = num % 10
+    const k = num % 100
+    if (j === 1 && k !== 11) return 'st'
+    if (j === 2 && k !== 12) return 'nd'
+    if (j === 3 && k !== 13) return 'rd'
+    return 'th'
+  }
 
   const cursiveFonts = [
     'font-dancing-script',
@@ -284,6 +300,158 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
     setTextTransform(scrollProgress * maxMovement)
   }, [scrollY, isMobile])
 
+  // Fetch waitlist count from API route (uses service_role key server-side)
+  const fetchWaitlistCount = useCallback(async () => {
+    try {
+      const response = await fetch('/api/waitlist-count')
+      
+      if (!response.ok) {
+        console.error('Failed to fetch waitlist count:', response.statusText)
+        return null
+      }
+      
+      const data = await response.json()
+      
+      if (data.count !== null && data.count !== undefined) {
+        return data.count
+      }
+      return null
+    } catch (error) {
+      console.error('Error fetching waitlist count:', error)
+      return null
+    }
+  }, [])
+
+  // Initial fetch on mount and poll every 3 seconds
+  useEffect(() => {
+    let pollInterval: NodeJS.Timeout | null = null
+    
+    const checkAndUpdateCount = async () => {
+      console.log('[Polling] Checking waitlist count...')
+      const newCount = await fetchWaitlistCount()
+      console.log('[Polling] Received count:', newCount, 'Current count:', currentCountRef.current)
+      
+      if (newCount !== null) {
+        // Always update, even if count hasn't changed (to ensure UI is in sync)
+        if (currentCountRef.current === null || newCount !== currentCountRef.current) {
+          console.log('[Polling] Count changed:', currentCountRef.current, '->', newCount)
+          currentCountRef.current = newCount
+          setWaitlistCount(newCount)
+          setHasLoadedCount(true)
+        } else {
+          console.log('[Polling] Count unchanged:', newCount)
+        }
+      } else if (currentCountRef.current === null) {
+        // Only set to 0 if we haven't loaded yet
+        console.log('[Polling] Setting initial count to 0')
+        currentCountRef.current = 0
+        setWaitlistCount(0)
+        setHasLoadedCount(true)
+      }
+    }
+    
+    // Initial fetch
+    console.log('[Polling] Starting initial fetch...')
+    checkAndUpdateCount()
+    
+    // Poll every 3 seconds
+    console.log('[Polling] Setting up interval to poll every 3 seconds')
+    pollInterval = setInterval(() => {
+      console.log('[Polling] Interval triggered, checking count...')
+      checkAndUpdateCount()
+    }, 3000)
+    
+    return () => {
+      console.log('[Polling] Cleaning up interval')
+      if (pollInterval) {
+        clearInterval(pollInterval)
+      }
+    }
+  }, [fetchWaitlistCount])
+  
+  // Update ref when waitlistCount changes
+  useEffect(() => {
+    if (waitlistCount !== null) {
+      currentCountRef.current = waitlistCount
+    }
+  }, [waitlistCount])
+
+  // Animate the count display
+  useEffect(() => {
+    // Only run if count has been loaded
+    if (waitlistCount === null) {
+      console.log('waitlistCount is null, waiting for load...')
+      return
+    }
+    
+    console.log('Setting count to:', waitlistCount)
+    
+    // Reset fake increment on refresh
+    fakeIncrementRef.current = 0
+    
+    const targetCount = waitlistCount
+    const finalTarget = targetCount + 1 // Show count + 1
+    
+    // Set count directly (no animation)
+    setDisplayCount(finalTarget)
+    console.log('Display count set to:', finalTarget)
+    
+    // Start slow increments with increasing delays
+    // First increment: 20-70s, then each one longer than previous
+    // Once above 70s, all subsequent delays stay above 70s
+    let lastDelay = 0 // Track the last delay to ensure it increases
+    
+    const scheduleNextIncrement = () => {
+      let delay: number
+      
+      if (lastDelay === 0) {
+        // First increment: 20-70 seconds
+        delay = 20000 + Math.random() * 50000 // 20-70 seconds
+      } else if (lastDelay < 70000) {
+        // Still below 70s: make it longer than previous, but can go up to 90s
+        const minDelay = lastDelay + 1000 // At least 1 second longer
+        const maxDelay = Math.min(90000, lastDelay + 20000) // Can increase by up to 20s, max 90s
+        delay = minDelay + Math.random() * (maxDelay - minDelay)
+        
+        // If this would push us above 70s, ensure it stays above 70s
+        if (delay > 70000) {
+          delay = 70000 + Math.random() * 20000 // 70-90 seconds
+        }
+      } else {
+        // Already above 70s: keep it above 70s and make it longer
+        const minDelay = lastDelay + 1000 // At least 1 second longer
+        const maxDelay = 90000 // Max 90 seconds
+        delay = Math.min(minDelay + Math.random() * (maxDelay - minDelay), 90000)
+      }
+      
+      lastDelay = delay
+      const delaySeconds = Math.round(delay / 1000)
+      console.log(`Scheduling next increment in ${delaySeconds}s (total delay: ${Math.round(lastDelay / 1000)}s)`)
+      
+      incrementTimeoutRef.current = setTimeout(() => {
+        fakeIncrementRef.current += 1
+        setDisplayCount(finalTarget + fakeIncrementRef.current)
+        console.log('Slow increment, displayCount now:', finalTarget + fakeIncrementRef.current)
+        
+        // Schedule next increment
+        scheduleNextIncrement()
+      }, delay)
+    }
+    
+    // Start slow increments
+    scheduleNextIncrement()
+    
+    // Cleanup function
+    return () => {
+      // Cancel any pending timeouts
+      if (incrementTimeoutRef.current !== null) {
+        clearTimeout(incrementTimeoutRef.current)
+        incrementTimeoutRef.current = null
+      }
+      fakeIncrementRef.current = 0
+    }
+  }, [waitlistCount])
+
   return (
     <section id="home" className="min-h-screen flex items-start justify-center px-3 sm:px-5 lg:px-[76px]">
       <div className="w-full max-w-7xl mx-auto">
@@ -366,7 +534,18 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 variant="primary" 
                 className="flex items-center justify-center gap-2 h-12 px-6 w-full !bg-white/90 !text-black shadow-[0_0_25px_rgba(255,255,255,0.6)] stable-button"
               >
-                Join Waitlist
+                {hasLoadedCount && displayCount > 0 ? (
+                  <>
+                    <span className="hidden sm:inline">
+                      Join Waitlist: be the {displayCount}{getOrdinalSuffix(displayCount)} user.
+                    </span>
+                    <span className="sm:hidden">
+                      Be the {displayCount}{getOrdinalSuffix(displayCount)} to join.
+                    </span>
+                  </>
+                ) : (
+                  <span>Join Waitlist</span>
+                )}
               </Button>
             </div>
 

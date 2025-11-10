@@ -1,5 +1,4 @@
 "use client"
-import { supabase } from "../lib/supabase"
 import type React from "react"
 import { useState, useEffect } from "react"
 
@@ -15,10 +14,14 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   const [error, setError] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
-  // Handle fade in/out animations
+  // Handle fade in/out animations and reset form when modal opens
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true)
+      // Reset form when modal opens
+      setEmail("")
+      setError(null)
+      setIsSubmitted(false)
     } else {
       setIsVisible(false)
     }
@@ -37,36 +40,59 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     setIsSubmitting(true)
     setError(null)
 
-    if (!supabase) {
-      setError("Waitlist service is currently unavailable. Please try again later.")
+    // Normalize email: lowercase and trim whitespace
+    const normalizedEmail = email.trim().toLowerCase()
+    
+    if (!normalizedEmail) {
+      setError("Please enter a valid email address.")
       setIsSubmitting(false)
       return
     }
 
-    const { data, error } = await supabase
-      .from('waitlist')
-      .insert([{ email }])
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(normalizedEmail)) {
+      setError("Please enter a valid email address.")
+      setIsSubmitting(false)
+      return
+    }
 
-    if (error) {
-      console.error('Supabase error:', error)
-      if (error.code === '23505') {
-        setError("This email is already on the waitlist!")
-      } else {
-        setError("Something went wrong. Please try again.")
+    console.log('[WaitlistModal] Submitting email:', normalizedEmail)
+    
+    try {
+      // Use API route that uses service_role key (bypasses RLS)
+      const response = await fetch('/api/waitlist-join', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: normalizedEmail }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error('[WaitlistModal] Error response:', response.status, data)
+        setError(data.error || `Something went wrong (${response.status}). Please try again.`)
+        setIsSubmitting(false)
+        return
       }
+
+      console.log('[WaitlistModal] Successfully added email:', normalizedEmail, 'Response:', data)
+      setIsSubmitted(true)
       setIsSubmitting(false)
-      return
+
+      setTimeout(() => {
+        handleClose()
+        setIsSubmitted(false)
+        setEmail("")
+        setError(null)
+      }, 2000)
+    } catch (error) {
+      console.error('[WaitlistModal] Network error:', error)
+      setError("Network error. Please check your connection and try again.")
+      setIsSubmitting(false)
     }
-
-    setIsSubmitted(true)
-    setIsSubmitting(false)
-
-    setTimeout(() => {
-      handleClose()
-      setIsSubmitted(false)
-      setEmail("")
-      setError(null)
-    }, 2000)
   }
 
   if (!isOpen) return null
