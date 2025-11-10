@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 interface AboutProps {
   onNavigate?: (section: string) => void
@@ -20,6 +20,9 @@ export default function About({ onNavigate }: AboutProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const lastScrollY = useRef(0)
+  const isProgrammaticScroll = useRef(false)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const scrollDebounceRef = useRef<NodeJS.Timeout | null>(null)
 
   const cards = [
     {
@@ -212,9 +215,9 @@ export default function About({ onNavigate }: AboutProps) {
 
   // Auto-rotation effect removed - users can manually navigate cards
 
-  // Simple scroll to active card
+  // Simple scroll to active card (only when button is clicked, not on user scroll)
   useEffect(() => {
-    if (scrollContainerRef.current) {
+    if (scrollContainerRef.current && isProgrammaticScroll.current) {
       setIsScrolling(true)
       const container = scrollContainerRef.current
       const cardHeight = container.scrollHeight / cards.length
@@ -228,7 +231,22 @@ export default function About({ onNavigate }: AboutProps) {
       })
       
       // Reset scrolling state after animation
-      setTimeout(() => setIsScrolling(false), 800)
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false)
+        isProgrammaticScroll.current = false
+      }, 800)
+    }
+    
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+      if (scrollDebounceRef.current) {
+        clearTimeout(scrollDebounceRef.current)
+      }
     }
   }, [activeCard, cards.length])
 
@@ -266,22 +284,7 @@ export default function About({ onNavigate }: AboutProps) {
         
       }
 
-      // Auto-detect which card should be active based on scroll position
-      if (scrollContainerRef.current && !isScrolling) {
-        const container = scrollContainerRef.current
-        const scrollTop = container.scrollTop
-        const cardHeight = container.scrollHeight / cards.length
-        const newActiveCard = Math.round(scrollTop / cardHeight)
-        
-        if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
-          setActiveCard(newActiveCard)
-          // Select "about" section once when card changes (one-time only)
-          if (onNavigate && !hasSelectedAboutFromCards) {
-            onNavigate('about')
-            setHasSelectedAboutFromCards(true)
-          }
-        }
-      }
+      // Card detection is handled by the scroll container's onScroll handler
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -354,9 +357,8 @@ export default function About({ onNavigate }: AboutProps) {
             <button
               key={index}
               onClick={() => {
-                {
-                  setActiveCard(index)
-                }
+                isProgrammaticScroll.current = true
+                setActiveCard(index)
               }}
               className={`liquid-glass-button px-3 sm:px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                 activeCard === index 
@@ -514,23 +516,30 @@ export default function About({ onNavigate }: AboutProps) {
               // Otherwise, allow normal container scrolling
             }}
             onScroll={() => {
-              // Only update cards when user is actively scrolling (not programmatic scroll)
-              if (scrollContainerRef.current && !isScrolling) {
-                const container = scrollContainerRef.current
-                const scrollTop = container.scrollTop
-                const cardHeight = container.scrollHeight / cards.length
-                const newActiveCard = Math.round(scrollTop / cardHeight)
-                
-                if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
-                  setActiveCard(newActiveCard)
+              // Debounce scroll detection to prevent glitchy behavior
+              if (scrollDebounceRef.current) {
+                clearTimeout(scrollDebounceRef.current)
+              }
+              
+              scrollDebounceRef.current = setTimeout(() => {
+                // Only update cards when user is actively scrolling (not programmatic scroll)
+                if (scrollContainerRef.current && !isScrolling && !isProgrammaticScroll.current) {
+                  const container = scrollContainerRef.current
+                  const scrollTop = container.scrollTop
+                  const cardHeight = container.scrollHeight / cards.length
+                  const newActiveCard = Math.round(scrollTop / cardHeight)
                   
-                  // Select "about" section once when card changes (one-time only)
-                  if (onNavigate && !hasSelectedAboutFromCards) {
-                    onNavigate('about')
-                    setHasSelectedAboutFromCards(true)
+                  if (newActiveCard !== activeCard && newActiveCard >= 0 && newActiveCard < cards.length) {
+                    setActiveCard(newActiveCard)
+                    
+                    // Select "about" section once when card changes (one-time only)
+                    if (onNavigate && !hasSelectedAboutFromCards) {
+                      onNavigate('about')
+                      setHasSelectedAboutFromCards(true)
+                    }
                   }
                 }
-              }
+              }, 50) // 50ms debounce for smooth scrolling
             }}
           >
             <div className="space-y-0">
