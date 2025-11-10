@@ -15,7 +15,7 @@ export default function CostlyApp() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [isLoaded, setIsLoaded] = useState(false)
-  const [isPhilosophyComplete, setIsPhilosophyComplete] = useState(false)
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true)
 
   // Scroll to top on page load/refresh
   useEffect(() => {
@@ -101,16 +101,32 @@ export default function CostlyApp() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Set loaded immediately for better FCP - remove loading screen delay
+  // Check if this is a first load (not a navigation)
   useEffect(() => {
-    // Set loaded after a minimal delay to ensure DOM is ready
-    const timer = setTimeout(() => setIsLoaded(true), 0)
-    return () => clearTimeout(timer)
+    const hasLoadedBefore = sessionStorage.getItem('hasLoaded')
+    
+    if (hasLoadedBefore) {
+      // If already loaded before, skip loading screen
+      setShowLoadingScreen(false)
+      setIsLoaded(true)
+    } else {
+      // Mark that we're showing the loading screen for first load
+      setShowLoadingScreen(true)
+    }
   }, [])
+
+  const handleLoadingComplete = () => {
+    // Mark as loaded in session storage
+    sessionStorage.setItem('hasLoaded', 'true')
+    setShowLoadingScreen(false)
+    setIsLoaded(true)
+  }
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Removed LoadingScreen to improve FCP and prevent CLS */}
+      {showLoadingScreen && (
+        <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+      )}
       
       <Header
         onWaitlistClick={() => setIsWaitlistOpen(true)}
@@ -126,7 +142,7 @@ export default function CostlyApp() {
           onWaitlistClick={() => setIsWaitlistOpen(true)}
           isLoaded={isLoaded}
         />
-        <Philosophy onComplete={() => setIsPhilosophyComplete(true)} />
+        <Philosophy onComplete={() => {}} />
         <About onNavigate={scrollToSection} />
         <Roadmap 
           onNavigate={scrollToSection}
