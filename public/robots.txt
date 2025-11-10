@@ -30,18 +30,18 @@ User-agent: Slurp
 Allow: /
 Crawl-delay: 1
 
-# Block AI training crawlers (optional)
+# Allow all robots including AI training crawlers
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: ChatGPT-User
-Disallow: /
+Allow: /
 
 User-agent: CCBot
-Disallow: /
+Allow: /
 
 User-agent: anthropic-ai
-Disallow: /
+Allow: /
 
 User-agent: Claude-Web
-Disallow: /
+Allow: /
