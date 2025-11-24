@@ -537,7 +537,7 @@ export default function Hero({ onScrollToAbout, onWaitlistClick, isLoaded = fals
                 {hasLoadedCount && displayCount > 0 ? (
                   <>
                     <span className="hidden sm:inline">
-                      Join Waitlist: be the {displayCount}{getOrdinalSuffix(displayCount)} user.
+                      Be the {displayCount}{getOrdinalSuffix(displayCount)} person to join the waitlist.
                     </span>
                     <span className="sm:hidden">
                       Be the {displayCount}{getOrdinalSuffix(displayCount)} to join waitlist.
