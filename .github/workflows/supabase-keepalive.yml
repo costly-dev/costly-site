@@ -1,0 +1,24 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # Runs every 4 days at 00:00 UTC (3 days before the 7-day inactivity pause)
+    - cron: "0 0 */4 * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase (costly-waitlist)
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://fpohvwcsferkececqnxh.supabase.co/rest/v1/" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          echo "Supabase responded with status: $response"
+          if [ "$response" -ne 200 ]; then
+            echo "::warning::Supabase ping returned non-200 status: $response"
+            exit 1
+          fi
+          echo "✅ Supabase is alive"
